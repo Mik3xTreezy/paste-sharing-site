@@ -213,8 +213,8 @@ export default function HomePage() {
                 }}
               />
               {content && (
-                <div className="absolute top-4 right-0 flex items-center space-x-2 animate-slide-in">
-                  <div className="text-xs text-gray-400 bg-black/20 backdrop-blur-sm px-3 py-1.5 rounded-lg font-normal border border-white/5 micro-scale">
+                <div className="absolute top-2 sm:top-4 right-0 flex items-center space-x-2 animate-slide-in">
+                  <div className="text-xs text-gray-400 bg-black/20 backdrop-blur-sm px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg font-normal border border-white/5 micro-scale">
                     {content.length} chars
                   </div>
                   <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
@@ -223,11 +223,11 @@ export default function HomePage() {
             </div>
 
             {/* Action Bar */}
-            <div className="flex items-center justify-between pt-8 mt-8 border-t border-white/5">
-              <div className="flex items-center space-x-8">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-6 sm:pt-8 mt-6 sm:mt-8 border-t border-white/5 space-y-4 sm:space-y-0">
+              <div className="flex items-center justify-center sm:justify-start space-x-4 sm:space-x-8">
                 <button
                   onClick={() => setIsPublic(!isPublic)}
-                  className={`flex items-center space-x-2 text-sm font-normal transition-all duration-200 micro-scale ${
+                  className={`flex items-center space-x-2 text-xs sm:text-sm font-normal transition-all duration-200 micro-scale ${
                     isPublic ? "text-blue-400 hover:text-blue-300" : "text-pink-400 hover:text-pink-300"
                   }`}
                 >
@@ -235,21 +235,21 @@ export default function HomePage() {
                   <span>{isPublic ? "Public" : "Private"}</span>
                 </button>
 
-                <button className="flex items-center space-x-2 text-sm font-normal text-gray-400 hover:text-white transition-all duration-200 micro-scale">
+                <button className="flex items-center space-x-2 text-xs sm:text-sm font-normal text-gray-400 hover:text-white transition-all duration-200 micro-scale">
                   <Copy className="w-4 h-4" />
-                  <span>Import</span>
+                  <span className="hidden sm:inline">Import</span>
                 </button>
 
-                <button className="flex items-center space-x-2 text-sm font-normal text-gray-400 hover:text-white transition-all duration-200 micro-scale">
+                <button className="flex items-center space-x-2 text-xs sm:text-sm font-normal text-gray-400 hover:text-white transition-all duration-200 micro-scale">
                   <Share2 className="w-4 h-4" />
-                  <span>Template</span>
+                  <span className="hidden sm:inline">Template</span>
                 </button>
               </div>
 
               <Button
                 onClick={handleCreatePaste}
                 disabled={!content.trim() || loading}
-                className="bg-gradient-to-r from-cyan-600 via-purple-600 to-pink-600 hover:from-cyan-700 hover:via-purple-700 hover:to-pink-700 text-white px-8 py-3 rounded-xl font-bold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl border-0 btn-hover"
+                className="w-full sm:w-auto bg-gradient-to-r from-cyan-600 via-purple-600 to-pink-600 hover:from-cyan-700 hover:via-purple-700 hover:to-pink-700 text-white px-6 sm:px-8 py-3 rounded-xl font-bold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl border-0 btn-hover"
               >
                 {loading ? (
                   <div className="flex items-center space-x-2">
@@ -271,14 +271,14 @@ export default function HomePage() {
 
         {/* Floating Stats */}
         {content && (
-          <div className="absolute -bottom-4 left-8 right-8 animate-slide-in">
-            <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-2xl p-4 flex items-center justify-between micro-scale">
-              <div className="flex items-center space-x-6 text-sm text-gray-400 font-normal">
+          <div className="absolute -bottom-4 left-4 sm:left-8 right-4 sm:right-8 animate-slide-in">
+            <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between micro-scale space-y-2 sm:space-y-0">
+              <div className="flex items-center justify-center sm:justify-start space-x-3 sm:space-x-6 text-xs sm:text-sm text-gray-400 font-normal">
                 <span>Lines: {content.split("\n").length}</span>
                 <span>Words: {content.split(" ").filter((w) => w.length > 0).length}</span>
-                <span>Characters: {content.length}</span>
+                <span>Chars: {content.length}</span>
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center justify-center sm:justify-end space-x-2">
                 <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
                 <span className="text-xs text-gray-500 font-normal">Auto-save enabled</span>
               </div>
