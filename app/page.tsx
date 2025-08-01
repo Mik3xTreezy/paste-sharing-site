@@ -61,7 +61,7 @@ export default function HomePage() {
         className="relative z-10 border-b border-gray-800/50 backdrop-blur-sm animate-fade-in-up"
         style={{ animationDelay: "0.1s", animationFillMode: "both" }}
       >
-        <div className="max-w-6xl mx-auto px-6 py-4">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="relative micro-scale">
@@ -71,11 +71,11 @@ export default function HomePage() {
                   </div>
                 </div>
               </div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+              <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
                 PasteShare
               </h1>
             </div>
-            <nav className="flex items-center space-x-6">
+            <nav className="hidden sm:flex items-center space-x-6">
               <a href="/browse" className="text-gray-400 hover:text-white transition-colors text-sm font-normal nav-link">
                 Browse
               </a>
@@ -91,7 +91,7 @@ export default function HomePage() {
                 <div className="flex items-center space-x-3">
                   <div className="flex items-center space-x-2 text-gray-300">
                     <User className="w-4 h-4" />
-                    <span className="text-sm">{session.user?.name || session.user?.username}</span>
+                    <span className="text-sm hidden md:inline">{session.user?.name || session.user?.username}</span>
                   </div>
                   <Button
                     variant="outline"
@@ -100,7 +100,7 @@ export default function HomePage() {
                     className="bg-black/20 backdrop-blur-sm border-white/20 border-gray-700 text-gray-300 hover:bg-gray-800 bg-transparent font-normal micro-scale"
                   >
                     <LogOut className="w-4 h-4 mr-2" />
-                    Sign Out
+                    <span className="hidden sm:inline">Sign Out</span>
                   </Button>
                 </div>
               ) : (
@@ -110,22 +110,34 @@ export default function HomePage() {
                   onClick={() => router.push('/auth/signin')}
                   className="bg-black/20 backdrop-blur-sm border-white/20 border-gray-700 text-gray-300 hover:bg-gray-800 bg-transparent font-normal micro-scale"
                 >
-                  Sign In
+                  <span className="hidden sm:inline">Sign In</span>
+                  <span className="sm:hidden">Login</span>
                 </Button>
               )}
             </nav>
+            {/* Mobile menu button */}
+            <div className="sm:hidden">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => router.push('/auth/signin')}
+                className="bg-black/20 backdrop-blur-sm border-white/20 border-gray-700 text-gray-300 hover:bg-gray-800 bg-transparent font-normal micro-scale"
+              >
+                <User className="w-4 h-4" />
+              </Button>
+            </div>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="relative z-10 max-w-5xl mx-auto px-6 py-12">
+      <main className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         {/* Title Section */}
         <div
-          className="text-center mb-12 animate-fade-in-up"
+          className="text-center mb-8 sm:mb-12 animate-fade-in-up"
           style={{ animationDelay: "0.2s", animationFillMode: "both" }}
         >
-          <h2 className="text-4xl font-bold text-white relative inline-block tracking-wide">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white relative inline-block tracking-wide">
             Create{" "}
             <span className="text-white relative">
               Paste
@@ -156,7 +168,7 @@ export default function HomePage() {
           <div className="absolute -bottom-6 -right-6 w-40 h-40 bg-gradient-radial from-purple-500/6 via-blue-500/3 to-transparent rounded-full blur-3xl opacity-60"></div>
 
           <div
-            className="relative backdrop-blur-xl border border-white/5 rounded-3xl p-10 shadow-2xl transition-all duration-300"
+            className="relative backdrop-blur-xl border border-white/5 rounded-3xl p-6 sm:p-10 shadow-2xl transition-all duration-300"
             style={{
               background: `
                 radial-gradient(ellipse at top left, rgba(30, 27, 75, 0.08) 0%, transparent 60%),
@@ -166,13 +178,13 @@ export default function HomePage() {
             }}
           >
             {/* Title Input */}
-            <div className="relative mb-8">
+            <div className="relative mb-6 sm:mb-8">
               <input
                 type="text"
                 placeholder="Add paste title..."
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full bg-transparent border-0 text-white placeholder:text-gray-500 placeholder:text-base text-2xl font-normal focus:outline-none focus:ring-0 transition-all duration-200"
+                className="w-full bg-transparent border-0 text-white placeholder:text-gray-500 placeholder:text-base text-xl sm:text-2xl font-normal focus:outline-none focus:ring-0 transition-all duration-200"
                 style={{ fontFamily: "inherit" }}
               />
               {title && (
@@ -183,7 +195,7 @@ export default function HomePage() {
             </div>
 
             {/* Separator Line */}
-            <div className="h-px bg-gradient-to-r from-transparent via-white/15 to-transparent mb-8"></div>
+            <div className="h-px bg-gradient-to-r from-transparent via-white/15 to-transparent mb-6 sm:mb-8"></div>
 
             {/* Content Textarea */}
             <div className="relative">
@@ -192,9 +204,9 @@ export default function HomePage() {
                 placeholder="Paste your code, text, or links here..."
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                className="w-full bg-transparent border-0 text-white placeholder:text-gray-500 placeholder:text-base min-h-[500px] resize-none text-base leading-relaxed font-normal focus:outline-none focus:ring-0 transition-all duration-200"
+                className="w-full bg-transparent border-0 text-white placeholder:text-gray-500 placeholder:text-base min-h-[300px] sm:min-h-[500px] resize-none text-sm sm:text-base leading-relaxed font-normal focus:outline-none focus:ring-0 transition-all duration-200"
                 style={{
-                  minHeight: "500px",
+                  minHeight: "300px",
                   height: "auto",
                   overflow: "hidden",
                   fontFamily: "inherit",

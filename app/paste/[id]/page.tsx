@@ -158,28 +158,28 @@ export default function PastePage() {
     <div className={`min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 ${isLoaded && isHydrated ? "animate-fade-in" : "opacity-0"}`}>
       {/* Header */}
       <header className="relative z-10 border-b border-gray-800/50 backdrop-blur-sm">
-        <div className="max-w-6xl mx-auto px-6 py-4">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2 sm:space-x-3">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => router.push('/')}
                 className="text-gray-400 hover:text-white"
               >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back
+                <ArrowLeft className="w-4 h-4 mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">Back</span>
               </Button>
-              <div className="w-px h-6 bg-gray-700"></div>
+              <div className="w-px h-6 bg-gray-700 hidden sm:block"></div>
               <div className="flex items-center space-x-2">
                 <Code className="w-4 h-4 text-cyan-400" />
-                <span className="text-sm text-gray-400">
+                <span className="text-xs sm:text-sm text-gray-400">
                   {paste.language || 'text'}
                 </span>
               </div>
             </div>
             
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2 sm:space-x-3">
               <Button
                 variant="outline"
                 size="sm"
@@ -188,13 +188,13 @@ export default function PastePage() {
               >
                 {copied ? (
                   <>
-                    <CheckCircle className="w-4 h-4 mr-2" />
-                    Copied!
+                    <CheckCircle className="w-4 h-4 mr-1 sm:mr-2" />
+                    <span className="hidden sm:inline">Copied!</span>
                   </>
                 ) : (
                   <>
-                    <Copy className="w-4 h-4 mr-2" />
-                    Copy
+                    <Copy className="w-4 h-4 mr-1 sm:mr-2" />
+                    <span className="hidden sm:inline">Copy</span>
                   </>
                 )}
               </Button>
@@ -204,8 +204,8 @@ export default function PastePage() {
                 onClick={copyUrl}
                 className="bg-black/20 border-white/20 text-gray-300 hover:bg-gray-800"
               >
-                <Share2 className="w-4 h-4 mr-2" />
-                Share
+                <Share2 className="w-4 h-4 mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">Share</span>
               </Button>
             </div>
           </div>
@@ -213,26 +213,26 @@ export default function PastePage() {
       </header>
 
       {/* Main Content */}
-      <main className="relative z-10 max-w-6xl mx-auto px-6 py-8">
+      <main className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         {/* Paste Info */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           {paste.title && (
-            <h1 className="text-3xl font-bold text-white mb-4">{paste.title}</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-white mb-4">{paste.title}</h1>
           )}
           
-          <div className="flex items-center space-x-6 text-sm text-gray-400">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-6 space-y-2 sm:space-y-0 text-sm text-gray-400">
             <div className="flex items-center space-x-2">
               <Calendar className="w-4 h-4" />
-              <span>{formatDate(paste.createdAt)}</span>
+              <span className="text-xs sm:text-sm">{formatDate(paste.createdAt)}</span>
             </div>
             <div className="flex items-center space-x-2">
               <Eye className="w-4 h-4" />
-              <span>{paste.views} views</span>
+              <span className="text-xs sm:text-sm">{paste.views} views</span>
             </div>
             {paste.user && (
               <div className="flex items-center space-x-2">
                 <User className="w-4 h-4" />
-                <span>{paste.user.name || paste.user.username || 'Anonymous'}</span>
+                <span className="text-xs sm:text-sm">{paste.user.name || paste.user.username || 'Anonymous'}</span>
               </div>
             )}
           </div>
@@ -242,31 +242,31 @@ export default function PastePage() {
         <div className="relative">
           <div className="absolute -inset-4 bg-gradient-to-br from-slate-900/15 via-gray-900/10 to-slate-800/15 rounded-3xl blur-3xl opacity-30"></div>
           
-          <div className="relative backdrop-blur-xl border border-white/5 rounded-3xl p-8 shadow-2xl">
-            <pre className="text-white text-sm leading-relaxed whitespace-pre-wrap font-mono overflow-x-auto">
+          <div className="relative backdrop-blur-xl border border-white/5 rounded-3xl p-4 sm:p-8 shadow-2xl">
+            <pre className="text-white text-xs sm:text-sm leading-relaxed whitespace-pre-wrap font-mono overflow-x-auto">
               <code>{paste.content}</code>
             </pre>
           </div>
         </div>
 
         {/* Stats */}
-        <div className="mt-8 bg-black/30 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div className="mt-6 sm:mt-8 bg-black/30 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-center">
             <div>
-              <div className="text-2xl font-bold text-white">{paste.content.length}</div>
-              <div className="text-sm text-gray-400">Characters</div>
+              <div className="text-xl sm:text-2xl font-bold text-white">{paste.content.length}</div>
+              <div className="text-xs sm:text-sm text-gray-400">Characters</div>
             </div>
             <div>
-              <div className="text-2xl font-bold text-white">{paste.content.split('\n').length}</div>
-              <div className="text-sm text-gray-400">Lines</div>
+              <div className="text-xl sm:text-2xl font-bold text-white">{paste.content.split('\n').length}</div>
+              <div className="text-xs sm:text-sm text-gray-400">Lines</div>
             </div>
             <div>
-              <div className="text-2xl font-bold text-white">{paste.content.split(' ').filter(w => w.length > 0).length}</div>
-              <div className="text-sm text-gray-400">Words</div>
+              <div className="text-xl sm:text-2xl font-bold text-white">{paste.content.split(' ').filter(w => w.length > 0).length}</div>
+              <div className="text-xs sm:text-sm text-gray-400">Words</div>
             </div>
             <div>
-              <div className="text-2xl font-bold text-white">{paste.views}</div>
-              <div className="text-sm text-gray-400">Views</div>
+              <div className="text-xl sm:text-2xl font-bold text-white">{paste.views}</div>
+              <div className="text-xs sm:text-sm text-gray-400">Views</div>
             </div>
           </div>
         </div>

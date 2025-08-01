@@ -9,7 +9,8 @@ const geist = GeistSans
 export const metadata: Metadata = {
   title: "PasteShare - Modern Paste Sharing Platform",
   description: "A beautiful, modern paste sharing application for code, text, and more",
-  generator: 'v0.dev'
+  generator: 'v0.dev',
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'
 }
 
 export default function RootLayout({
