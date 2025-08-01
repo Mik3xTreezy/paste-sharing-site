@@ -88,7 +88,7 @@ export default function PastePage() {
 
   if (loading && !paste) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#329D9C] via-[#4BC78A] to-[#5AD89C] flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
         <div className="text-center">
           <div className="w-8 h-8 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-400">Loading paste...</p>
@@ -99,7 +99,7 @@ export default function PastePage() {
 
   if (error && !showPasswordForm) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#329D9C] via-[#4BC78A] to-[#5AD89C] flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
             <Lock className="w-8 h-8 text-red-400" />
@@ -108,7 +108,7 @@ export default function PastePage() {
           <p className="text-gray-400 mb-6">{error}</p>
           <Button
             onClick={() => router.push('/')}
-            className="bg-gradient-to-r from-[#329D9C] to-[#5AD89C] text-white"
+            className="bg-gradient-to-r from-cyan-600 to-purple-600 text-white"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Home
@@ -120,7 +120,7 @@ export default function PastePage() {
 
   if (showPasswordForm) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#329D9C] via-[#4BC78A] to-[#5AD89C] flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
         <div className="max-w-md w-full mx-auto p-6">
           <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
             <div className="text-center mb-6">
@@ -142,7 +142,7 @@ export default function PastePage() {
               />
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r from-[#329D9C] to-[#5AD89C] text-white"
+                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white"
                 disabled={loading}
               >
                 {loading ? 'Checking...' : 'Access Paste'}
@@ -157,7 +157,7 @@ export default function PastePage() {
   if (!paste) return null
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-[#329D9C] via-[#4BC78A] to-[#5AD89C] ${isLoaded && isHydrated ? "animate-fade-in" : "opacity-0"}`}>
+    <div className={`min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 ${isLoaded && isHydrated ? "animate-fade-in" : "opacity-0"}`}>
       {/* Header */}
       <header className="relative z-10 border-b border-gray-800/50 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">

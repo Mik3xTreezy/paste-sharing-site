@@ -102,7 +102,7 @@ export default function MyPastesPage() {
   // Show loading while checking authentication
   if (status === "loading" || !isHydrated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#329D9C] via-[#4BC78A] to-[#5AD89C] flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
         <div className="text-center">
           <div className="w-8 h-8 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-400">Loading...</p>
@@ -114,7 +114,7 @@ export default function MyPastesPage() {
   // Show loading while not authenticated
   if (status === "unauthenticated") {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#329D9C] via-[#4BC78A] to-[#5AD89C] flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
         <div className="text-center">
           <div className="w-8 h-8 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-400">Redirecting to sign in...</p>
@@ -124,7 +124,7 @@ export default function MyPastesPage() {
   }
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-[#329D9C] via-[#4BC78A] to-[#5AD89C] ${isLoaded ? "animate-fade-in" : "opacity-0"}`}>
+    <div className={`min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 ${isLoaded ? "animate-fade-in" : "opacity-0"}`}>
       {/* Header */}
       <header className="relative z-10 border-b border-gray-800/50 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto px-6 py-4">
@@ -144,7 +144,7 @@ export default function MyPastesPage() {
             </div>
             <Button
               onClick={() => router.push('/')}
-              className="bg-gradient-to-r from-[#329D9C] to-[#5AD89C] text-white"
+              className="bg-gradient-to-r from-cyan-600 to-purple-600 text-white"
             >
               <Plus className="w-4 h-4 mr-2" />
               New Paste
