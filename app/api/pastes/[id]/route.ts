@@ -34,7 +34,8 @@ export async function GET(
             avatar: true,
           },
         },
-        tags: true,
+        // Temporarily remove tags to avoid relationship issues
+        // tags: true,
         _count: {
           select: {
             likes: true,
@@ -77,11 +78,12 @@ export async function GET(
       )
     }
 
-    // Increment view count
-    await prisma.paste.update({
-      where: { id },
-      data: { views: { increment: 1 } },
-    })
+    // Temporarily disable view incrementing to prevent spam
+    // TODO: Implement proper session-based view tracking
+    // await prisma.paste.update({
+    //   where: { id },
+    //   data: { views: { increment: 1 } },
+    // })
 
     return NextResponse.json({
       success: true,
