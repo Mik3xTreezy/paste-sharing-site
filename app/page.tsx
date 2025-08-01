@@ -38,7 +38,7 @@ export default function HomePage() {
       setCreatedPasteId(paste.id)
       
       // Copy link to clipboard
-      const pasteUrl = `${window.location.origin}/paste/${paste.id}`
+      const pasteUrl = `${window.location.origin}/${paste.id}`
       await navigator.clipboard.writeText(pasteUrl)
       
       // Show notification
@@ -305,7 +305,7 @@ export default function HomePage() {
                 <div>
                   <p className="text-sm font-medium text-green-100">Link Copied to Clipboard</p>
                   <p className="text-xs text-green-200/80">
-                    {createdPasteId ? `/paste/${createdPasteId}` : 'Paste link copied'}
+                    {createdPasteId ? `/${createdPasteId}` : 'Paste link copied'}
                   </p>
                 </div>
               </div>

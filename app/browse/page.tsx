@@ -165,7 +165,7 @@ export default function BrowsePage() {
                 {pastes.map((paste) => (
                   <div
                     key={paste.id}
-                    onClick={() => router.push(`/paste/${paste.id}`)}
+                    onClick={() => router.push(`/${paste.id}`)}
                     className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-2xl p-6 cursor-pointer transition-all duration-200 hover:bg-black/40 hover:border-white/20 hover:scale-[1.02]"
                   >
                     {/* Header */}

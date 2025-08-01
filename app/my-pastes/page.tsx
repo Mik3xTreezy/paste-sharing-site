@@ -273,7 +273,7 @@ export default function MyPastesPage() {
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => router.push(`/paste/${paste.id}`)}
+                        onClick={() => router.push(`/${paste.id}`)}
                         className="flex-1 bg-black/20 border-white/20 text-gray-300 hover:bg-gray-800"
                       >
                         <Eye className="w-3 h-3 mr-1" />
@@ -282,7 +282,7 @@ export default function MyPastesPage() {
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => router.push(`/paste/${paste.id}/edit`)}
+                        onClick={() => router.push(`/${paste.id}/edit`)}
                         className="bg-black/20 border-white/20 text-gray-300 hover:bg-gray-800"
                       >
                         <Edit className="w-3 h-3" />

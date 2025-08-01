@@ -69,7 +69,7 @@ export default function PastePage() {
   }
 
   const copyUrl = async () => {
-    const url = `${window.location.origin}/paste/${pasteId}`
+    const url = `${window.location.origin}/${pasteId}`
     await navigator.clipboard.writeText(url)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
