@@ -20,6 +20,7 @@ import { usePaste } from "@/hooks/use-paste"
 import { Paste } from "@/hooks/use-paste"
 import { useHydration } from "@/hooks/use-hydration"
 import GoogleAdSense from "@/components/google-adsense"
+import CopyIcon from "@/components/copy-icon"
 
 export default function PastePage() {
   const params = useParams()
@@ -194,7 +195,7 @@ export default function PastePage() {
                   </>
                 ) : (
                   <>
-                    <Copy className="w-4 h-4 mr-1 sm:mr-2" />
+                    <CopyIcon size={16} className="mr-1 sm:mr-2" />
                     <span className="hidden sm:inline">Copy</span>
                   </>
                 )}
