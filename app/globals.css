@@ -48,12 +48,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, rgb(59 130 246), rgb(236 72 153));
+  background: linear-gradient(135deg, #329D9C, #5AD89C);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, rgb(37 99 235), rgb(219 39 119));
+  background: linear-gradient(135deg, #2A8A89, #4BC78A);
 }
 
 /* Enhanced smooth transitions */
@@ -74,12 +74,12 @@ button:focus {
 
 /* Custom selection colors */
 ::selection {
-  background: linear-gradient(to right, rgb(59 130 246 / 0.3), rgb(236 72 153 / 0.3));
+  background: linear-gradient(135deg, rgba(50, 157, 156, 0.3), rgba(90, 216, 156, 0.3));
   color: white;
 }
 
 ::-moz-selection {
-  background: linear-gradient(to right, rgb(59 130 246 / 0.3), rgb(236 72 153 / 0.3));
+  background: linear-gradient(135deg, rgba(50, 157, 156, 0.3), rgba(90, 216, 156, 0.3));
   color: white;
 }
 
@@ -227,7 +227,7 @@ textarea:-webkit-autofill:focus {
   left: 0;
   width: 0;
   height: 1px;
-  background: linear-gradient(to right, rgb(34 197 94), rgb(59 130 246));
+  background: linear-gradient(135deg, #329D9C, #5AD89C);
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 

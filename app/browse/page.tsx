@@ -69,7 +69,7 @@ export default function BrowsePage() {
   ]
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 ${isLoaded && isHydrated ? "animate-fade-in" : "opacity-0"}`}>
+    <div className={`min-h-screen bg-gradient-to-br from-[#329D9C] via-[#4BC78A] to-[#5AD89C] ${isLoaded && isHydrated ? "animate-fade-in" : "opacity-0"}`}>
       {/* Header */}
       <header className="relative z-10 border-b border-gray-800/50 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto px-6 py-4">

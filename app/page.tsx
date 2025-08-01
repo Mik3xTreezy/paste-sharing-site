@@ -64,7 +64,7 @@ export default function HomePage() {
 
   return (
     <div
-      className={`min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 ${isLoaded && isHydrated ? "animate-fade-in" : "opacity-0"}`}
+              className={`min-h-screen bg-gradient-to-br from-[#329D9C] via-[#4BC78A] to-[#5AD89C] ${isLoaded && isHydrated ? "animate-fade-in" : "opacity-0"}`}
     >
       {/* Header */}
       <header
@@ -75,13 +75,13 @@ export default function HomePage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="relative micro-scale">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-cyan-400 to-pink-500 p-0.5">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-[#329D9C] to-[#5AD89C] p-0.5">
                   <div className="w-full h-full bg-black rounded-md flex items-center justify-center">
                     <Code className="w-4 h-4 text-white" />
                   </div>
                 </div>
               </div>
-              <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+              <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-[#329D9C] via-[#4BC78A] to-[#5AD89C] bg-clip-text text-transparent">
                 PasteScript
               </h1>
             </div>
@@ -151,7 +151,7 @@ export default function HomePage() {
             Create{" "}
             <span className="text-white relative">
               Paste
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 rounded-full"></div>
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#329D9C] via-[#4BC78A] to-[#5AD89C] rounded-full"></div>
             </span>
           </h2>
         </div>
@@ -169,13 +169,13 @@ export default function HomePage() {
         {/* Unified Input Container */}
         <div className="relative animate-fade-in-up" style={{ animationDelay: "0.3s", animationFillMode: "both" }}>
           {/* Ultra-soft gradient shadow */}
-          <div className="absolute -inset-8 bg-gradient-to-br from-slate-900/15 via-gray-900/10 to-slate-800/15 rounded-3xl blur-3xl opacity-30"></div>
+          <div className="absolute -inset-8 bg-gradient-to-br from-[#329D9C]/15 via-[#4BC78A]/10 to-[#5AD89C]/15 rounded-3xl blur-3xl opacity-30"></div>
 
-          {/* Enhanced ambient corner glows with purple-blue tint */}
-          <div className="absolute -top-6 -left-6 w-40 h-40 bg-gradient-radial from-purple-500/8 via-blue-500/4 to-transparent rounded-full blur-3xl opacity-60"></div>
-          <div className="absolute -top-6 -right-6 w-40 h-40 bg-gradient-radial from-blue-500/8 via-purple-500/4 to-transparent rounded-full blur-3xl opacity-60"></div>
-          <div className="absolute -bottom-6 -left-6 w-40 h-40 bg-gradient-radial from-blue-500/6 via-purple-500/3 to-transparent rounded-full blur-3xl opacity-60"></div>
-          <div className="absolute -bottom-6 -right-6 w-40 h-40 bg-gradient-radial from-purple-500/6 via-blue-500/3 to-transparent rounded-full blur-3xl opacity-60"></div>
+          {/* Enhanced ambient corner glows with green tint */}
+          <div className="absolute -top-6 -left-6 w-40 h-40 bg-gradient-radial from-[#329D9C]/8 via-[#4BC78A]/4 to-transparent rounded-full blur-3xl opacity-60"></div>
+          <div className="absolute -top-6 -right-6 w-40 h-40 bg-gradient-radial from-[#4BC78A]/8 via-[#5AD89C]/4 to-transparent rounded-full blur-3xl opacity-60"></div>
+          <div className="absolute -bottom-6 -left-6 w-40 h-40 bg-gradient-radial from-[#5AD89C]/6 via-[#329D9C]/3 to-transparent rounded-full blur-3xl opacity-60"></div>
+          <div className="absolute -bottom-6 -right-6 w-40 h-40 bg-gradient-radial from-[#329D9C]/6 via-[#4BC78A]/3 to-transparent rounded-full blur-3xl opacity-60"></div>
 
           <div
             className="relative backdrop-blur-xl border border-white/5 rounded-3xl p-6 sm:p-10 shadow-2xl transition-all duration-300"
@@ -259,7 +259,7 @@ export default function HomePage() {
               <Button
                 onClick={handleCreatePaste}
                 disabled={!content.trim() || loading}
-                className="w-full sm:w-auto bg-gradient-to-r from-cyan-600 via-purple-600 to-pink-600 hover:from-cyan-700 hover:via-purple-700 hover:to-pink-700 text-white px-6 sm:px-8 py-3 rounded-xl font-bold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl border-0 btn-hover"
+                className="w-full sm:w-auto bg-gradient-to-r from-[#329D9C] via-[#4BC78A] to-[#5AD89C] hover:from-[#2A8A89] hover:via-[#3DB679] hover:to-[#4BC78A] text-white px-6 sm:px-8 py-3 rounded-xl font-bold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl border-0 btn-hover"
               >
                 {loading ? (
                   <div className="flex items-center space-x-2">
