@@ -19,6 +19,7 @@ import {
 import { usePaste } from "@/hooks/use-paste"
 import { Paste } from "@/hooks/use-paste"
 import { useHydration } from "@/hooks/use-hydration"
+import GoogleAdSense from "@/components/google-adsense"
 
 export default function PastePage() {
   const params = useParams()
@@ -249,26 +250,9 @@ export default function PastePage() {
           </div>
         </div>
 
-        {/* Stats */}
+        {/* Google AdSense Ad */}
         <div className="mt-6 sm:mt-8 bg-black/30 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-center">
-            <div>
-              <div className="text-xl sm:text-2xl font-bold text-white">{paste.content.length}</div>
-              <div className="text-xs sm:text-sm text-gray-400">Characters</div>
-            </div>
-            <div>
-              <div className="text-xl sm:text-2xl font-bold text-white">{paste.content.split('\n').length}</div>
-              <div className="text-xs sm:text-sm text-gray-400">Lines</div>
-            </div>
-            <div>
-              <div className="text-xl sm:text-2xl font-bold text-white">{paste.content.split(' ').filter(w => w.length > 0).length}</div>
-              <div className="text-xs sm:text-sm text-gray-400">Words</div>
-            </div>
-            <div>
-              <div className="text-xl sm:text-2xl font-bold text-white">{paste.views}</div>
-              <div className="text-xs sm:text-sm text-gray-400">Views</div>
-            </div>
-          </div>
+          <GoogleAdSense />
         </div>
       </main>
     </div>
