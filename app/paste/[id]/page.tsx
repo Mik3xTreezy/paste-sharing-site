@@ -214,7 +214,7 @@ export default function PastePage() {
       </header>
 
       {/* Main Content */}
-      <main className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+      <main className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8 pb-20 sm:pb-24">
         {/* Paste Info */}
         <div className="mb-6 sm:mb-8">
           {paste.title && (
@@ -255,6 +255,29 @@ export default function PastePage() {
           <GoogleAdSense />
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="relative z-10 border-t border-gray-800/50 backdrop-blur-sm mt-12 sm:mt-16">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+          <div className="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
+            <div className="flex items-center space-x-3">
+              <div className="relative micro-scale">
+                <div className="w-6 h-6 rounded-lg bg-gradient-to-r from-cyan-400 to-pink-500 p-0.5">
+                  <div className="w-full h-full bg-black rounded-md flex items-center justify-center">
+                    <Code className="w-3 h-3 text-white" />
+                  </div>
+                </div>
+              </div>
+              <span className="text-sm text-gray-400">PasteScript</span>
+            </div>
+            <div className="flex items-center space-x-6 text-xs sm:text-sm text-gray-500">
+              <span>© 2024 PasteScript</span>
+              <span>•</span>
+              <span>Share code instantly</span>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 } 
