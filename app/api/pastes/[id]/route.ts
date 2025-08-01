@@ -41,7 +41,7 @@ export async function GET(
           select: {
             likes: true,
             comments: true,
-            views: true,
+            viewRecords: true,
           },
         },
       },
