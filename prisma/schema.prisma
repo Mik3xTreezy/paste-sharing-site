@@ -1,0 +1,109 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  username  String?  @unique
+  password  String?
+  name      String?
+  avatar    String?
+  bio       String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  pastes    Paste[]
+  likes     Like[]
+  comments  Comment[]
+  bookmarks Bookmark[]
+
+  @@map("users")
+}
+
+model Paste {
+  id          String   @id
+  title       String?
+  content     String
+  language    String?
+  isPublic    Boolean  @default(true)
+  isPassword  Boolean  @default(false)
+  password    String?
+  expiresAt   DateTime?
+  views       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  likes       Like[]
+  comments    Comment[]
+  bookmarks   Bookmark[]
+  tags        Tag[]
+
+  @@map("pastes")
+}
+
+model Tag {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+
+  // Relations
+  pastes    Paste[]
+
+  @@map("tags")
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  // Relations
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pasteId   String
+  paste     Paste    @relation(fields: [pasteId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, pasteId])
+  @@map("likes")
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pasteId   String
+  paste     Paste    @relation(fields: [pasteId], references: [id], onDelete: Cascade)
+
+  @@map("comments")
+}
+
+model Bookmark {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  // Relations
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pasteId   String
+  paste     Paste    @relation(fields: [pasteId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, pasteId])
+  @@map("bookmarks")
+}
