@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
     // Generate a unique short ID
     const shortId = await generateUniqueShortId()
 
-    // Create the paste
+    // Create the paste with connection management
     const paste = await prisma.paste.create({
       data: {
         id: shortId,
@@ -52,6 +52,23 @@ export async function POST(request: NextRequest) {
         },
         { status: 400 }
       )
+    }
+
+    // Handle database connection errors specifically
+    if (error && typeof error === 'object' && 'message' in error) {
+      const errorMessage = (error as any).message
+      if (errorMessage.includes('Max client connections reached') || 
+          errorMessage.includes('connection') ||
+          errorMessage.includes('FATAL')) {
+        console.error('Database connection error:', error)
+        return NextResponse.json(
+          {
+            success: false,
+            error: 'Database temporarily unavailable. Please try again in a moment.',
+          },
+          { status: 503 }
+        )
+      }
     }
 
     console.error('Error creating paste:', error)
