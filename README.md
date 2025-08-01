@@ -140,3 +140,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Tailwind CSS](https://tailwindcss.com/) for styling
 - [Prisma](https://prisma.io/) for database management
 - [NextAuth.js](https://next-auth.js.org/) for authentication # Trigger new deployment
+# Force deployment update
