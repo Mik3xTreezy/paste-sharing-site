@@ -21,7 +21,7 @@ END $$;
 -- Add unique constraint if it doesn't exist
 DO $$ 
 BEGIN
-  IF NOT EXISTS (SELECT 1 FROM pg_index WHERE indexname = 'views_ipAddress_pasteId_key') THEN
+  IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'views_ipAddress_pasteId_key') THEN
     CREATE UNIQUE INDEX "views_ipAddress_pasteId_key" ON "views"("ipAddress", "pasteId");
   END IF;
 END $$;
@@ -37,11 +37,11 @@ END $$;
 -- Add indexes if they don't exist
 DO $$ 
 BEGIN
-  IF NOT EXISTS (SELECT 1 FROM pg_index WHERE indexname = 'views_pasteId_idx') THEN
+  IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'views_pasteId_idx') THEN
     CREATE INDEX "views_pasteId_idx" ON "views"("pasteId");
   END IF;
   
-  IF NOT EXISTS (SELECT 1 FROM pg_index WHERE indexname = 'views_ipAddress_idx') THEN
+  IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'views_ipAddress_idx') THEN
     CREATE INDEX "views_ipAddress_idx" ON "views"("ipAddress");
   END IF;
 END $$;
