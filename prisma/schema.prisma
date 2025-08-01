@@ -49,7 +49,7 @@ model Paste {
   likes       Like[]
   comments    Comment[]
   bookmarks   Bookmark[]
-  tags        Tag[]    @relation("PasteToTag")
+  tags        Tag[]
 
   @@map("Paste")
 }
@@ -60,7 +60,7 @@ model Tag {
   createdAt DateTime @default(now())
 
   // Relations
-  pastes    Paste[]  @relation("PasteToTag")
+  pastes    Paste[]
 
   @@map("Tag")
 }
@@ -108,10 +108,4 @@ model Bookmark {
   @@map("Bookmark")
 }
 
-model _PasteToTag {
-  A String
-  B String
 
-  @@id([A, B])
-  @@map("_PasteToTag")
-}
