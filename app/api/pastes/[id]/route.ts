@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { z } from 'zod'
+import { getClientIP } from '@/lib/get-client-ip'
 
 // Validation schema for updating a paste
 const updatePasteSchema = z.object({
@@ -40,6 +41,7 @@ export async function GET(
           select: {
             likes: true,
             comments: true,
+            views: true,
           },
         },
       },
@@ -78,12 +80,30 @@ export async function GET(
       )
     }
 
-    // Temporarily disable view incrementing to prevent spam
-    // TODO: Implement proper session-based view tracking
-    // await prisma.paste.update({
-    //   where: { id },
-    //   data: { views: { increment: 1 } },
-    // })
+    // Track view with IP-based counting (once per IP per paste)
+    const clientIP = getClientIP(request)
+    const userAgent = request.headers.get('user-agent') || null
+
+    try {
+      // Try to create a new view record (will fail if IP already viewed this paste)
+      await prisma.view.create({
+        data: {
+          ipAddress: clientIP,
+          userAgent,
+          pasteId: id,
+        },
+      })
+
+      // If successful, increment the view count
+      await prisma.paste.update({
+        where: { id },
+        data: { views: { increment: 1 } },
+      })
+    } catch (error) {
+      // If view record already exists (same IP), don't increment
+      // This is expected behavior for repeat visits
+      console.log(`View already recorded for IP ${clientIP} on paste ${id}`)
+    }
 
     return NextResponse.json({
       success: true,

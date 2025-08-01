@@ -50,6 +50,7 @@ model Paste {
   comments    Comment[]
   bookmarks   Bookmark[]
   tags        Tag[]
+  viewRecords View[]
 
   @@map("pastes")
 }
@@ -106,6 +107,20 @@ model Bookmark {
 
   @@unique([userId, pasteId])
   @@map("bookmarks")
+}
+
+model View {
+  id        String   @id @default(cuid())
+  ipAddress String
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  // Relations
+  pasteId   String
+  paste     Paste    @relation(fields: [pasteId], references: [id], onDelete: Cascade)
+
+  @@unique([ipAddress, pasteId])
+  @@map("views")
 }
 
 
