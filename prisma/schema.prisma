@@ -27,7 +27,7 @@ model User {
   comments  Comment[]
   bookmarks Bookmark[]
 
-  @@map("User")
+  @@map("users")
 }
 
 model Paste {
@@ -51,7 +51,7 @@ model Paste {
   bookmarks   Bookmark[]
   tags        Tag[]
 
-  @@map("Paste")
+  @@map("pastes")
 }
 
 model Tag {
@@ -62,7 +62,7 @@ model Tag {
   // Relations
   pastes    Paste[]
 
-  @@map("Tag")
+  @@map("tags")
 }
 
 model Like {
@@ -76,7 +76,7 @@ model Like {
   paste     Paste    @relation(fields: [pasteId], references: [id], onDelete: Cascade)
 
   @@unique([userId, pasteId])
-  @@map("Like")
+  @@map("likes")
 }
 
 model Comment {
@@ -91,7 +91,7 @@ model Comment {
   pasteId   String
   paste     Paste    @relation(fields: [pasteId], references: [id], onDelete: Cascade)
 
-  @@map("Comment")
+  @@map("comments")
 }
 
 model Bookmark {
@@ -105,7 +105,7 @@ model Bookmark {
   paste     Paste    @relation(fields: [pasteId], references: [id], onDelete: Cascade)
 
   @@unique([userId, pasteId])
-  @@map("Bookmark")
+  @@map("bookmarks")
 }
 
 
