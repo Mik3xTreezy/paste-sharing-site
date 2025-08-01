@@ -14,6 +14,8 @@ export default function HomePage() {
   const [isPublic, setIsPublic] = useState(true)
   const [isLoaded, setIsLoaded] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
+  const [showNotification, setShowNotification] = useState(false)
+  const [createdPasteId, setCreatedPasteId] = useState<string | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const router = useRouter()
   const { createPaste, loading, error } = usePaste()
@@ -33,9 +35,17 @@ export default function HomePage() {
 
     if (paste) {
       setShowSuccess(true)
+      setCreatedPasteId(paste.id)
+      
+      // Copy link to clipboard
+      const pasteUrl = `${window.location.origin}/paste/${paste.id}`
+      await navigator.clipboard.writeText(pasteUrl)
+      
+      // Show notification
+      setShowNotification(true)
       setTimeout(() => {
-        router.push(`/paste/${paste.id}`)
-      }, 1500)
+        setShowNotification(false)
+      }, 3000)
     }
   }
 
@@ -281,6 +291,23 @@ export default function HomePage() {
               <div className="flex items-center justify-center sm:justify-end space-x-2">
                 <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
                 <span className="text-xs text-gray-500 font-normal">Auto-save enabled</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Success Notification */}
+        {showNotification && (
+          <div className="fixed bottom-4 right-4 z-50 animate-slide-in-up">
+            <div className="bg-green-500/90 backdrop-blur-xl border border-green-400/20 rounded-xl p-4 shadow-2xl">
+              <div className="flex items-center space-x-3">
+                <CheckCircle className="w-5 h-5 text-green-100" />
+                <div>
+                  <p className="text-sm font-medium text-green-100">Link Copied to Clipboard</p>
+                  <p className="text-xs text-green-200/80">
+                    {createdPasteId ? `/paste/${createdPasteId}` : 'Paste link copied'}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
