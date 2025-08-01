@@ -72,7 +72,7 @@ export default function HomePage() {
                 </div>
               </div>
               <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-                PasteShare
+                PasteScript
               </h1>
             </div>
             <nav className="hidden sm:flex items-center space-x-6">

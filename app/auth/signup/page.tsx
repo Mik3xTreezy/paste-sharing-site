@@ -135,7 +135,7 @@ export default function SignUpPage() {
               {/* Header */}
               <div className="text-center mb-8">
                 <h2 className="text-3xl font-bold text-white mb-2">Create Account</h2>
-                <p className="text-gray-400">Join PasteShare today</p>
+                <p className="text-gray-400">Join PasteScript Today</p>
               </div>
 
               {/* Error/Success Messages */}

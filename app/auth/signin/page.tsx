@@ -76,7 +76,7 @@ export default function SignInPage() {
                 </div>
               </div>
               <h1 className="text-xl font-bold bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-                PasteShare
+                PasteScript
               </h1>
             </div>
           </div>
