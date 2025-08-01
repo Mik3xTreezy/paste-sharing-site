@@ -47,7 +47,7 @@ export default function PastePage() {
     if (pasteId) {
       fetchPaste()
     }
-  }, [pasteId, getPaste, error])
+  }, [pasteId]) // Remove getPaste and error from dependencies
 
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
