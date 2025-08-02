@@ -37,9 +37,7 @@ export default function PastePage() {
       
       try {
         setLoading(true)
-        console.log('Fetching paste with ID:', pasteId)
         const paste = await getPaste(pasteId)
-        console.log('Paste result:', paste)
         
         if (paste) {
           setPaste(paste)
@@ -60,7 +58,6 @@ export default function PastePage() {
           setError('Failed to load paste')
         }
       } catch (err) {
-        console.error('Error fetching paste:', err)
         setError('Failed to load paste')
       } finally {
         setLoading(false)
