@@ -59,7 +59,6 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
       setTimeLeft((prev) => {
         if (prev <= 1) {
           setTimerActive(false)
-          setShowTimer(false)
           return 0
         }
         return prev - 1
@@ -68,6 +67,10 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
     
     return () => clearInterval(interval)
   }, [timerActive, timeLeft])
+
+  const handleUnlockPaste = () => {
+    setShowTimer(false)
+  }
 
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -161,32 +164,50 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   }
 
   // Show timer with ads
-  if (showTimer && timeLeft > 0) {
+  if (showTimer) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
         <div className="max-w-4xl w-full mx-auto p-6">
           <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
             <div className="text-center mb-8">
-              <div className="w-20 h-20 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <div className="text-3xl font-bold text-blue-400">{timeLeft}</div>
-              </div>
-              <h2 className="text-2xl font-bold text-white mb-2">Please Wait</h2>
-              <p className="text-gray-400 mb-4">Content will be available in {timeLeft} seconds</p>
-              <div className="w-full max-w-md mx-auto bg-gray-800/50 rounded-lg p-4">
-                <div className="text-sm text-gray-400 mb-2">Loading content...</div>
-                <div className="w-full bg-gray-700 rounded-full h-2">
-                  <div 
-                    className="bg-gradient-to-r from-cyan-400 to-purple-500 h-2 rounded-full transition-all duration-1000"
-                    style={{ width: `${((15 - timeLeft) / 15) * 100}%` }}
-                  ></div>
-                </div>
-              </div>
+              {timeLeft > 0 ? (
+                <>
+                  <div className="w-20 h-20 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <div className="text-3xl font-bold text-blue-400">{timeLeft}</div>
+                  </div>
+                  <h2 className="text-2xl font-bold text-white mb-2">Please Wait</h2>
+                  <p className="text-gray-400 mb-4">Content will be available in {timeLeft} seconds</p>
+                  <div className="w-full max-w-md mx-auto bg-gray-800/50 rounded-lg p-4">
+                    <div className="text-sm text-gray-400 mb-2">Loading content...</div>
+                    <div className="w-full bg-gray-700 rounded-full h-2">
+                      <div 
+                        className="bg-gradient-to-r from-cyan-400 to-purple-500 h-2 rounded-full transition-all duration-1000"
+                        style={{ width: `${((15 - timeLeft) / 15) * 100}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <div className="text-3xl font-bold text-green-400">✓</div>
+                  </div>
+                  <h2 className="text-2xl font-bold text-white mb-2">Timer Complete!</h2>
+                  <p className="text-gray-400 mb-6">Click the button below to unlock your paste</p>
+                  <Button
+                    onClick={handleUnlockPaste}
+                    className="bg-gradient-to-r from-green-600 to-blue-600 text-white px-8 py-3 text-lg font-semibold"
+                  >
+                    Unlock Paste
+                  </Button>
+                </>
+              )}
             </div>
             
             {/* Ad Display Area */}
             <div className="mb-8">
               <div className="text-center mb-4">
-                <h3 className="text-lg font-semibold text-white mb-2">Sponsored Content</h3>
+                <h3 className="text-lg font-semibold text-white mb-2">Disable Adblock to Unlock Paste</h3>
                 <p className="text-sm text-gray-400">Please support our service</p>
               </div>
               <div className="bg-gray-800/50 rounded-xl p-6 min-h-[300px] flex items-center justify-center">
