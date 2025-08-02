@@ -60,8 +60,9 @@ export function usePaste() {
     try {
       // Auto-detect language if not provided
       const language = data.language || detectLanguage(data.content)
+      const baseUrl = typeof window !== 'undefined' ? window.location.origin : ''
 
-      const response = await fetch('/api/pastes', {
+      const response = await fetch(`${baseUrl}/api/pastes`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -93,9 +94,10 @@ export function usePaste() {
     setError(null)
 
     try {
+      const baseUrl = typeof window !== 'undefined' ? window.location.origin : ''
       const url = password 
-        ? `/api/pastes/${id}?password=${encodeURIComponent(password)}`
-        : `/api/pastes/${id}`
+        ? `${baseUrl}/api/pastes/${id}?password=${encodeURIComponent(password)}`
+        : `${baseUrl}/api/pastes/${id}`
 
       const response = await fetch(url)
       const result: ApiResponse<Paste> = await response.json()
@@ -122,7 +124,8 @@ export function usePaste() {
     setError(null)
 
     try {
-      const response = await fetch(`/api/pastes/${id}`, {
+      const baseUrl = typeof window !== 'undefined' ? window.location.origin : ''
+      const response = await fetch(`${baseUrl}/api/pastes/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -151,7 +154,8 @@ export function usePaste() {
     setError(null)
 
     try {
-      const response = await fetch(`/api/pastes/${id}`, {
+      const baseUrl = typeof window !== 'undefined' ? window.location.origin : ''
+      const response = await fetch(`${baseUrl}/api/pastes/${id}`, {
         method: 'DELETE',
       })
 
@@ -189,7 +193,8 @@ export function usePaste() {
       if (params?.language) searchParams.append('language', params.language)
       if (params?.userId) searchParams.append('userId', params.userId)
 
-      const url = `/api/pastes${searchParams.toString() ? `?${searchParams.toString()}` : ''}`
+      const baseUrl = typeof window !== 'undefined' ? window.location.origin : ''
+      const url = `${baseUrl}/api/pastes${searchParams.toString() ? `?${searchParams.toString()}` : ''}`
 
       const response = await fetch(url)
       const result: ApiResponse<Paste[]> = await response.json()
