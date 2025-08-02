@@ -193,27 +193,6 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
                 <GoogleAdSense />
               </div>
             </div>
-            
-            {/* Paste Preview */}
-            {paste && (
-              <div className="bg-gray-800/30 rounded-xl p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-white">Paste Preview</h3>
-                  <div className="flex items-center space-x-2">
-                    <Code className="w-4 h-4 text-cyan-400" />
-                    <span className="text-sm text-gray-400">
-                      {paste.language || 'text'}
-                    </span>
-                  </div>
-                </div>
-                <div className="bg-black/50 rounded-lg p-4 max-h-40 overflow-hidden">
-                  <pre className="text-sm text-gray-300 whitespace-pre-wrap">
-                    {paste.content?.substring(0, 200)}
-                    {paste.content && paste.content.length > 200 && '...'}
-                  </pre>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
