@@ -318,7 +318,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
         {/* Ad Display Area */}
         <div className="mb-8">
           <div className="text-center mb-4">
-            <h3 className="text-lg font-semibold text-white mb-2">Sponsored Content</h3>
+            <h3 className="text-lg font-semibold text-white mb-2">Disable Adblock to Unlock Paste</h3>
             <p className="text-sm text-gray-400">Please support our service</p>
           </div>
           <div className="bg-gray-800/50 rounded-xl p-6">
