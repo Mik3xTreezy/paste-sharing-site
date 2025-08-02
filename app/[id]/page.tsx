@@ -37,27 +37,30 @@ export default function PastePage() {
       
       try {
         setLoading(true)
-        const data = await getPaste(pasteId)
+        console.log('Fetching paste with ID:', pasteId)
+        const paste = await getPaste(pasteId)
+        console.log('Paste result:', paste)
         
-        if (data.success) {
-          setPaste(data.paste)
+        if (paste) {
+          setPaste(paste)
           
           // Check if paste is password protected
-          if (data.paste.isPasswordProtected && !data.paste.content) {
+          if (paste.isPassword && !paste.content) {
             setShowPasswordForm(true)
             setLoading(false)
             return
           }
           
           // Start timer for non-password protected pastes
-          if (!data.paste.isPasswordProtected) {
+          if (!paste.isPassword) {
             setShowTimer(true)
             setTimerActive(true)
           }
         } else {
-          setError(data.error || 'Failed to load paste')
+          setError('Failed to load paste')
         }
       } catch (err) {
+        console.error('Error fetching paste:', err)
         setError('Failed to load paste')
       } finally {
         setLoading(false)
@@ -96,15 +99,15 @@ export default function PastePage() {
     setLoading(true)
     
     try {
-      const data = await getPaste(pasteId, password)
+      const paste = await getPaste(pasteId, password)
       
-      if (data.success) {
-        setPaste(data.paste)
+      if (paste) {
+        setPaste(paste)
         setShowPasswordForm(false)
         setShowTimer(true)
         setTimerActive(true)
       } else {
-        setError(data.error || 'Invalid password')
+        setError('Invalid password')
       }
     } catch (err) {
       setError('Failed to verify password')
