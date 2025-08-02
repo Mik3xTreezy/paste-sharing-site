@@ -11,6 +11,8 @@ export default function AntiAdblock() {
   useEffect(() => {
     // Function to detect adblock
     const detectAdblock = () => {
+      let adblockDetected = false
+
       // Method 1: Check if Google AdSense script is blocked
       const testAd = document.createElement('div')
       testAd.innerHTML = '&nbsp;'
@@ -29,8 +31,7 @@ export default function AntiAdblock() {
         document.body.removeChild(testAd)
         
         if (isBlocked) {
-          setAdblockDetected(true)
-          setShowAdblockWarning(true)
+          adblockDetected = true
         }
       }, 100)
 
@@ -39,8 +40,7 @@ export default function AntiAdblock() {
         (window.ga === undefined || window.gtag === undefined)
       
       if (gaBlocked) {
-        setAdblockDetected(true)
-        setShowAdblockWarning(true)
+        adblockDetected = true
       }
 
       // Method 3: Check for common adblock patterns
@@ -65,21 +65,33 @@ export default function AntiAdblock() {
       })
 
       if (blockedScripts > 0) {
+        adblockDetected = true
+      }
+
+      // Only show warning if adblock is actually detected
+      if (adblockDetected) {
         setAdblockDetected(true)
         setShowAdblockWarning(true)
       }
     }
 
     // Run detection after a short delay
-    const timer = setTimeout(detectAdblock, 2000)
+    const timer = setTimeout(detectAdblock, 3000)
 
     return () => clearTimeout(timer)
   }, [])
 
   // Function to check if ads are loading properly
   const checkAdsLoaded = () => {
-    const adElements = document.querySelectorAll('[id*="google_ads"], [id*="adsbygoogle"]')
-    if (adElements.length === 0) {
+    // Only check if we haven't already detected adblock
+    if (adblockDetected) return
+    
+    // Check if Google AdSense script is loaded
+    const googleAdsenseScript = document.querySelector('script[src*="adsbygoogle"]')
+    const adsbygoogleFunction = typeof window !== 'undefined' && (window as any).adsbygoogle
+    
+    // Check if both script and function are available
+    if (!googleAdsenseScript || !adsbygoogleFunction) {
       setAdblockDetected(true)
       setShowAdblockWarning(true)
     }
@@ -87,9 +99,9 @@ export default function AntiAdblock() {
 
   // Check ads after a longer delay
   useEffect(() => {
-    const timer = setTimeout(checkAdsLoaded, 5000)
+    const timer = setTimeout(checkAdsLoaded, 8000)
     return () => clearTimeout(timer)
-  }, [])
+  }, [adblockDetected])
 
   if (!showAdblockWarning) return null
 
