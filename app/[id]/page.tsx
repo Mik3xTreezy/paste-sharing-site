@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import PastePageClient from './paste-page-client'
+import ErrorBoundary from '@/components/error-boundary'
 
 interface PageProps {
   params: {
@@ -43,7 +44,11 @@ export default async function PastePage({ params }: PageProps) {
     }
 
     // Return the client component with the paste data
-    return <PastePageClient initialPaste={paste} />
+    return (
+      <ErrorBoundary>
+        <PastePageClient initialPaste={paste} />
+      </ErrorBoundary>
+    )
   } catch (error) {
     console.error('Error fetching paste:', error)
     notFound()

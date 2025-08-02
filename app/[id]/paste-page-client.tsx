@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft, Code, Eye, Calendar, User, Lock, Share2, CheckCircle } from 'lucide-react'
 import { useSession } from 'next-auth/react'
-import { useHydration } from '@/hooks/use-hydration'
+
 import { getPaste } from '@/hooks/use-paste'
 import CopyIcon from '@/components/copy-icon'
 import GoogleAdSense from '@/components/google-adsense'
@@ -17,7 +17,6 @@ interface PastePageClientProps {
 export default function PastePageClient({ initialPaste }: PastePageClientProps) {
   const router = useRouter()
   const { data: session } = useSession()
-  const { isHydrated } = useHydration()
   const [isLoaded, setIsLoaded] = useState(false)
   
   const [paste, setPaste] = useState<any>(initialPaste)
@@ -43,26 +42,31 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
     setIsLoaded(true)
   }, [paste])
 
+  // Reset timer when component mounts
+  useEffect(() => {
+    if (paste && !paste.isPassword) {
+      setTimeLeft(15)
+      setShowTimer(true)
+      setTimerActive(true)
+    }
+  }, [])
+
   // Timer effect
   useEffect(() => {
-    let interval: NodeJS.Timeout | null = null
+    if (!timerActive || timeLeft <= 0) return
     
-    if (timerActive && timeLeft > 0) {
-      interval = setInterval(() => {
-        setTimeLeft((prev) => {
-          if (prev <= 1) {
-            setTimerActive(false)
-            setShowTimer(false)
-            return 0
-          }
-          return prev - 1
-        })
-      }, 1000)
-    }
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          setTimerActive(false)
+          setShowTimer(false)
+          return 0
+        }
+        return prev - 1
+      })
+    }, 1000)
     
-    return () => {
-      if (interval) clearInterval(interval)
-    }
+    return () => clearInterval(interval)
   }, [timerActive, timeLeft])
 
   const handlePasswordSubmit = async (e: React.FormEvent) => {
@@ -216,10 +220,19 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
     )
   }
 
-  if (!paste) return null
+  if (!paste) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-400">Loading paste...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 ${isLoaded && isHydrated ? "animate-fade-in" : "opacity-0"}`}>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900">
       {/* Header */}
       <header className="relative z-10 border-b border-gray-800/50 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
