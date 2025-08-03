@@ -108,13 +108,7 @@ export default function AntiAdblock() {
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-gray-900 border border-red-500/20 rounded-2xl p-8 max-w-md w-full relative">
-        {/* Close button */}
-        <button
-          onClick={() => setShowAdblockWarning(false)}
-          className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
-        >
-          <X className="w-5 h-5" />
-        </button>
+
 
         {/* Warning icon */}
         <div className="text-center mb-6">
@@ -139,20 +133,13 @@ export default function AntiAdblock() {
           </div>
         </div>
 
-        {/* Action buttons */}
-        <div className="flex flex-col sm:flex-row gap-3">
+        {/* Action button */}
+        <div className="flex justify-center">
           <Button
             onClick={() => window.location.reload()}
-            className="bg-gradient-to-r from-red-600 to-orange-600 text-white flex-1"
+            className="bg-gradient-to-r from-red-600 to-orange-600 text-white px-8 py-3 text-lg font-semibold"
           >
             Refresh Page
-          </Button>
-          <Button
-            onClick={() => setShowAdblockWarning(false)}
-            variant="outline"
-            className="border-gray-600 text-gray-300 hover:bg-gray-800 flex-1"
-          >
-            Continue Anyway
           </Button>
         </div>
 
