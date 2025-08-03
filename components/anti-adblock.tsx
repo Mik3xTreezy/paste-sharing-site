@@ -15,11 +15,13 @@ export default function AntiAdblock() {
         
         // Initialize blockadblock
         blockAdblock.onDetected(() => {
+          console.log('Adblock detected!')
           setShowAdblockWarning(true)
         })
 
         // Start detection
         blockAdblock.onNotDetected(() => {
+          console.log('No adblock detected')
           setShowAdblockWarning(false)
         })
 
@@ -27,8 +29,66 @@ export default function AntiAdblock() {
         blockAdblock.setOption('checkOnLoad', true)
         blockAdblock.setOption('resetOnEnd', false)
         
+        // Start the detection
+        blockAdblock.start()
+        
       } catch (error) {
         console.error('Failed to load blockadblock:', error)
+        // Fallback to manual detection if blockadblock fails
+        setTimeout(() => {
+          // Method 1: Check if ad elements are blocked
+          const testAd = document.createElement('div')
+          testAd.innerHTML = '&nbsp;'
+          testAd.className = 'adsbox'
+          testAd.style.position = 'absolute'
+          testAd.style.left = '-10000px'
+          testAd.style.top = '-1000px'
+          testAd.style.width = '1px'
+          testAd.style.height = '1px'
+          testAd.style.overflow = 'hidden'
+          document.body.appendChild(testAd)
+
+          setTimeout(() => {
+            const isBlocked = testAd.offsetHeight === 0 || testAd.offsetWidth === 0
+            document.body.removeChild(testAd)
+            
+            if (isBlocked) {
+              console.log('Manual detection: Adblock found')
+              setShowAdblockWarning(true)
+              return
+            }
+
+            // Method 2: Check if Google AdSense script is blocked
+            const googleAdsenseScript = document.querySelector('script[src*="adsbygoogle"]')
+            const adsbygoogleFunction = typeof window !== 'undefined' && (window as any).adsbygoogle
+            
+            if (!googleAdsenseScript || !adsbygoogleFunction) {
+              console.log('Manual detection: Google AdSense blocked')
+              setShowAdblockWarning(true)
+              return
+            }
+
+            // Method 3: Check for blocked ad-related scripts
+            const adblockPatterns = ['adsbygoogle', 'googleadservices', 'doubleclick', 'googlesyndication']
+            const scripts = document.querySelectorAll('script')
+            let blockedScripts = 0
+            
+            scripts.forEach(script => {
+              if (script.src) {
+                adblockPatterns.forEach(pattern => {
+                  if (script.src.includes(pattern)) {
+                    blockedScripts++
+                  }
+                })
+              }
+            })
+
+            if (blockedScripts === 0) {
+              console.log('Manual detection: No ad scripts found')
+              setShowAdblockWarning(true)
+            }
+          }, 100)
+        }, 3000)
       }
     }
 
