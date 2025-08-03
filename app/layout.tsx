@@ -28,20 +28,6 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={geist.className} suppressHydrationWarning={true}>
-        {/* Hidden ad element for adblock detection */}
-        <div 
-          className="adsbox" 
-          style={{
-            position: 'absolute',
-            left: '-10000px',
-            top: '-1000px',
-            width: '1px',
-            height: '1px',
-            overflow: 'hidden'
-          }}
-        >
-          &nbsp;
-        </div>
         <AuthProvider>
           {children}
           <AntiAdblock />

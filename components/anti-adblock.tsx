@@ -2,113 +2,44 @@
 
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
-import { X, AlertTriangle } from 'lucide-react'
+import { AlertTriangle } from 'lucide-react'
 
 export default function AntiAdblock() {
   const [showAdblockWarning, setShowAdblockWarning] = useState(false)
-  const [adblockDetected, setAdblockDetected] = useState(false)
 
   useEffect(() => {
-    // Function to detect adblock
-    const detectAdblock = () => {
-      let adblockDetected = false
-
-      // Method 1: Check if Google AdSense script is blocked
-      const testAd = document.createElement('div')
-      testAd.innerHTML = '&nbsp;'
-      testAd.className = 'adsbox'
-      testAd.style.position = 'absolute'
-      testAd.style.left = '-10000px'
-      testAd.style.top = '-1000px'
-      testAd.style.width = '1px'
-      testAd.style.height = '1px'
-      testAd.style.overflow = 'hidden'
-      document.body.appendChild(testAd)
-
-      // Check if the ad element is hidden by adblock
-      setTimeout(() => {
-        const isBlocked = testAd.offsetHeight === 0 || testAd.offsetWidth === 0
-        document.body.removeChild(testAd)
+    // Import blockadblock dynamically
+    const loadBlockAdblock = async () => {
+      try {
+        const { default: blockAdblock } = await import('blockadblock')
         
-        if (isBlocked) {
-          adblockDetected = true
-        }
-      }, 100)
+        // Initialize blockadblock
+        blockAdblock.onDetected(() => {
+          setShowAdblockWarning(true)
+        })
 
-      // Method 2: Check if Google Analytics is blocked (common adblock target)
-      const gaBlocked = typeof window !== 'undefined' && 
-        (window.ga === undefined || window.gtag === undefined)
-      
-      if (gaBlocked) {
-        adblockDetected = true
-      }
+        // Start detection
+        blockAdblock.onNotDetected(() => {
+          setShowAdblockWarning(false)
+        })
 
-      // Method 3: Check for common adblock patterns
-      const adblockPatterns = [
-        'adsbygoogle',
-        'googleadservices',
-        'doubleclick',
-        'googlesyndication'
-      ]
-
-      const scripts = document.querySelectorAll('script')
-      let blockedScripts = 0
-      
-      scripts.forEach(script => {
-        if (script.src) {
-          adblockPatterns.forEach(pattern => {
-            if (script.src.includes(pattern)) {
-              blockedScripts++
-            }
-          })
-        }
-      })
-
-      if (blockedScripts > 0) {
-        adblockDetected = true
-      }
-
-      // Only show warning if adblock is actually detected
-      if (adblockDetected) {
-        setAdblockDetected(true)
-        setShowAdblockWarning(true)
+        // Set detection options
+        blockAdblock.setOption('checkOnLoad', true)
+        blockAdblock.setOption('resetOnEnd', false)
+        
+      } catch (error) {
+        console.error('Failed to load blockadblock:', error)
       }
     }
 
-    // Run detection after a short delay
-    const timer = setTimeout(detectAdblock, 3000)
-
-    return () => clearTimeout(timer)
+    loadBlockAdblock()
   }, [])
-
-  // Function to check if ads are loading properly
-  const checkAdsLoaded = () => {
-    // Only check if we haven't already detected adblock
-    if (adblockDetected) return
-    
-    // Check if Google AdSense script is loaded
-    const googleAdsenseScript = document.querySelector('script[src*="adsbygoogle"]')
-    const adsbygoogleFunction = typeof window !== 'undefined' && (window as any).adsbygoogle
-    
-    // Check if both script and function are available
-    if (!googleAdsenseScript || !adsbygoogleFunction) {
-      setAdblockDetected(true)
-      setShowAdblockWarning(true)
-    }
-  }
-
-  // Check ads after a longer delay
-  useEffect(() => {
-    const timer = setTimeout(checkAdsLoaded, 8000)
-    return () => clearTimeout(timer)
-  }, [adblockDetected])
 
   if (!showAdblockWarning) return null
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-gray-900 border border-red-500/20 rounded-2xl p-8 max-w-md w-full relative">
-
 
         {/* Warning icon */}
         <div className="text-center mb-6">
