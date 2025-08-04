@@ -75,13 +75,13 @@ export default function HomePage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="relative micro-scale">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-cyan-400 to-pink-500 p-0.5">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-pink-500 p-0.5">
                   <div className="w-full h-full bg-black rounded-md flex items-center justify-center">
                     <Code className="w-4 h-4 text-white" />
                   </div>
                 </div>
               </div>
-              <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+              <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-500 to-pink-500 bg-clip-text text-transparent">
                 PasteScript
               </h1>
             </div>
@@ -107,7 +107,7 @@ export default function HomePage() {
                     variant="outline"
                     size="sm"
                     onClick={() => signOut()}
-                    className="bg-black/20 backdrop-blur-sm border-white/20 border-gray-700 text-gray-300 hover:bg-gray-800 bg-transparent font-normal micro-scale"
+                    className="btn-gradient-secondary font-normal micro-scale"
                   >
                     <LogOut className="w-4 h-4 mr-2" />
                     <span className="hidden sm:inline">Sign Out</span>
@@ -118,7 +118,7 @@ export default function HomePage() {
                   variant="outline"
                   size="sm"
                   onClick={() => router.push('/auth/signin')}
-                  className="bg-black/20 backdrop-blur-sm border-white/20 border-gray-700 text-gray-300 hover:bg-gray-800 bg-transparent font-normal micro-scale"
+                  className="btn-gradient-secondary font-normal micro-scale"
                 >
                   <span className="hidden sm:inline">Sign In</span>
                   <span className="sm:hidden">Login</span>
@@ -131,7 +131,7 @@ export default function HomePage() {
                 variant="outline"
                 size="sm"
                 onClick={() => router.push('/auth/signin')}
-                className="bg-black/20 backdrop-blur-sm border-white/20 border-gray-700 text-gray-300 hover:bg-gray-800 bg-transparent font-normal micro-scale"
+                className="btn-gradient-secondary font-normal micro-scale"
               >
                 <User className="w-4 h-4" />
               </Button>
@@ -151,7 +151,7 @@ export default function HomePage() {
             Create{" "}
             <span className="text-white relative">
               Paste
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 rounded-full"></div>
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-pink-500 rounded-full"></div>
             </span>
           </h2>
         </div>
@@ -177,16 +177,7 @@ export default function HomePage() {
           <div className="absolute -bottom-6 -left-6 w-40 h-40 bg-gradient-radial from-blue-500/6 via-purple-500/3 to-transparent rounded-full blur-3xl opacity-60"></div>
           <div className="absolute -bottom-6 -right-6 w-40 h-40 bg-gradient-radial from-purple-500/6 via-blue-500/3 to-transparent rounded-full blur-3xl opacity-60"></div>
 
-          <div
-            className="relative backdrop-blur-xl border border-white/5 rounded-3xl p-6 sm:p-10 shadow-2xl transition-all duration-300"
-            style={{
-              background: `
-                radial-gradient(ellipse at top left, rgba(30, 27, 75, 0.08) 0%, transparent 60%),
-                radial-gradient(ellipse at bottom right, rgba(15, 23, 42, 0.12) 0%, transparent 60%),
-                rgba(0, 0, 0, 0.6)
-              `,
-            }}
-          >
+          <div className="relative glass-card-strong rounded-3xl p-6 sm:p-10 transition-all duration-300">
             {/* Title Input */}
             <div className="relative mb-6 sm:mb-8">
               <input
@@ -199,7 +190,7 @@ export default function HomePage() {
               />
               {title && (
                 <div className="absolute right-0 top-1/2 -translate-y-1/2 animate-fade-in-up">
-                  <Sparkles className="w-5 h-5 text-blue-400 animate-sparkle" />
+                  <Sparkles className="w-5 h-5 text-blue-500 animate-sparkle" />
                 </div>
               )}
             </div>
@@ -224,10 +215,10 @@ export default function HomePage() {
               />
               {content && (
                 <div className="absolute top-2 sm:top-4 right-0 flex items-center space-x-2 animate-slide-in">
-                  <div className="text-xs text-gray-400 bg-black/20 backdrop-blur-sm px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg font-normal border border-white/5 micro-scale">
+                  <div className="text-xs text-gray-400 glass-light px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg font-normal micro-scale">
                     {content.length} chars
                   </div>
-                  <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
                 </div>
               )}
             </div>
@@ -238,7 +229,7 @@ export default function HomePage() {
                 <button
                   onClick={() => setIsPublic(!isPublic)}
                   className={`flex items-center space-x-2 text-xs sm:text-sm font-normal transition-all duration-200 micro-scale ${
-                    isPublic ? "text-blue-400 hover:text-blue-300" : "text-pink-400 hover:text-pink-300"
+                    isPublic ? "text-blue-500 hover:text-blue-400" : "text-pink-500 hover:text-pink-400"
                   }`}
                 >
                   {isPublic ? <Eye className="w-4 h-4" /> : <Lock className="w-4 h-4" />}
@@ -259,7 +250,7 @@ export default function HomePage() {
               <Button
                 onClick={handleCreatePaste}
                 disabled={!content.trim() || loading}
-                className="w-full sm:w-auto bg-gradient-to-r from-cyan-600 via-purple-600 to-pink-600 hover:from-cyan-700 hover:via-purple-700 hover:to-pink-700 text-white px-6 sm:px-8 py-3 rounded-xl font-bold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl border-0 btn-hover"
+                className="w-full sm:w-auto btn-gradient-primary px-6 sm:px-8 py-3 rounded-xl font-bold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl border-0 btn-hover"
               >
                 {loading ? (
                   <div className="flex items-center space-x-2">
@@ -282,14 +273,14 @@ export default function HomePage() {
         {/* Floating Stats */}
         {content && (
           <div className="absolute -bottom-4 left-4 sm:left-8 right-4 sm:right-8 animate-slide-in">
-            <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between micro-scale space-y-2 sm:space-y-0">
+            <div className="glass-card rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between micro-scale space-y-2 sm:space-y-0">
               <div className="flex items-center justify-center sm:justify-start space-x-3 sm:space-x-6 text-xs sm:text-sm text-gray-400 font-normal">
                 <span>Lines: {content.split("\n").length}</span>
                 <span>Words: {content.split(" ").filter((w) => w.length > 0).length}</span>
                 <span>Chars: {content.length}</span>
               </div>
               <div className="flex items-center justify-center sm:justify-end space-x-2">
-                <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
                 <span className="text-xs text-gray-500 font-normal">Auto-save enabled</span>
               </div>
             </div>

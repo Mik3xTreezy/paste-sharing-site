@@ -23,6 +23,14 @@
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
+    
+    /* Custom gradient colors */
+    --blue-primary: 217 91% 60%;
+    --blue-secondary: 217 91% 50%;
+    --pink-primary: 330 81% 60%;
+    --pink-secondary: 330 81% 50%;
+    --glass-bg: 0 0% 10% / 0.1;
+    --glass-border: 0 0% 100% / 0.1;
   }
 }
 
@@ -74,12 +82,12 @@ button:focus {
 
 /* Custom selection colors */
 ::selection {
-  background: linear-gradient(to right, rgb(59 130 246 / 0.3), rgb(236 72 153 / 0.3));
+  background: linear-gradient(to right, rgb(59 130 246 / 0.4), rgb(236 72 153 / 0.4));
   color: white;
 }
 
 ::-moz-selection {
-  background: linear-gradient(to right, rgb(59 130 246 / 0.3), rgb(236 72 153 / 0.3));
+  background: linear-gradient(to right, rgb(59 130 246 / 0.4), rgb(236 72 153 / 0.4));
   color: white;
 }
 
@@ -271,6 +279,71 @@ textarea:-webkit-autofill:focus {
 /* Radial gradient utility */
 .bg-gradient-radial {
   background: radial-gradient(circle, var(--tw-gradient-stops));
+}
+
+/* Glass morphism utilities */
+.glass {
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.glass-strong {
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+.glass-light {
+  background: rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Consistent gradient buttons */
+.btn-gradient-primary {
+  background: linear-gradient(135deg, hsl(var(--blue-primary)) 0%, hsl(var(--pink-primary)) 100%);
+  border: none;
+  color: white;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-gradient-primary:hover {
+  background: linear-gradient(135deg, hsl(var(--blue-secondary)) 0%, hsl(var(--pink-secondary)) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+}
+
+.btn-gradient-secondary {
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-gradient-secondary:hover {
+  background: rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+/* Glass card styles */
+.glass-card {
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.glass-card-strong {
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
 }
 
 /* Line clamp utilities */

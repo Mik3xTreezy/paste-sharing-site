@@ -135,7 +135,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
           <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
             <div className="text-center mb-6">
               <div className="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Lock className="w-8 h-8 text-blue-400" />
+                <Lock className="w-8 h-8 text-blue-500" />
               </div>
               <h2 className="text-xl font-bold text-white mb-2">Password Protected</h2>
               <p className="text-gray-400">This paste is password protected</p>
@@ -152,7 +152,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
               />
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white"
+                className="w-full btn-gradient-primary"
                 disabled={loading}
               >
                 {loading ? 'Checking...' : 'Access Paste'}
@@ -174,19 +174,19 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
               {timeLeft > 0 ? (
                 <>
                   <div className="w-20 h-20 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <div className="text-3xl font-bold text-blue-400">{timeLeft}</div>
+                    <div className="text-3xl font-bold text-blue-500">{timeLeft}</div>
                   </div>
                   <h2 className="text-2xl font-bold text-white mb-2">Please Wait</h2>
                   <p className="text-gray-400 mb-4">Content will be available in {timeLeft} seconds</p>
-                  <div className="w-full max-w-md mx-auto bg-gray-800/50 rounded-lg p-4">
-                    <div className="text-sm text-gray-400 mb-2">Loading content...</div>
-                    <div className="w-full bg-gray-700 rounded-full h-2">
-                      <div 
-                        className="bg-gradient-to-r from-cyan-400 to-purple-500 h-2 rounded-full transition-all duration-1000"
-                        style={{ width: `${((15 - timeLeft) / 15) * 100}%` }}
-                      ></div>
+                                      <div className="w-full max-w-md mx-auto glass-card rounded-lg p-4">
+                      <div className="text-sm text-gray-400 mb-2">Loading content...</div>
+                      <div className="w-full bg-gray-700 rounded-full h-2">
+                        <div 
+                          className="bg-gradient-to-r from-blue-500 to-pink-500 h-2 rounded-full transition-all duration-1000"
+                          style={{ width: `${((15 - timeLeft) / 15) * 100}%` }}
+                        ></div>
+                      </div>
                     </div>
-                  </div>
                 </>
               ) : (
                 <>
@@ -197,7 +197,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
                   <p className="text-gray-400 mb-6">Click the button below to unlock your paste</p>
                   <Button
                     onClick={handleUnlockPaste}
-                    className="bg-gradient-to-r from-green-600 to-blue-600 text-white px-8 py-3 text-lg font-semibold"
+                    className="btn-gradient-primary px-8 py-3 text-lg font-semibold"
                   >
                     Unlock Paste
                   </Button>
@@ -211,7 +211,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
                 <h3 className="text-lg font-semibold text-white mb-2">Disable Adblock to Unlock Paste</h3>
                 <p className="text-sm text-gray-400">Please support our service</p>
               </div>
-              <div className="bg-gray-800/50 rounded-xl p-6 min-h-[300px] flex items-center justify-center">
+              <div className="glass-card rounded-xl p-6 min-h-[300px] flex items-center justify-center">
                 <GoogleAdSense />
               </div>
             </div>
@@ -251,7 +251,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
               </Button>
               <div className="w-px h-6 bg-gray-700 hidden sm:block"></div>
               <div className="flex items-center space-x-2">
-                <Code className="w-4 h-4 text-cyan-400" />
+                <Code className="w-4 h-4 text-blue-500" />
                 <span className="text-xs sm:text-sm text-gray-400">
                   {paste.language || 'text'}
                 </span>
@@ -263,7 +263,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
                 variant="outline"
                 size="sm"
                 onClick={copyToClipboard}
-                className="bg-black/20 border-white/20 text-gray-300 hover:bg-gray-800"
+                className="btn-gradient-secondary"
               >
                 {copied ? (
                   <>
@@ -281,7 +281,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
                 variant="outline"
                 size="sm"
                 onClick={copyUrl}
-                className="bg-black/20 border-white/20 text-gray-300 hover:bg-gray-800"
+                className="btn-gradient-secondary"
               >
                 <Share2 className="w-4 h-4 mr-1 sm:mr-2" />
                 <span className="hidden sm:inline">Share</span>
@@ -317,16 +317,16 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
           </div>
         </div>
 
-        {/* Ad Display Area */}
-        <div className="mb-8">
-          <div className="text-center mb-4">
-            <h3 className="text-lg font-semibold text-white mb-2">Disable Adblock to Unlock Paste</h3>
-            <p className="text-sm text-gray-400">Please support our service</p>
-          </div>
-          <div className="bg-gray-800/50 rounded-xl p-6">
-            <GoogleAdSense />
-          </div>
-        </div>
+                    {/* Ad Display Area */}
+            <div className="mb-8">
+              <div className="text-center mb-4">
+                <h3 className="text-lg font-semibold text-white mb-2">Disable Adblock to Unlock Paste</h3>
+                <p className="text-sm text-gray-400">Please support our service</p>
+              </div>
+              <div className="glass-card rounded-xl p-6">
+                <GoogleAdSense />
+              </div>
+            </div>
 
         {/* Paste Content */}
         <div className="relative">
@@ -337,7 +337,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
           <div className="absolute -bottom-6 -left-6 w-40 h-40 bg-gradient-radial from-blue-500/6 via-purple-500/3 to-transparent rounded-full blur-3xl opacity-60"></div>
           <div className="absolute -bottom-6 -right-6 w-40 h-40 bg-gradient-radial from-purple-500/6 via-blue-500/3 to-transparent rounded-full blur-3xl opacity-60"></div>
 
-          <div className="relative backdrop-blur-xl border border-white/5 rounded-3xl p-4 sm:p-8 shadow-2xl transition-all duration-300">
+          <div className="relative glass-card-strong rounded-3xl p-4 sm:p-8 transition-all duration-300">
             <pre className="text-xs sm:text-sm text-white whitespace-pre-wrap font-mono leading-relaxed overflow-x-auto">
               {paste.content}
             </pre>
@@ -350,7 +350,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
             <div className="flex items-center space-x-2">
-              <Code className="w-4 h-4 text-cyan-400" />
+              <Code className="w-4 h-4 text-blue-500" />
               <span className="text-sm text-gray-400">PasteScript</span>
             </div>
             <div className="flex items-center space-x-4 text-xs text-gray-500">
