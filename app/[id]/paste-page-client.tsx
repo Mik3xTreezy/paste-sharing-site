@@ -9,6 +9,7 @@ import { useSession } from 'next-auth/react'
 import { getPaste } from '@/hooks/use-paste'
 import CopyIcon from '@/components/copy-icon'
 import GoogleAdSense from '@/components/google-adsense'
+import AntiAdblock from '@/components/anti-adblock'
 
 interface PastePageClientProps {
   initialPaste: any
@@ -233,6 +234,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900">
+      <AntiAdblock />
       {/* Header */}
       <header className="relative z-10 border-b border-gray-800/50 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">

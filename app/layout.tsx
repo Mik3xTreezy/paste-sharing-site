@@ -3,7 +3,6 @@ import type { Metadata } from "next"
 import { GeistSans } from "geist/font/sans"
 import "./globals.css"
 import AuthProvider from "@/components/session-provider"
-import AntiAdblock from "@/components/anti-adblock"
 
 const geist = GeistSans
 
@@ -30,7 +29,6 @@ export default function RootLayout({
       <body className={geist.className} suppressHydrationWarning={true}>
         <AuthProvider>
           {children}
-          <AntiAdblock />
         </AuthProvider>
       </body>
     </html>
