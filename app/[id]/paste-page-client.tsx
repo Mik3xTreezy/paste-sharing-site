@@ -313,15 +313,8 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
           </div>
         </div>
 
-                    {/* Ad Display Area */}
-            <div className="mb-8">
-              <div className="glass-card rounded-xl p-6 min-h-[120px] flex items-center justify-center">
-                <HighPerformanceAd />
-              </div>
-            </div>
-
-        {/* Paste Content */}
-        <div className="relative">
+                            {/* Paste Content */}
+        <div className="relative mb-8">
           {/* Background Effects */}
           <div className="absolute -inset-4 bg-gradient-to-br from-slate-900/15 via-gray-900/10 to-slate-800/15 rounded-3xl blur-3xl opacity-30"></div>
           <div className="absolute -top-6 -left-6 w-40 h-40 bg-gradient-radial from-purple-500/8 via-blue-500/4 to-transparent rounded-full blur-3xl opacity-60"></div>
@@ -333,6 +326,13 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
             <pre className="text-xs sm:text-sm text-white whitespace-pre-wrap font-mono leading-relaxed overflow-x-auto">
               {paste.content}
             </pre>
+          </div>
+        </div>
+
+        {/* Ad Display Area */}
+        <div className="mb-8">
+          <div className="glass-card rounded-xl p-6 min-h-[120px] flex items-center justify-center">
+            <HighPerformanceAd />
           </div>
         </div>
       </main>
