@@ -8,7 +8,7 @@ import { useSession } from 'next-auth/react'
 
 import { getPaste } from '@/hooks/use-paste'
 import CopyIcon from '@/components/copy-icon'
-import GoogleAdSense from '@/components/google-adsense'
+import HighPerformanceAd from '@/components/high-performance-ad'
 import AntiAdblock from '@/components/anti-adblock'
 
 interface PastePageClientProps {
@@ -207,12 +207,8 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
             
             {/* Ad Display Area */}
             <div className="mb-8">
-              <div className="text-center mb-4">
-                <h3 className="text-lg font-semibold text-white mb-2">Disable Adblock to Unlock Paste</h3>
-                <p className="text-sm text-gray-400">Please support our service</p>
-              </div>
-              <div className="glass-card rounded-xl p-6 min-h-[300px] flex items-center justify-center">
-                <GoogleAdSense />
+              <div className="glass-card rounded-xl p-6 min-h-[120px] flex items-center justify-center">
+                <HighPerformanceAd />
               </div>
             </div>
           </div>
@@ -319,12 +315,8 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
 
                     {/* Ad Display Area */}
             <div className="mb-8">
-              <div className="text-center mb-4">
-                <h3 className="text-lg font-semibold text-white mb-2">Disable Adblock to Unlock Paste</h3>
-                <p className="text-sm text-gray-400">Please support our service</p>
-              </div>
-              <div className="glass-card rounded-xl p-6">
-                <GoogleAdSense />
+              <div className="glass-card rounded-xl p-6 min-h-[120px] flex items-center justify-center">
+                <HighPerformanceAd />
               </div>
             </div>
 
