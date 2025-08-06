@@ -10,6 +10,8 @@ import { getPaste } from '@/hooks/use-paste'
 import CopyIcon from '@/components/copy-icon'
 import HighPerformanceAd from '@/components/high-performance-ad'
 import TimerAd from '@/components/timer-ad'
+import PastescriptAd1 from '@/components/pastescript-ad-1'
+import PastescriptAdRight from '@/components/pastescript-ad-right'
 
 
 interface PastePageClientProps {
@@ -292,6 +294,13 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
                 <TimerAd />
               </div>
             </div>
+            
+            {/* Google AdSense Ad 1 */}
+            <div className="mb-8">
+              <div className="glass-card rounded-xl p-6 min-h-[120px] flex items-center justify-center">
+                <PastescriptAd1 />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -424,6 +433,20 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
         <div className="mb-8">
           <div className="glass-card rounded-xl p-6 min-h-[120px] flex items-center justify-center">
             <HighPerformanceAd />
+          </div>
+        </div>
+        
+        {/* Google AdSense Ad 1 */}
+        <div className="mb-8">
+          <div className="glass-card rounded-xl p-6 min-h-[120px] flex items-center justify-center">
+            <PastescriptAd1 />
+          </div>
+        </div>
+        
+        {/* Google AdSense Ad Right */}
+        <div className="mb-8">
+          <div className="glass-card rounded-xl p-6 min-h-[120px] flex items-center justify-center">
+            <PastescriptAdRight />
           </div>
         </div>
       </main>
