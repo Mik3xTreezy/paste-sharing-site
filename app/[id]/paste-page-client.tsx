@@ -92,6 +92,8 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
       const wrapper = document.createElement('div')
       wrapper.id = 'pop-ad-wrapper'
       wrapper.style.display = 'none'
+      wrapper.style.position = 'absolute'
+      wrapper.style.left = '-9999px'
       document.body.appendChild(wrapper)
       
       const script = document.createElement('script')
@@ -288,17 +290,15 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
               )}
             </div>
             
-            {/* Ad Display Area */}
+            {/* Combined Ad Display Area */}
             <div className="mb-8">
-              <div className="glass-card rounded-xl p-6 min-h-[120px] flex items-center justify-center">
-                <TimerAd />
-              </div>
-            </div>
-            
-            {/* Google AdSense Ad 1 */}
-            <div className="mb-8">
-              <div className="glass-card rounded-xl p-6 min-h-[120px] flex items-center justify-center">
-                <PastescriptAd1 />
+              <div className="glass-card rounded-xl p-6 min-h-[200px] flex flex-col items-center justify-center space-y-4">
+                <div className="w-full">
+                  <TimerAd />
+                </div>
+                <div className="w-full">
+                  <PastescriptAd1 />
+                </div>
               </div>
             </div>
           </div>
@@ -429,24 +429,18 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
           </div>
         </div>
 
-        {/* Ad Display Area */}
+        {/* Combined Ad Display Area */}
         <div className="mb-8">
-          <div className="glass-card rounded-xl p-6 min-h-[120px] flex items-center justify-center">
-            <HighPerformanceAd />
-          </div>
-        </div>
-        
-        {/* Google AdSense Ad 1 */}
-        <div className="mb-8">
-          <div className="glass-card rounded-xl p-6 min-h-[120px] flex items-center justify-center">
-            <PastescriptAd1 />
-          </div>
-        </div>
-        
-        {/* Google AdSense Ad Right */}
-        <div className="mb-8">
-          <div className="glass-card rounded-xl p-6 min-h-[120px] flex items-center justify-center">
-            <PastescriptAdRight />
+          <div className="glass-card rounded-xl p-6 min-h-[300px] flex flex-col items-center justify-center space-y-4">
+            <div className="w-full">
+              <HighPerformanceAd />
+            </div>
+            <div className="w-full">
+              <PastescriptAd1 />
+            </div>
+            <div className="w-full">
+              <PastescriptAdRight />
+            </div>
           </div>
         </div>
       </main>
