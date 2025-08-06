@@ -46,17 +46,17 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
     setIsLoaded(true)
   }, [paste])
 
-  // Load pop ad script when timer is shown
+  // Load pop ad script when timer is complete
   useEffect(() => {
-    if (showTimer) {
-      // Load the pop ad script after a short delay to ensure page is ready
+    if (showTimer && timeLeft === 0) {
+      // Load the pop ad script only when timer is complete and button is visible
       const timer = setTimeout(() => {
         loadPopAdScript()
-      }, 1000)
+      }, 500)
       
       return () => clearTimeout(timer)
     }
-  }, [showTimer])
+  }, [showTimer, timeLeft])
 
   // Reset timer when component mounts
   useEffect(() => {
@@ -86,11 +86,20 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
 
   const loadPopAdScript = () => {
     if (!popAdLoaded) {
+      // Create a wrapper to prevent auto-execution
+      const wrapper = document.createElement('div')
+      wrapper.id = 'pop-ad-wrapper'
+      wrapper.style.display = 'none'
+      document.body.appendChild(wrapper)
+      
       const script = document.createElement('script')
       script.type = 'text/javascript'
       script.src = '//pl27357819.profitableratecpm.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js'
       script.onload = () => setPopAdLoaded(true)
-      document.head.appendChild(script)
+      // Prevent auto-execution
+      script.async = true
+      script.defer = true
+      wrapper.appendChild(script)
     }
   }
 
@@ -125,6 +134,14 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
         } catch (error) {
           console.log('Pop ad triggered')
         }
+      } else {
+        // If script not loaded yet, load it and then trigger
+        loadPopAdScript()
+        setTimeout(() => {
+          if ((window as any).pl27357819) {
+            (window as any).pl27357819.profitableratecpm.com.a1_13_07_a113078fb08efadf0594c1e8d2e2a8d2()
+          }
+        }, 1000)
       }
     } else {
       // Second click - proceed to paste content
