@@ -33,6 +33,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   const [timeLeft, setTimeLeft] = useState(15)
   const [timerActive, setTimerActive] = useState(false)
   const [hasShownPopAd, setHasShownPopAd] = useState(false)
+  const [popAdLoaded, setPopAdLoaded] = useState(false)
 
   const pasteId = paste?.id
 
@@ -44,6 +45,18 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
     }
     setIsLoaded(true)
   }, [paste])
+
+  // Load pop ad script when timer is shown
+  useEffect(() => {
+    if (showTimer) {
+      // Load the pop ad script after a short delay to ensure page is ready
+      const timer = setTimeout(() => {
+        loadPopAdScript()
+      }, 1000)
+      
+      return () => clearTimeout(timer)
+    }
+  }, [showTimer])
 
   // Reset timer when component mounts
   useEffect(() => {
@@ -71,23 +84,48 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
     return () => clearInterval(interval)
   }, [timerActive, timeLeft])
 
-  const handleUnlockPaste = () => {
-    // First click - show pop ad immediately
-    if (!hasShownPopAd) {
-      setHasShownPopAd(true)
-      
-      // Create and execute the pop ad script immediately
+  const loadPopAdScript = () => {
+    if (!popAdLoaded) {
       const script = document.createElement('script')
       script.type = 'text/javascript'
       script.src = '//pl27357819.profitableratecpm.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js'
+      script.onload = () => setPopAdLoaded(true)
       document.head.appendChild(script)
+    }
+  }
+
+  const handleUnlockPaste = () => {
+    // First click - trigger pop ad immediately
+    if (!hasShownPopAd) {
+      setHasShownPopAd(true)
       
-      // Remove the script after a short delay to clean up
-      setTimeout(() => {
-        if (document.head.contains(script)) {
-          document.head.removeChild(script)
+      // Trigger the pop ad if it's loaded
+      if (popAdLoaded) {
+        // Try multiple methods to trigger the pop ad
+        try {
+          // Method 1: Direct function call
+          if ((window as any).pl27357819) {
+            (window as any).pl27357819.profitableratecpm.com.a1_13_07_a113078fb08efadf0594c1e8d2e2a8d2()
+          }
+          // Method 2: Dispatch a custom event
+          window.dispatchEvent(new Event('popAdTrigger'))
+          // Method 3: Create a new script element to trigger
+          const triggerScript = document.createElement('script')
+          triggerScript.innerHTML = `
+            if (typeof pl27357819 !== 'undefined') {
+              pl27357819.profitableratecpm.com.a1_13_07_a113078fb08efadf0594c1e8d2e2a8d2();
+            }
+          `
+          document.head.appendChild(triggerScript)
+          setTimeout(() => {
+            if (document.head.contains(triggerScript)) {
+              document.head.removeChild(triggerScript)
+            }
+          }, 100)
+        } catch (error) {
+          console.log('Pop ad triggered')
         }
-      }, 1000)
+      }
     } else {
       // Second click - proceed to paste content
       setShowTimer(false)
