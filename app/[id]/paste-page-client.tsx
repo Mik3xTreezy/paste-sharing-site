@@ -255,33 +255,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
             </div>
             
             <div className="flex items-center space-x-2 sm:space-x-3">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={copyToClipboard}
-                className="btn-gradient-secondary"
-              >
-                {copied ? (
-                  <>
-                    <CheckCircle className="w-4 h-4 mr-1 sm:mr-2" />
-                    <span className="hidden sm:inline">Copied!</span>
-                  </>
-                ) : (
-                  <>
-                    <CopyIcon size={16} className="mr-1 sm:mr-2" />
-                    <span className="hidden sm:inline">Copy</span>
-                  </>
-                )}
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={copyUrl}
-                className="btn-gradient-secondary"
-              >
-                <Share2 className="w-4 h-4 mr-1 sm:mr-2" />
-                <span className="hidden sm:inline">Share</span>
-              </Button>
+              {/* Empty div to maintain layout balance */}
             </div>
           </div>
         </div>
@@ -326,6 +300,43 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
             <pre className="text-xs sm:text-sm text-white whitespace-pre-wrap font-mono leading-relaxed overflow-x-auto">
               {paste.content}
             </pre>
+            
+            {/* Action Bar - Copy and Share buttons */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-6 sm:pt-8 mt-6 sm:mt-8 border-t border-white/5 space-y-4 sm:space-y-0">
+              <div className="flex items-center justify-center sm:justify-start space-x-4 sm:space-x-8">
+                {/* Left side actions can be added here in the future */}
+              </div>
+
+              <div className="flex items-center justify-center sm:justify-end space-x-3">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={copyToClipboard}
+                  className="btn-gradient-secondary"
+                >
+                  {copied ? (
+                    <>
+                      <CheckCircle className="w-4 h-4 mr-1 sm:mr-2" />
+                      <span className="hidden sm:inline">Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <CopyIcon size={16} className="mr-1 sm:mr-2" />
+                      <span className="hidden sm:inline">Copy</span>
+                    </>
+                  )}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={copyUrl}
+                  className="btn-gradient-secondary"
+                >
+                  <Share2 className="w-4 h-4 mr-1 sm:mr-2" />
+                  <span className="hidden sm:inline">Share</span>
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
 
