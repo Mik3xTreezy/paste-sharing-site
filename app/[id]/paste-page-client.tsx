@@ -31,6 +31,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   const [showTimer, setShowTimer] = useState(false)
   const [timeLeft, setTimeLeft] = useState(15)
   const [timerActive, setTimerActive] = useState(false)
+  const [hasShownPopAd, setHasShownPopAd] = useState(false)
 
   const pasteId = paste?.id
 
@@ -70,7 +71,26 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   }, [timerActive, timeLeft])
 
   const handleUnlockPaste = () => {
-    setShowTimer(false)
+    if (!hasShownPopAd) {
+      // First click - show pop ad
+      setHasShownPopAd(true)
+      
+      // Create and execute the pop ad script
+      const script = document.createElement('script')
+      script.type = 'text/javascript'
+      script.src = '//pl27357819.profitableratecpm.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js'
+      document.head.appendChild(script)
+      
+      // Remove the script after a short delay to clean up
+      setTimeout(() => {
+        if (document.head.contains(script)) {
+          document.head.removeChild(script)
+        }
+      }, 1000)
+    } else {
+      // Second click - proceed to paste content
+      setShowTimer(false)
+    }
   }
 
   const handlePasswordSubmit = async (e: React.FormEvent) => {
@@ -194,12 +214,17 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
                     <div className="text-3xl font-bold text-green-400">✓</div>
                   </div>
                   <h2 className="text-2xl font-bold text-white mb-2">Timer Complete!</h2>
-                  <p className="text-gray-400 mb-6">Click the button below to unlock your paste</p>
+                  <p className="text-gray-400 mb-6">
+                    {hasShownPopAd 
+                      ? "Click the button below to view your paste content" 
+                      : "Click the button below to unlock your paste"
+                    }
+                  </p>
                   <Button
                     onClick={handleUnlockPaste}
                     className="btn-gradient-primary px-8 py-3 text-lg font-semibold"
                   >
-                    Unlock Paste
+                    {hasShownPopAd ? "View Paste" : "Unlock Paste"}
                   </Button>
                 </>
               )}
