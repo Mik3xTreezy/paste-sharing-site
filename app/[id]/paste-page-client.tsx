@@ -9,6 +9,7 @@ import { useSession } from 'next-auth/react'
 import { getPaste } from '@/hooks/use-paste'
 import CopyIcon from '@/components/copy-icon'
 import HighPerformanceAd from '@/components/high-performance-ad'
+import TimerAd from '@/components/timer-ad'
 
 
 interface PastePageClientProps {
@@ -285,12 +286,10 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
               )}
             </div>
             
-            {/* Ad Display Area - Removed to prevent banner ad during timer */}
+            {/* Ad Display Area */}
             <div className="mb-8">
               <div className="glass-card rounded-xl p-6 min-h-[120px] flex items-center justify-center">
-                <div className="text-center text-gray-400">
-                  <div className="text-sm">Please wait for timer to complete</div>
-                </div>
+                <TimerAd />
               </div>
             </div>
           </div>
