@@ -9,6 +9,7 @@ import { useSession } from 'next-auth/react'
 import { getPaste } from '@/hooks/use-paste'
 import CopyIcon from '@/components/copy-icon'
 import HighPerformanceAd from '@/components/high-performance-ad'
+import TimerAd from '@/components/timer-ad'
 
 
 interface PastePageClientProps {
@@ -233,7 +234,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
             {/* Ad Display Area */}
             <div className="mb-8">
               <div className="glass-card rounded-xl p-6 min-h-[120px] flex items-center justify-center">
-                <HighPerformanceAd />
+                <TimerAd />
               </div>
             </div>
           </div>
