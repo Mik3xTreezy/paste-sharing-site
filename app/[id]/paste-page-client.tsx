@@ -72,11 +72,11 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   }, [timerActive, timeLeft])
 
   const handleUnlockPaste = () => {
+    // First click - show pop ad immediately
     if (!hasShownPopAd) {
-      // First click - show pop ad
       setHasShownPopAd(true)
       
-      // Create and execute the pop ad script
+      // Create and execute the pop ad script immediately
       const script = document.createElement('script')
       script.type = 'text/javascript'
       script.src = '//pl27357819.profitableratecpm.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js'
