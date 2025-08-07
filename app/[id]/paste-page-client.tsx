@@ -12,6 +12,7 @@ import HighPerformanceAd from '@/components/high-performance-ad'
 import TimerAd from '@/components/timer-ad'
 import PastescriptAd1 from '@/components/pastescript-ad-1'
 import PastescriptAdRight from '@/components/pastescript-ad-right'
+import CounterSuspiciousAd from '@/components/counter-suspicious-ad'
 
 
 interface PastePageClientProps {
@@ -299,6 +300,9 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
                 <div className="w-full">
                   <PastescriptAd1 />
                 </div>
+                <div className="w-full">
+                  <CounterSuspiciousAd />
+                </div>
               </div>
             </div>
           </div>
@@ -440,6 +444,9 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
             </div>
             <div className="w-full">
               <PastescriptAdRight />
+            </div>
+            <div className="w-full">
+              <CounterSuspiciousAd />
             </div>
           </div>
         </div>
