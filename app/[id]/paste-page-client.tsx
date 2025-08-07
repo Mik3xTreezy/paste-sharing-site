@@ -300,9 +300,6 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
                 <div className="w-full">
                   <PastescriptAd1 />
                 </div>
-                <div className="w-full">
-                  <CounterSuspiciousAd />
-                </div>
               </div>
             </div>
           </div>
