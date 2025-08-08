@@ -13,6 +13,7 @@ import TimerAd from '@/components/timer-ad'
 import PastescriptAd1 from '@/components/pastescript-ad-1'
 import PastescriptAdRight from '@/components/pastescript-ad-right'
 import CounterSuspiciousAd from '@/components/counter-suspicious-ad'
+import PopupAd from '@/components/popup-ad'
 
 
 interface PastePageClientProps {
@@ -177,6 +178,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   if (showTimer) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
+        <PopupAd />
         <div className="max-w-4xl w-full mx-auto p-6">
           <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
             <div className="text-center mb-8">
