@@ -26,6 +26,19 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
+      <head>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-228Y2037BZ"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-228Y2037BZ');
+            `,
+          }}
+        />
+      </head>
       <body className={geist.className} suppressHydrationWarning={true}>
         <AuthProvider>
           {children}
