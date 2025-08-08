@@ -35,8 +35,6 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   const [showTimer, setShowTimer] = useState(false)
   const [timeLeft, setTimeLeft] = useState(15)
   const [timerActive, setTimerActive] = useState(false)
-  const [hasShownPopAd, setHasShownPopAd] = useState(false)
-  const [popAdLoaded, setPopAdLoaded] = useState(false)
 
   const pasteId = paste?.id
 
@@ -49,17 +47,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
     setIsLoaded(true)
   }, [paste])
 
-  // Load pop ad script when timer is complete
-  useEffect(() => {
-    if (showTimer && timeLeft === 0) {
-      // Load the pop ad script only when timer is complete and button is visible
-      const timer = setTimeout(() => {
-        loadPopAdScript()
-      }, 500)
-      
-      return () => clearTimeout(timer)
-    }
-  }, [showTimer, timeLeft])
+
 
   // Reset timer when component mounts
   useEffect(() => {
@@ -87,71 +75,11 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
     return () => clearInterval(interval)
   }, [timerActive, timeLeft])
 
-  const loadPopAdScript = () => {
-    if (!popAdLoaded) {
-      // Create a wrapper to prevent auto-execution
-      const wrapper = document.createElement('div')
-      wrapper.id = 'pop-ad-wrapper'
-      wrapper.style.display = 'none'
-      wrapper.style.position = 'absolute'
-      wrapper.style.left = '-9999px'
-      document.body.appendChild(wrapper)
-      
-      const script = document.createElement('script')
-      script.type = 'text/javascript'
-      script.src = '//pl27357819.profitableratecpm.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js'
-      script.onload = () => setPopAdLoaded(true)
-      // Prevent auto-execution
-      script.async = true
-      script.defer = true
-      wrapper.appendChild(script)
-    }
-  }
+
 
   const handleUnlockPaste = () => {
-    // First click - trigger pop ad immediately
-    if (!hasShownPopAd) {
-      setHasShownPopAd(true)
-      
-      // Trigger the pop ad if it's loaded
-      if (popAdLoaded) {
-        // Try multiple methods to trigger the pop ad
-        try {
-          // Method 1: Direct function call
-          if ((window as any).pl27357819) {
-            (window as any).pl27357819.profitableratecpm.com.a1_13_07_a113078fb08efadf0594c1e8d2e2a8d2()
-          }
-          // Method 2: Dispatch a custom event
-          window.dispatchEvent(new Event('popAdTrigger'))
-          // Method 3: Create a new script element to trigger
-          const triggerScript = document.createElement('script')
-          triggerScript.innerHTML = `
-            if (typeof pl27357819 !== 'undefined') {
-              pl27357819.profitableratecpm.com.a1_13_07_a113078fb08efadf0594c1e8d2e2a8d2();
-            }
-          `
-          document.head.appendChild(triggerScript)
-          setTimeout(() => {
-            if (document.head.contains(triggerScript)) {
-              document.head.removeChild(triggerScript)
-            }
-          }, 100)
-        } catch (error) {
-          console.log('Pop ad triggered')
-        }
-      } else {
-        // If script not loaded yet, load it and then trigger
-        loadPopAdScript()
-        setTimeout(() => {
-          if ((window as any).pl27357819) {
-            (window as any).pl27357819.profitableratecpm.com.a1_13_07_a113078fb08efadf0594c1e8d2e2a8d2()
-          }
-        }, 1000)
-      }
-    } else {
-      // Second click - proceed to paste content
-      setShowTimer(false)
-    }
+    // Simply hide the timer and show the paste content
+    setShowTimer(false)
   }
 
   const handlePasswordSubmit = async (e: React.FormEvent) => {
@@ -276,16 +204,13 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
                   </div>
                   <h2 className="text-2xl font-bold text-white mb-2">Timer Complete!</h2>
                   <p className="text-gray-400 mb-6">
-                    {hasShownPopAd 
-                      ? "Click the button below to view your paste content" 
-                      : "Click the button below to unlock your paste"
-                    }
+                    Click the button below to view your paste content
                   </p>
                   <Button
                     onClick={handleUnlockPaste}
                     className="btn-gradient-primary px-8 py-3 text-lg font-semibold"
                   >
-                    {hasShownPopAd ? "View Paste" : "Unlock Paste"}
+                    View Paste
                   </Button>
                 </>
               )}
