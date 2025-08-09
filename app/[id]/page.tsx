@@ -24,26 +24,63 @@ async function convertPasteFromSource(pasteId: string, sourceUrl: string) {
     let title = `Converted from ${new URL(sourceUrl).hostname}`
 
     try {
-      // Try different common raw URL patterns
-      const rawUrls = [
-        sourceUrl + '/raw',
-        sourceUrl.replace(/\/([^\/]+)$/, '/raw/$1'),
-        sourceUrl + '?raw=1',
-      ]
+      // Try different common raw URL patterns based on the service
+      const hostname = new URL(sourceUrl).hostname.toLowerCase()
+      let rawUrls: string[] = []
+
+      if (hostname.includes('pastebin.com')) {
+        rawUrls = [
+          sourceUrl.replace('//', '//pastebin.com/raw/'),
+          sourceUrl + '/raw',
+          sourceUrl.replace('pastebin.com/', 'pastebin.com/raw/'),
+        ]
+      } else if (hostname.includes('hastebin.com')) {
+        rawUrls = [
+          sourceUrl.replace('hastebin.com/', 'hastebin.com/raw/'),
+          sourceUrl + '/raw',
+        ]
+      } else if (hostname.includes('dpaste.com')) {
+        rawUrls = [
+          sourceUrl + '.txt',
+          sourceUrl + '/raw',
+        ]
+      } else if (hostname.includes('gist.github.com')) {
+        rawUrls = [
+          sourceUrl + '/raw',
+          sourceUrl.replace('gist.github.com', 'gist.githubusercontent.com') + '/raw',
+        ]
+      } else {
+        // Generic fallbacks
+        rawUrls = [
+          sourceUrl + '/raw',
+          sourceUrl.replace(/\/([^\/]+)$/, '/raw/$1'),
+          sourceUrl + '?raw=1',
+          sourceUrl + '.txt',
+        ]
+      }
 
       let fetchedContent = false
       for (const rawUrl of rawUrls) {
         try {
+          const controller = new AbortController()
+          const timeoutId = setTimeout(() => controller.abort(), 10000)
+          
           const response = await fetch(rawUrl, {
             headers: {
               'User-Agent': 'PasteScript-Converter/1.0',
             },
+            signal: controller.signal,
           })
+          
+          clearTimeout(timeoutId)
 
           if (response.ok) {
             content = await response.text()
-            fetchedContent = true
-            break
+            // Basic validation - ensure we got actual content, not HTML error page
+            if (content && content.length > 0 && !content.includes('<html>') && !content.includes('<!DOCTYPE')) {
+              fetchedContent = true
+              break
+            }
           }
         } catch (e) {
           // Continue to next URL

@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
 
 function generatePasteScript(selectionType: 'include' | 'exclude', domains: string[]): string {
   // Get the current domain (will be replaced with actual domain in production)
-  const baseUrl = process.env.NEXTAUTH_URL || 'https://your-pastescript-domain.com'
+  const baseUrl = process.env.NEXTAUTH_URL || process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000'
 
   const script = `
 (function() {
@@ -110,18 +110,33 @@ function generatePasteScript(selectionType: 'include' | 'exclude', domains: stri
     }
 
     function extractPasteId(url) {
-        // Common paste URL patterns
+        // Common paste URL patterns for popular paste services
         var patterns = [
-            /\\/([a-zA-Z0-9]+)\\/?$/,  // pastebin.com/ABC123
+            // Pastebin patterns
+            /pastebin\\.com\\/([a-zA-Z0-9]+)\\/?$/,
+            /pastebin\\.com\\/raw\\/([a-zA-Z0-9]+)/,
+            
+            // Hastebin patterns  
+            /hastebin\\.com\\/([a-zA-Z0-9]+)/,
+            /hastebin\\.com\\/raw\\/([a-zA-Z0-9]+)/,
+            
+            // GitHub Gist patterns
+            /gist\\.github\\.com\\/[^/]+\\/([a-f0-9]+)/,
+            
+            // Dpaste patterns
+            /dpaste\\.com\\/([a-zA-Z0-9]+)/,
+            
+            // Generic paste patterns
             /\\/paste\\/([a-zA-Z0-9]+)/,  // some-site.com/paste/ABC123
             /\\/p\\/([a-zA-Z0-9]+)/,      // some-site.com/p/ABC123
             /\\/([a-zA-Z0-9]+)\\.txt$/,   // some-site.com/ABC123.txt
+            /\\/([a-zA-Z0-9]{6,})\\/?$/,  // Generic: at least 6 chars at end of URL
             /id=([a-zA-Z0-9]+)/,          // some-site.com?id=ABC123
         ];
 
         for (var i = 0; i < patterns.length; i++) {
             var match = url.match(patterns[i]);
-            if (match && match[1]) {
+            if (match && match[1] && match[1].length >= 4) { // Ensure minimum length
                 return match[1];
             }
         }

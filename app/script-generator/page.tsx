@@ -127,17 +127,19 @@ export default function ScriptGeneratorPage() {
                   Domains
                 </label>
                 <Textarea
-                  placeholder="Add each domain into a new line. Also wildcard domains are allowed. Please check the following example:&#10;pastebin.com&#10;*.hastebin.com&#10;dpaste.com"
+                  placeholder="pastebin.com&#10;*.hastebin.com&#10;dpaste.com&#10;gist.github.com&#10;paste.ubuntu.com"
                   value={domains}
                   onChange={(e) => setDomains(e.target.value)}
                   className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 min-h-[120px]"
                 />
                 <div className="mt-2 text-sm text-gray-400">
-                  <p>Add each domain into a new domain. Also wildcard domains are allowed. Please check the following example:</p>
+                  <p>Add each domain into a new line. Wildcard domains are supported. Common paste services:</p>
                   <div className="mt-1 font-mono text-xs bg-gray-800 p-2 rounded">
                     pastebin.com<br />
                     *.hastebin.com<br />
-                    dpaste.com
+                    dpaste.com<br />
+                    gist.github.com<br />
+                    paste.ubuntu.com
                   </div>
                 </div>
               </div>
