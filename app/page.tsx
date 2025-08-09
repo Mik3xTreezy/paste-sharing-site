@@ -94,8 +94,8 @@ export default function HomePage() {
                   My Pastes
                 </a>
               )}
-              <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm font-normal nav-link">
-                Recent
+              <a href="/script-generator" className="text-gray-400 hover:text-white transition-colors text-sm font-normal nav-link">
+                Script Generator
               </a>
               {session ? (
                 <div className="flex items-center space-x-3">
