@@ -8,8 +8,8 @@ export default function PopupAd() {
   useEffect(() => {
     // Create and append the popup ad script
     const script = document.createElement('script')
-    script.type = 'text/javascript'
-    script.src = '//countersuspiciousdiverse.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js'
+    script.setAttribute('data-cfasync', 'false')
+    script.src = '//d1pk6uu6wqrpce.cloudfront.net/?uukpd=1206335'
     
     // Store reference for cleanup
     scriptRef.current = script
