@@ -36,6 +36,10 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   const [showTimer, setShowTimer] = useState(false)
   const [timeLeft, setTimeLeft] = useState(15)
   const [timerActive, setTimerActive] = useState(false)
+  
+  // Popup ad states
+  const [showPopupAd, setShowPopupAd] = useState(false)
+  const [showPasteContent, setShowPasteContent] = useState(false)
 
   const pasteId = paste?.id
 
@@ -79,8 +83,14 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
 
 
   const handleUnlockPaste = () => {
-    // Simply hide the timer and show the paste content
-    setShowTimer(false)
+    if (!showPasteContent) {
+      // First click: trigger popup ad
+      setShowPopupAd(true)
+      setShowPasteContent(true)
+    } else {
+      // Second click: show paste content
+      setShowTimer(false)
+    }
   }
 
   const handlePasswordSubmit = async (e: React.FormEvent) => {
@@ -206,13 +216,16 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
                   </div>
                   <h2 className="text-2xl font-bold text-white mb-2">Timer Complete!</h2>
                   <p className="text-gray-400 mb-6">
-                    Click the button below to view your paste content
+                    {showPasteContent 
+                      ? 'Click the button below to view your paste content' 
+                      : 'Click continue to proceed to view your paste content'
+                    }
                   </p>
                   <Button
                     onClick={handleUnlockPaste}
                     className="btn-gradient-primary px-8 py-3 text-lg font-semibold"
                   >
-                    View Paste
+                    {showPasteContent ? 'View Paste' : 'Continue'}
                   </Button>
                 </>
               )}
@@ -392,6 +405,15 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
           </div>
         </div>
       </footer>
+      
+      {/* Popup Ad Component */}
+      <PopupAd 
+        trigger={showPopupAd} 
+        onTriggered={() => {
+          // Reset the trigger after a short delay
+          setTimeout(() => setShowPopupAd(false), 100)
+        }}
+      />
     </div>
   )
 } 
