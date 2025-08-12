@@ -81,6 +81,17 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   }, [timerActive, timeLeft])
 
 
+  // Preload/trigger popup when unlock overlay becomes visible
+  useEffect(() => {
+    if (showUnlockOverlay) {
+      setShowPopupAd(true)
+    } else {
+      // reset trigger low so next overlay show can retrigger
+      setShowPopupAd(false)
+    }
+  }, [showUnlockOverlay])
+
+
 
   const handleUnlockPaste = () => {
     // Hide the timer and show the paste content with overlay
