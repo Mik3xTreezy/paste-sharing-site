@@ -323,59 +323,46 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
            <div className="absolute -bottom-6 -left-6 w-40 h-40 bg-gradient-radial from-blue-500/6 via-purple-500/3 to-transparent rounded-full blur-3xl opacity-60"></div>
            <div className="absolute -bottom-6 -right-6 w-40 h-40 bg-gradient-radial from-purple-500/6 via-blue-500/3 to-transparent rounded-full blur-3xl opacity-60"></div>
 
-                       <div className={`relative glass-card-strong rounded-3xl p-4 sm:p-8 transition-all duration-300 ${showUnlockOverlay && !showTimer ? 'blur-md' : ''}`}>
-              {/* Simple Blurred Overlay with Unlock Button */}
-              {showUnlockOverlay && !showTimer && (
-                <div className="absolute inset-0 bg-black/80 backdrop-blur-lg rounded-3xl flex items-center justify-center z-20">
-                  <div className="bg-black/50 border border-white/20 rounded-xl p-8 max-w-sm mx-4">
-                    <h3 className="text-xl font-bold text-white mb-4 text-center">Unlock Paste</h3>
-                    <Button
-                      onClick={handleUnlockContent}
-                      className="w-full btn-gradient-primary py-3 text-lg font-semibold"
-                    >
-                      Unlock Paste
-                    </Button>
-                  </div>
-                </div>
-              )}
+            <div className="relative glass-card-strong rounded-3xl p-4 sm:p-8 transition-all duration-300">
               <pre className="text-xs sm:text-sm text-white whitespace-pre-wrap font-mono leading-relaxed overflow-x-auto">
                 {paste.content}
               </pre>
-            
-                         {/* Action Bar - Copy and Share buttons */}
-             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-6 sm:pt-8 mt-6 sm:mt-8 border-t border-white/5 space-y-4 sm:space-y-0">
-              <div className="flex items-center justify-center sm:justify-start space-x-4 sm:space-x-8">
-                {/* Left side actions can be added here in the future */}
-              </div>
+              
+              {/* Action Bar - Copy and Share buttons */}
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-6 sm:pt-8 mt-6 sm:mt-8 border-t border-white/5 space-y-4 sm:space-y-0">
+                <div className="flex items-center justify-center sm:justify-start space-x-4 sm:space-x-8">
+                  {/* Left side actions can be added here in the future */}
+                </div>
 
-              <div className="flex items-center justify-center sm:justify-end space-x-3">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={copyToClipboard}
-                  className="btn-gradient-secondary"
-                >
-                  {copied ? (
-                    <>
-                      <CheckCircle className="w-4 h-4 mr-1 sm:mr-2" />
-                      <span className="hidden sm:inline">Copied!</span>
-                    </>
-                  ) : (
-                    <>
-                      <CopyIcon size={16} className="mr-1 sm:mr-2" />
-                      <span className="hidden sm:inline">Copy</span>
-                    </>
-                  )}
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={copyUrl}
-                  className="btn-gradient-secondary"
-                >
-                  <Share2 className="w-4 h-4 mr-1 sm:mr-2" />
-                  <span className="hidden sm:inline">Share</span>
-                </Button>
+                <div className="flex items-center justify-center sm:justify-end space-x-3">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={copyToClipboard}
+                    className="btn-gradient-secondary"
+                  >
+                    {copied ? (
+                      <>
+                        <CheckCircle className="w-4 h-4 mr-1 sm:mr-2" />
+                        <span className="hidden sm:inline">Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <CopyIcon size={16} className="mr-1 sm:mr-2" />
+                        <span className="hidden sm:inline">Copy</span>
+                      </>
+                    )}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={copyUrl}
+                    className="btn-gradient-secondary"
+                  >
+                    <Share2 className="w-4 h-4 mr-1 sm:mr-2" />
+                    <span className="hidden sm:inline">Share</span>
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
@@ -416,12 +403,26 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
           </div>
         </div>
       </footer>
-      
+
+      {/* Full-screen Unlock Overlay */}
+      {showUnlockOverlay && !showTimer && (
+        <div className="fixed inset-0 z-[1000] bg-black/70 backdrop-blur-lg flex items-center justify-center">
+          <div className="bg-black/60 border border-white/10 rounded-2xl p-6 w-[90%] max-w-sm shadow-2xl">
+            <h3 className="text-center text-xl font-semibold text-white mb-4">Unlock Paste</h3>
+            <Button
+              onClick={handleUnlockContent}
+              className="w-full btn-gradient-primary py-3 text-lg font-semibold"
+            >
+              Unlock Paste
+            </Button>
+          </div>
+        </div>
+      )}
+
       {/* Popup Ad Component */}
       <PopupAd 
         trigger={showPopupAd} 
         onTriggered={() => {
-          // Reset the trigger after a short delay
           setTimeout(() => setShowPopupAd(false), 100)
         }}
       />
