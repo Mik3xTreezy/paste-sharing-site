@@ -39,7 +39,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   
   // Popup ad states
   const [showPopupAd, setShowPopupAd] = useState(false)
-  const [showPasteContent, setShowPasteContent] = useState(false)
+  const [showUnlockOverlay, setShowUnlockOverlay] = useState(true)
 
   const pasteId = paste?.id
 
@@ -83,14 +83,14 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
 
 
   const handleUnlockPaste = () => {
-    if (!showPasteContent) {
-      // First click: trigger popup ad
-      setShowPopupAd(true)
-      setShowPasteContent(true)
-    } else {
-      // Second click: show paste content
-      setShowTimer(false)
-    }
+    // Simply hide the timer and show the paste content
+    setShowTimer(false)
+  }
+
+  const handleUnlockContent = () => {
+    // Trigger popup ad and hide overlay
+    setShowPopupAd(true)
+    setShowUnlockOverlay(false)
   }
 
   const handlePasswordSubmit = async (e: React.FormEvent) => {
@@ -188,7 +188,6 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   if (showTimer) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
-        <PopupAd />
         <div className="max-w-4xl w-full mx-auto p-6">
           <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
             <div className="text-center mb-8">
@@ -216,16 +215,13 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
                   </div>
                   <h2 className="text-2xl font-bold text-white mb-2">Timer Complete!</h2>
                   <p className="text-gray-400 mb-6">
-                    {showPasteContent 
-                      ? 'Click the button below to view your paste content' 
-                      : 'Click continue to proceed to view your paste content'
-                    }
+                    Click the button below to view your paste content
                   </p>
                   <Button
                     onClick={handleUnlockPaste}
                     className="btn-gradient-primary px-8 py-3 text-lg font-semibold"
                   >
-                    {showPasteContent ? 'View Paste' : 'Continue'}
+                    View Paste
                   </Button>
                 </>
               )}
@@ -317,16 +313,34 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
           </div>
         </div>
 
-                            {/* Paste Content */}
-        <div className="relative mb-8">
-          {/* Background Effects */}
-          <div className="absolute -inset-4 bg-gradient-to-br from-slate-900/15 via-gray-900/10 to-slate-800/15 rounded-3xl blur-3xl opacity-30"></div>
-          <div className="absolute -top-6 -left-6 w-40 h-40 bg-gradient-radial from-purple-500/8 via-blue-500/4 to-transparent rounded-full blur-3xl opacity-60"></div>
-          <div className="absolute -top-6 -right-6 w-40 h-40 bg-gradient-radial from-blue-500/8 via-purple-500/4 to-transparent rounded-full blur-3xl opacity-60"></div>
-          <div className="absolute -bottom-6 -left-6 w-40 h-40 bg-gradient-radial from-blue-500/6 via-purple-500/3 to-transparent rounded-full blur-3xl opacity-60"></div>
-          <div className="absolute -bottom-6 -right-6 w-40 h-40 bg-gradient-radial from-purple-500/6 via-blue-500/3 to-transparent rounded-full blur-3xl opacity-60"></div>
+                                                         {/* Paste Content */}
+         <div className="relative mb-8">
+           {/* Background Effects */}
+           <div className="absolute -inset-4 bg-gradient-to-br from-slate-900/15 via-gray-900/10 to-slate-800/15 rounded-3xl blur-3xl opacity-30"></div>
+           <div className="absolute -top-6 -left-6 w-40 h-40 bg-gradient-radial from-purple-500/8 via-blue-500/4 to-transparent rounded-full blur-3xl opacity-60"></div>
+           <div className="absolute -top-6 -right-6 w-40 h-40 bg-gradient-radial from-blue-500/8 via-purple-500/4 to-transparent rounded-full blur-3xl opacity-60"></div>
+           <div className="absolute -bottom-6 -left-6 w-40 h-40 bg-gradient-radial from-blue-500/6 via-purple-500/3 to-transparent rounded-full blur-3xl opacity-60"></div>
+           <div className="absolute -bottom-6 -right-6 w-40 h-40 bg-gradient-radial from-purple-500/6 via-blue-500/3 to-transparent rounded-full blur-3xl opacity-60"></div>
 
-          <div className="relative glass-card-strong rounded-3xl p-4 sm:p-8 transition-all duration-300">
+           <div className="relative glass-card-strong rounded-3xl p-4 sm:p-8 transition-all duration-300">
+             {/* Blurred Overlay with Unlock Button */}
+             {showUnlockOverlay && !showTimer && (
+               <div className="absolute inset-0 bg-black/80 backdrop-blur-sm rounded-3xl flex items-center justify-center z-10">
+                 <div className="text-center">
+                   <div className="w-20 h-20 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                     <Lock className="w-10 h-10 text-blue-500" />
+                   </div>
+                   <h3 className="text-xl font-bold text-white mb-4">Unlock Paste</h3>
+                   <p className="text-gray-400 mb-6">Click the button below to unlock this paste content</p>
+                   <Button
+                     onClick={handleUnlockContent}
+                     className="btn-gradient-primary px-8 py-3 text-lg font-semibold"
+                   >
+                     Unlock Paste
+                   </Button>
+                 </div>
+               </div>
+             )}
             <pre className="text-xs sm:text-sm text-white whitespace-pre-wrap font-mono leading-relaxed overflow-x-auto">
               {paste.content}
             </pre>
