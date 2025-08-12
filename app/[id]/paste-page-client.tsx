@@ -90,7 +90,6 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
 
   const handleUnlockContent = () => {
     // Trigger popup ad and hide overlay
-    console.log('Unlock button clicked - triggering popup')
     setShowPopupAd(true)
     setShowUnlockOverlay(false)
   }
@@ -324,31 +323,27 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
            <div className="absolute -bottom-6 -left-6 w-40 h-40 bg-gradient-radial from-blue-500/6 via-purple-500/3 to-transparent rounded-full blur-3xl opacity-60"></div>
            <div className="absolute -bottom-6 -right-6 w-40 h-40 bg-gradient-radial from-purple-500/6 via-blue-500/3 to-transparent rounded-full blur-3xl opacity-60"></div>
 
-           <div className="relative glass-card-strong rounded-3xl p-4 sm:p-8 transition-all duration-300">
-                           {/* Blurred Overlay with Unlock Button */}
+                       <div className={`relative glass-card-strong rounded-3xl p-4 sm:p-8 transition-all duration-300 ${showUnlockOverlay && !showTimer ? 'blur-md' : ''}`}>
+              {/* Simple Blurred Overlay with Unlock Button */}
               {showUnlockOverlay && !showTimer && (
-                <div className="absolute inset-0 bg-black/90 backdrop-blur-md rounded-3xl flex items-center justify-center z-20">
-                  <div className="text-center p-8">
-                    <div className="w-24 h-24 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-8">
-                      <Lock className="w-12 h-12 text-blue-400" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-white mb-4">Unlock Paste</h3>
-                    <p className="text-gray-300 mb-8 text-lg">Click the button below to unlock this paste content</p>
+                <div className="absolute inset-0 bg-black/80 backdrop-blur-lg rounded-3xl flex items-center justify-center z-20">
+                  <div className="bg-black/50 border border-white/20 rounded-xl p-8 max-w-sm mx-4">
+                    <h3 className="text-xl font-bold text-white mb-4 text-center">Unlock Paste</h3>
                     <Button
                       onClick={handleUnlockContent}
-                      className="btn-gradient-primary px-10 py-4 text-xl font-semibold hover:scale-105 transition-transform"
+                      className="w-full btn-gradient-primary py-3 text-lg font-semibold"
                     >
                       Unlock Paste
                     </Button>
                   </div>
                 </div>
               )}
-                         <pre className={`text-xs sm:text-sm text-white whitespace-pre-wrap font-mono leading-relaxed overflow-x-auto transition-all duration-300 ${showUnlockOverlay && !showTimer ? 'blur-sm' : ''}`}>
-               {paste.content}
-             </pre>
+              <pre className="text-xs sm:text-sm text-white whitespace-pre-wrap font-mono leading-relaxed overflow-x-auto">
+                {paste.content}
+              </pre>
             
                          {/* Action Bar - Copy and Share buttons */}
-             <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between pt-6 sm:pt-8 mt-6 sm:mt-8 border-t border-white/5 space-y-4 sm:space-y-0 transition-all duration-300 ${showUnlockOverlay && !showTimer ? 'blur-sm' : ''}`}>
+             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-6 sm:pt-8 mt-6 sm:mt-8 border-t border-white/5 space-y-4 sm:space-y-0">
               <div className="flex items-center justify-center sm:justify-start space-x-4 sm:space-x-8">
                 {/* Left side actions can be added here in the future */}
               </div>
