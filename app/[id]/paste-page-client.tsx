@@ -263,27 +263,17 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2 sm:space-x-3">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => router.push('/')}
-                className="text-gray-400 hover:text-white"
-              >
+              <Button variant="ghost" size="sm" onClick={() => router.push('/')} className="text-gray-400 hover:text-white">
                 <ArrowLeft className="w-4 h-4 mr-1 sm:mr-2" />
                 <span className="hidden sm:inline">Back</span>
               </Button>
               <div className="w-px h-6 bg-gray-700 hidden sm:block"></div>
               <div className="flex items-center space-x-2">
                 <Code className="w-4 h-4 text-blue-500" />
-                <span className="text-xs sm:text-sm text-gray-400">
-                  {paste.language || 'text'}
-                </span>
+                <span className="text-xs sm:text-sm text-gray-400">{paste.language || 'text'}</span>
               </div>
             </div>
-            
-            <div className="flex items-center space-x-2 sm:space-x-3">
-              {/* Empty div to maintain layout balance */}
-            </div>
+            <div className="flex items-center space-x-2 sm:space-x-3"></div>
           </div>
         </div>
       </header>
@@ -292,10 +282,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
       <main className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8 pb-20 sm:pb-24">
         {/* Paste Info */}
         <div className="mb-6 sm:mb-8">
-          {paste.title && (
-            <h1 className="text-2xl sm:text-3xl font-bold text-white mb-4">{paste.title}</h1>
-          )}
-          
+          {paste.title && <h1 className="text-2xl sm:text-3xl font-bold text-white mb-4">{paste.title}</h1>}
           <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-6 space-y-2 sm:space-y-0 text-sm text-gray-400">
             <div className="flex items-center space-x-2">
               <Calendar className="w-4 h-4" />
@@ -314,55 +301,42 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
           </div>
         </div>
 
-                                                         {/* Paste Content */}
-         <div className="relative mb-8">
-           {/* Background Effects */}
-           <div className="absolute -inset-4 bg-gradient-to-br from-slate-900/15 via-gray-900/10 to-slate-800/15 rounded-3xl blur-3xl opacity-30"></div>
-           <div className="absolute -top-6 -left-6 w-40 h-40 bg-gradient-radial from-purple-500/8 via-blue-500/4 to-transparent rounded-full blur-3xl opacity-60"></div>
-           <div className="absolute -top-6 -right-6 w-40 h-40 bg-gradient-radial from-blue-500/8 via-purple-500/4 to-transparent rounded-full blur-3xl opacity-60"></div>
-           <div className="absolute -bottom-6 -left-6 w-40 h-40 bg-gradient-radial from-blue-500/6 via-purple-500/3 to-transparent rounded-full blur-3xl opacity-60"></div>
-           <div className="absolute -bottom-6 -right-6 w-40 h-40 bg-gradient-radial from-purple-500/6 via-blue-500/3 to-transparent rounded-full blur-3xl opacity-60"></div>
+        {/* Paste Content */}
+        <div className="relative mb-8">
+          {/* Background Effects */}
+          <div className="absolute -inset-4 bg-gradient-to-br from-slate-900/15 via-gray-900/10 to-slate-800/15 rounded-3xl blur-3xl opacity-30"></div>
+          <div className="absolute -top-6 -left-6 w-40 h-40 bg-gradient-radial from-purple-500/8 via-blue-500/4 to-transparent rounded-full blur-3xl opacity-60"></div>
+          <div className="absolute -top-6 -right-6 w-40 h-40 bg-gradient-radial from-blue-500/8 via-purple-500/4 to-transparent rounded-full blur-3xl opacity-60"></div>
+          <div className="absolute -bottom-6 -left-6 w-40 h-40 bg-gradient-radial from-blue-500/6 via-purple-500/3 to-transparent rounded-full blur-3xl opacity-60"></div>
+          <div className="absolute -bottom-6 -right-6 w-40 h-40 bg-gradient-radial from-purple-500/6 via-blue-500/3 to-transparent rounded-full blur-3xl opacity-60"></div>
 
-            <div className="relative glass-card-strong rounded-3xl p-4 sm:p-8 transition-all duration-300">
-              <pre className="text-xs sm:text-sm text-white whitespace-pre-wrap font-mono leading-relaxed overflow-x-auto">
-                {paste.content}
-              </pre>
-              
-              {/* Action Bar - Copy and Share buttons */}
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-6 sm:pt-8 mt-6 sm:mt-8 border-t border-white/5 space-y-4 sm:space-y-0">
-                <div className="flex items-center justify-center sm:justify-start space-x-4 sm:space-x-8">
-                  {/* Left side actions can be added here in the future */}
-                </div>
+          <div className="relative glass-card-strong rounded-3xl p-4 sm:p-8 transition-all duration-300">
+            <pre className="text-xs sm:text-sm text-white whitespace-pre-wrap font-mono leading-relaxed overflow-x-auto">
+              {paste.content}
+            </pre>
 
-                <div className="flex items-center justify-center sm:justify-end space-x-3">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={copyToClipboard}
-                    className="btn-gradient-secondary"
-                  >
-                    {copied ? (
-                      <>
-                        <CheckCircle className="w-4 h-4 mr-1 sm:mr-2" />
-                        <span className="hidden sm:inline">Copied!</span>
-                      </>
-                    ) : (
-                      <>
-                        <CopyIcon size={16} className="mr-1 sm:mr-2" />
-                        <span className="hidden sm:inline">Copy</span>
-                      </>
-                    )}
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={copyUrl}
-                    className="btn-gradient-secondary"
-                  >
-                    <Share2 className="w-4 h-4 mr-1 sm:mr-2" />
-                    <span className="hidden sm:inline">Share</span>
-                  </Button>
-                </div>
+            {/* Action Bar - Copy and Share buttons */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-6 sm:pt-8 mt-6 sm:mt-8 border-t border-white/5 space-y-4 sm:space-y-0">
+              <div className="flex items-center justify-center sm:justify-start space-x-4 sm:space-x-8"></div>
+
+              <div className="flex items-center justify-center sm:justify-end space-x-3">
+                <Button variant="outline" size="sm" onClick={copyToClipboard} className="btn-gradient-secondary">
+                  {copied ? (
+                    <>
+                      <CheckCircle className="w-4 h-4 mr-1 sm:mr-2" />
+                      <span className="hidden sm:inline">Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <CopyIcon size={16} className="mr-1 sm:mr-2" />
+                      <span className="hidden sm:inline">Copy</span>
+                    </>
+                  )}
+                </Button>
+                <Button variant="outline" size="sm" onClick={copyUrl} className="btn-gradient-secondary">
+                  <Share2 className="w-4 h-4 mr-1 sm:mr-2" />
+                  <span className="hidden sm:inline">Share</span>
+                </Button>
               </div>
             </div>
           </div>
@@ -409,10 +383,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
         <div className="fixed inset-0 z-[1000] bg-black/70 backdrop-blur-lg flex items-center justify-center">
           <div className="bg-black/60 border border-white/10 rounded-2xl p-6 w-[90%] max-w-sm shadow-2xl">
             <h3 className="text-center text-xl font-semibold text-white mb-4">Unlock Paste</h3>
-            <Button
-              onClick={handleUnlockContent}
-              className="w-full btn-gradient-primary py-3 text-lg font-semibold"
-            >
+            <Button onClick={handleUnlockContent} className="w-full btn-gradient-primary py-3 text-lg font-semibold">
               Unlock Paste
             </Button>
           </div>
@@ -420,12 +391,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
       )}
 
       {/* Popup Ad Component */}
-      <PopupAd 
-        trigger={showPopupAd} 
-        onTriggered={() => {
-          setTimeout(() => setShowPopupAd(false), 100)
-        }}
-      />
+      <PopupAd trigger={showPopupAd} onTriggered={() => setTimeout(() => setShowPopupAd(false), 100)} />
     </div>
   )
-} 
+}
