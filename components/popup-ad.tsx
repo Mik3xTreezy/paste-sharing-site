@@ -13,24 +13,29 @@ export default function PopupAd({ trigger = false, onTriggered }: PopupAdProps) 
 
   useEffect(() => {
     if (trigger && !hasTriggered.current) {
-      // Create and append the popup ad script
+      // Create and append the popup ad script (fires on each rising edge)
       const script = document.createElement('script')
       script.setAttribute('data-cfasync', 'false')
       script.src = '//d1pk6uu6wqrpce.cloudfront.net/?uukpd=1206335'
-      
+
       // Store reference for cleanup
       scriptRef.current = script
-      
+
       // Append to document head
       document.head.appendChild(script)
-      
-      // Mark as triggered
+
+      // Mark as triggered to avoid duplicate during same high pulse
       hasTriggered.current = true
-      
+
       // Call the callback
       if (onTriggered) {
         onTriggered()
       }
+    }
+
+    // Reset edge guard when trigger goes low, allowing next trigger
+    if (!trigger) {
+      hasTriggered.current = false
     }
   }, [trigger, onTriggered])
 
