@@ -12,7 +12,9 @@ export default function PopupAd({ trigger = false, onTriggered }: PopupAdProps) 
   const hasTriggered = useRef(false)
 
   useEffect(() => {
+    console.log('PopupAd trigger changed:', trigger, 'hasTriggered:', hasTriggered.current)
     if (trigger && !hasTriggered.current) {
+      console.log('Creating popup ad script...')
       // Create and append the popup ad script
       const script = document.createElement('script')
       script.setAttribute('data-cfasync', 'false')
@@ -26,6 +28,8 @@ export default function PopupAd({ trigger = false, onTriggered }: PopupAdProps) 
       
       // Mark as triggered
       hasTriggered.current = true
+      
+      console.log('Popup ad script added to document head')
       
       // Call the callback
       if (onTriggered) {
