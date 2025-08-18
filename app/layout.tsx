@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { GeistSans } from "geist/font/sans"
 import "./globals.css"
 import AuthProvider from "@/components/session-provider"
+import AntiAdblockAdvanced from "@/components/anti-adblock-advanced"
 
 const geist = GeistSans
 
@@ -43,6 +44,16 @@ export default function RootLayout({
         <AuthProvider>
           {children}
         </AuthProvider>
+        <AntiAdblockAdvanced 
+          onAdblockDetected={() => {
+            console.log('Ad blocker detected - user experience may be affected')
+          }}
+          onAdblockNotDetected={() => {
+            console.log('No ad blocker detected - full functionality available')
+          }}
+          showWarning={true}
+          customWarningMessage="We've detected that you're using an ad blocker. Our paste sharing service relies on advertising to remain free and accessible to everyone. Please disable your ad blocker for this site to continue using our services."
+        />
       </body>
     </html>
   )
