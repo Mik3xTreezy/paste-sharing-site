@@ -53,6 +53,61 @@ export default function AdTestElements() {
         className: 'banner-ad',
         style: 'position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;',
         content: '&nbsp;'
+      },
+      // Additional aggressive test elements
+      {
+        id: 'ad-container',
+        className: 'ad-container',
+        style: 'position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;',
+        content: '&nbsp;'
+      },
+      {
+        id: 'ad-wrapper',
+        className: 'ad-wrapper',
+        style: 'position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;',
+        content: '&nbsp;'
+      },
+      {
+        id: 'ad-unit',
+        className: 'ad-unit',
+        style: 'position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;',
+        content: '&nbsp;'
+      },
+      {
+        id: 'ad-space',
+        className: 'ad-space',
+        style: 'position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;',
+        content: '&nbsp;'
+      },
+      {
+        id: 'ad-slot',
+        className: 'ad-slot',
+        style: 'position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;',
+        content: '&nbsp;'
+      },
+      {
+        id: 'ad-banner',
+        className: 'ad-banner',
+        style: 'position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;',
+        content: '&nbsp;'
+      },
+      {
+        id: 'ad-sidebar',
+        className: 'ad-sidebar',
+        style: 'position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;',
+        content: '&nbsp;'
+      },
+      {
+        id: 'ad-header',
+        className: 'ad-header',
+        style: 'position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;',
+        content: '&nbsp;'
+      },
+      {
+        id: 'ad-footer',
+        className: 'ad-footer',
+        style: 'position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;',
+        content: '&nbsp;'
       }
     ]
 
