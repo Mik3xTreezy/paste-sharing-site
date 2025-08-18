@@ -195,12 +195,12 @@ export default function ForceAdblockDetector({
     const content = document.createElement('div')
     content.style.cssText = `
       background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-      padding: 60px;
-      border-radius: 30px;
-      max-width: 800px;
+      padding: 30px;
+      border-radius: 20px;
+      max-width: 500px;
       text-align: center;
-      box-shadow: 0 40px 120px rgba(0, 0, 0, 0.8);
-      border: 3px solid #e74c3c;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+      border: 2px solid #e74c3c;
       color: white;
       animation: forceSlideIn 0.5s ease-out;
     `
@@ -240,61 +240,61 @@ export default function ForceAdblockDetector({
     content.innerHTML = `
       <div style="margin-bottom: 50px;">
         <div style="
-          width: 150px;
-          height: 150px;
+          width: 80px;
+          height: 80px;
           background: linear-gradient(45deg, #e74c3c, #c0392b);
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
-          margin: 0 auto 40px;
-          font-size: 80px;
+          margin: 0 auto 20px;
+          font-size: 40px;
           animation: forcePulse 1.5s infinite;
-          box-shadow: 0 20px 60px rgba(231, 76, 60, 0.5);
-          border: 4px solid #fff;
+          box-shadow: 0 10px 30px rgba(231, 76, 60, 0.5);
+          border: 2px solid #fff;
         ">🚫</div>
         <h2 style="
           color: #e74c3c;
-          margin: 0 0 30px 0;
-          font-size: 42px;
+          margin: 0 0 20px 0;
+          font-size: 24px;
           font-weight: bold;
-          text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
           animation: forceShake 0.6s ease-in-out;
-        ">🚫 FORCE DETECTION: AD BLOCKER!</h2>
+        ">🚫 AD BLOCKER DETECTED!</h2>
         <p style="
           color: #ccc;
-          line-height: 1.9;
-          margin: 0 0 40px 0;
-          font-size: 22px;
+          line-height: 1.6;
+          margin: 0 0 25px 0;
+          font-size: 16px;
         ">${message}</p>
       </div>
       
       <div style="
         background: rgba(231, 76, 60, 0.15);
-        padding: 40px;
-        border-radius: 25px;
-        margin-bottom: 40px;
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 25px;
         text-align: left;
-        border: 2px solid rgba(231, 76, 60, 0.4);
+        border: 1px solid rgba(231, 76, 60, 0.4);
         animation: forceGlow 2s infinite;
       ">
         <h3 style="
           color: #e74c3c;
-          margin: 0 0 30px 0;
-          font-size: 28px;
+          margin: 0 0 15px 0;
+          font-size: 18px;
           display: flex;
           align-items: center;
-          gap: 20px;
+          gap: 10px;
         ">
-          <span style="font-size: 32px;">🔧</span>
-          IMMEDIATE ACTION REQUIRED:
+          <span style="font-size: 20px;">🔧</span>
+          How to disable:
         </h3>
         <ul style="
           color: #ccc;
           margin: 0;
-          padding-left: 35px;
-          line-height: 2.5;
-          font-size: 20px;
+          padding-left: 20px;
+          line-height: 1.8;
+          font-size: 14px;
         ">
           <li><strong style="color: #e74c3c;">uBlock Origin:</strong> Click the red "u" icon → "Pause uBlock" or "Allow ads on this site"</li>
           <li><strong style="color: #e74c3c;">AdBlock:</strong> Click the AdBlock icon → "Don't run on pages on this domain"</li>
@@ -303,61 +303,61 @@ export default function ForceAdblockDetector({
         </ul>
       </div>
       
-      <div style="display: flex; gap: 25px; justify-content: center; flex-wrap: wrap;">
+      <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
         <button id="force-disable-adblock-btn" style="
           background: linear-gradient(45deg, #e74c3c, #c0392b);
           color: white;
           border: none;
-          padding: 25px 50px;
-          border-radius: 20px;
+          padding: 15px 25px;
+          border-radius: 12px;
           cursor: pointer;
           font-weight: bold;
-          font-size: 20px;
+          font-size: 14px;
           transition: all 0.3s ease;
-          box-shadow: 0 12px 30px rgba(231, 76, 60, 0.5);
-          border: 3px solid #fff;
-        " onmouseover="this.style.transform='scale(1.15)'; this.style.boxShadow='0 18px 40px rgba(231, 76, 60, 0.7)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 12px 30px rgba(231, 76, 60, 0.5)'">
-          🚫 FORCE DISABLE AD BLOCKER
+          box-shadow: 0 6px 15px rgba(231, 76, 60, 0.5);
+          border: 2px solid #fff;
+        " onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 8px 20px rgba(231, 76, 60, 0.7)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 6px 15px rgba(231, 76, 60, 0.5)'">
+          🚫 DISABLE AD BLOCKER
         </button>
         <button id="force-refresh-page-btn" style="
           background: linear-gradient(45deg, #3498db, #2980b9);
           color: white;
           border: none;
-          padding: 25px 50px;
-          border-radius: 20px;
+          padding: 15px 25px;
+          border-radius: 12px;
           cursor: pointer;
           font-weight: bold;
-          font-size: 20px;
+          font-size: 14px;
           transition: all 0.3s ease;
-          box-shadow: 0 12px 30px rgba(52, 152, 219, 0.5);
-          border: 3px solid #fff;
-        " onmouseover="this.style.transform='scale(1.15)'; this.style.boxShadow='0 18px 40px rgba(52, 152, 219, 0.7)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 12px 30px rgba(52, 152, 219, 0.5)'">
-          🔄 FORCE REFRESH PAGE
+          box-shadow: 0 6px 15px rgba(52, 152, 219, 0.5);
+          border: 2px solid #fff;
+        " onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 8px 20px rgba(52, 152, 219, 0.7)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 6px 15px rgba(52, 152, 219, 0.5)'">
+          🔄 REFRESH PAGE
         </button>
         <button id="force-close-warning-btn" style="
           background: linear-gradient(45deg, #95a5a6, #7f8c8d);
           color: white;
           border: none;
-          padding: 25px 50px;
-          border-radius: 20px;
+          padding: 15px 25px;
+          border-radius: 12px;
           cursor: pointer;
           font-weight: bold;
-          font-size: 20px;
+          font-size: 14px;
           transition: all 0.3s ease;
-          box-shadow: 0 12px 30px rgba(149, 165, 166, 0.5);
-          border: 3px solid #fff;
-        " onmouseover="this.style.transform='scale(1.15)'; this.style.boxShadow='0 18px 40px rgba(149, 165, 166, 0.7)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 12px 30px rgba(149, 165, 166, 0.5)'">
+          box-shadow: 0 6px 15px rgba(149, 165, 166, 0.5);
+          border: 2px solid #fff;
+        " onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 8px 20px rgba(149, 165, 166, 0.7)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 6px 15px rgba(149, 165, 166, 0.5)'">
           ❌ CLOSE
         </button>
       </div>
       
       <p style="
         color: #888;
-        font-size: 18px;
-        margin: 40px 0 0 0;
-        line-height: 1.7;
+        font-size: 12px;
+        margin: 20px 0 0 0;
+        line-height: 1.5;
       ">
-        💡 <strong>CRITICAL:</strong> We rely on ads to keep this service free. Thank you for your support!
+        💡 <strong>Important:</strong> We rely on ads to keep this service free.
       </p>
     `
 

@@ -110,24 +110,24 @@ export default function RootLayout({
                     modal.id = 'force-script-modal';
                     modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.99);z-index:9999999;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif;';
                     
-                    modal.innerHTML = \`
-                      <div style="background:linear-gradient(135deg,#1a1a1a 0%,#2d2d2d 100%);padding:50px;border-radius:25px;max-width:700px;text-align:center;box-shadow:0 30px 100px rgba(0,0,0,0.8);border:3px solid #e74c3c;color:white;">
-                        <div style="width:120px;height:120px;background:linear-gradient(45deg,#e74c3c,#c0392b);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 30px;font-size:60px;animation:pulse 2s infinite;">🚫</div>
-                        <h2 style="color:#e74c3c;margin:0 0 25px 0;font-size:36px;font-weight:bold;">🚫 FORCE SCRIPT: AD BLOCKER DETECTED!</h2>
-                        <p style="color:#ccc;line-height:1.8;margin:0 0 30px 0;font-size:20px;">We've detected that you're using an ad blocker (uBlock Origin). Please disable it to continue.</p>
-                        <div style="background:rgba(231,76,60,0.1);padding:25px;border-radius:15px;margin-bottom:30px;text-align:left;border:1px solid rgba(231,76,60,0.3);">
-                          <h3 style="color:#e74c3c;margin:0 0 20px 0;font-size:24px;">🔧 How to disable:</h3>
-                          <ul style="color:#ccc;margin:0;padding-left:25px;line-height:2;">
-                            <li><strong style="color:#e74c3c;">uBlock Origin:</strong> Click the red "u" icon → "Pause uBlock" or "Allow ads on this site"</li>
-                            <li><strong style="color:#e74c3c;">AdBlock:</strong> Click the AdBlock icon → "Don't run on pages on this domain"</li>
-                          </ul>
-                        </div>
-                        <div style="display:flex;gap:20px;justify-content:center;">
-                          <button onclick="window.location.reload()" style="background:linear-gradient(45deg,#e74c3c,#c0392b);color:white;border:none;padding:20px 40px;border-radius:15px;cursor:pointer;font-weight:bold;font-size:18px;">🔄 REFRESH PAGE</button>
-                          <button onclick="this.parentElement.parentElement.parentElement.remove()" style="background:linear-gradient(45deg,#95a5a6,#7f8c8d);color:white;border:none;padding:20px 40px;border-radius:15px;cursor:pointer;font-weight:bold;font-size:18px;">❌ CLOSE</button>
-                        </div>
-                      </div>
-                    \`;
+                                         modal.innerHTML = \`
+                       <div style="background:linear-gradient(135deg,#1a1a1a 0%,#2d2d2d 100%);padding:25px;border-radius:15px;max-width:450px;text-align:center;box-shadow:0 15px 50px rgba(0,0,0,0.8);border:2px solid #e74c3c;color:white;">
+                         <div style="width:60px;height:60px;background:linear-gradient(45deg,#e74c3c,#c0392b);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 15px;font-size:30px;animation:pulse 2s infinite;">🚫</div>
+                         <h2 style="color:#e74c3c;margin:0 0 15px 0;font-size:20px;font-weight:bold;">🚫 AD BLOCKER DETECTED!</h2>
+                         <p style="color:#ccc;line-height:1.5;margin:0 0 20px 0;font-size:14px;">We've detected that you're using an ad blocker (uBlock Origin). Please disable it to continue.</p>
+                         <div style="background:rgba(231,76,60,0.1);padding:15px;border-radius:10px;margin-bottom:20px;text-align:left;border:1px solid rgba(231,76,60,0.3);">
+                           <h3 style="color:#e74c3c;margin:0 0 10px 0;font-size:16px;">🔧 How to disable:</h3>
+                           <ul style="color:#ccc;margin:0;padding-left:15px;line-height:1.6;font-size:12px;">
+                             <li><strong style="color:#e74c3c;">uBlock Origin:</strong> Click the red "u" icon → "Pause uBlock" or "Allow ads on this site"</li>
+                             <li><strong style="color:#e74c3c;">AdBlock:</strong> Click the AdBlock icon → "Don't run on pages on this domain"</li>
+                           </ul>
+                         </div>
+                         <div style="display:flex;gap:10px;justify-content:center;">
+                           <button onclick="window.location.reload()" style="background:linear-gradient(45deg,#e74c3c,#c0392b);color:white;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-weight:bold;font-size:12px;">🔄 REFRESH</button>
+                           <button onclick="this.parentElement.parentElement.parentElement.remove()" style="background:linear-gradient(45deg,#95a5a6,#7f8c8d);color:white;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-weight:bold;font-size:12px;">❌ CLOSE</button>
+                         </div>
+                       </div>
+                     \`;
                     
                     document.body.appendChild(modal);
                     
