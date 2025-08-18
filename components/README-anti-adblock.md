@@ -85,7 +85,13 @@ function MyComponent() {
 
 ## Integration
 
-The components are already integrated into the main layout (`app/layout.tsx`) and will automatically detect ad blockers across your entire application.
+The components are already integrated into the main layout (`app/layout.tsx`) via the `AntiAdblockWrapper` component and will automatically detect ad blockers across your entire application.
+
+### Files Structure
+- `anti-adblock.tsx` - Basic anti-adblock component
+- `anti-adblock-advanced.tsx` - Advanced anti-adblock component with multiple detection methods
+- `anti-adblock-wrapper.tsx` - Client wrapper component for server-side integration
+- `app/layout.tsx` - Main layout with integrated anti-adblock functionality
 
 ## Customization
 

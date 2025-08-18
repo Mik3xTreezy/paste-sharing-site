@@ -225,4 +225,26 @@ export function usePaste() {
     deletePaste,
     getPastes,
   }
+}
+
+// Export getPaste as a standalone function for direct use
+export async function getPaste(id: string, password?: string): Promise<Paste | null> {
+  try {
+    const baseUrl = typeof window !== 'undefined' ? window.location.origin : ''
+    const url = password 
+      ? `${baseUrl}/api/pastes/${id}?password=${encodeURIComponent(password)}`
+      : `${baseUrl}/api/pastes/${id}`
+
+    const response = await fetch(url)
+    const result: ApiResponse<Paste> = await response.json()
+
+    if (!result.success) {
+      throw new Error(result.error || 'Failed to fetch paste')
+    }
+
+    return result.data || null
+  } catch (err) {
+    console.error('Error fetching paste:', err)
+    return null
+  }
 } 
