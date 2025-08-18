@@ -1,22 +1,22 @@
 "use client"
 
-import AggressiveAdblockDetector from './aggressive-adblock-detector'
+import ForceAdblockDetector from './force-adblock-detector'
 import AdTestElements from './ad-test-elements'
 
 export default function AntiAdblockWrapper() {
   return (
     <>
       <AdTestElements />
-      <AggressiveAdblockDetector 
+      <ForceAdblockDetector 
         onAdblockDetected={() => {
-          console.log('🚫 AGGRESSIVE AD BLOCKER DETECTED! - user experience may be affected')
+          console.log('🚫 FORCE AD BLOCKER DETECTED! - user experience may be affected')
         }}
         onAdblockNotDetected={() => {
-          console.log('✅ No ad blocker detected - full functionality available')
+          console.log('✅ FORCE: No ad blocker detected - full functionality available')
         }}
         showWarning={true}
-        checkInterval={2000}
-        customWarningMessage="🚫 AD BLOCKER DETECTED! We've detected that you're using an ad blocker (likely uBlock Origin). Our paste sharing service relies on advertising to remain free and accessible to everyone. Please disable your ad blocker for this site to continue using our services."
+        forceDetection={true}
+        customWarningMessage="🚫 FORCE DETECTION: AD BLOCKER DETECTED! We've detected that you're using an ad blocker (uBlock Origin). Our paste sharing service relies on advertising to remain free and accessible to everyone. Please disable your ad blocker for this site to continue using our services."
       />
     </>
   )
