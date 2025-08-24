@@ -9,7 +9,6 @@ import { useSession } from 'next-auth/react'
 import { getPaste } from '@/hooks/use-paste'
 import CopyIcon from '@/components/copy-icon'
 import HighPerformanceAd from '@/components/high-performance-ad'
-import TimerAd from '@/components/timer-ad'
 import PastescriptAd1 from '@/components/pastescript-ad-1'
 import PastescriptAdRight from '@/components/pastescript-ad-right'
 import CounterSuspiciousAd from '@/components/counter-suspicious-ad'
@@ -32,76 +31,39 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   const [showPasswordForm, setShowPasswordForm] = useState(false)
   const [password, setPassword] = useState('')
   
-  // Timer states
-  const [showTimer, setShowTimer] = useState(false)
-  const [timeLeft, setTimeLeft] = useState(15)
-  const [timerActive, setTimerActive] = useState(false)
-  
-  // Popup ad states
-  const [showPopupAd, setShowPopupAd] = useState(false)
+  // Task-based unlock states
+  const [showTaskInterface, setShowTaskInterface] = useState(false)
   const [showUnlockOverlay, setShowUnlockOverlay] = useState(false)
 
   const pasteId = paste?.id
 
   useEffect(() => {
-    // Start timer for non-password protected pastes
+    // Start task interface for non-password protected pastes
     if (paste && !paste.isPassword) {
-      setShowTimer(true)
-      setTimerActive(true)
+      setShowTaskInterface(true)
     }
     setIsLoaded(true)
   }, [paste])
 
 
 
-  // Reset timer when component mounts
+  // Reset task interface when component mounts
   useEffect(() => {
     if (paste && !paste.isPassword) {
-      setTimeLeft(15)
-      setShowTimer(true)
-      setTimerActive(true)
+      setShowTaskInterface(true)
     }
   }, [])
 
-  // Timer effect
-  useEffect(() => {
-    if (!timerActive || timeLeft <= 0) return
-    
-    const interval = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          setTimerActive(false)
-          return 0
-        }
-        return prev - 1
-      })
-    }, 1000)
-    
-    return () => clearInterval(interval)
-  }, [timerActive, timeLeft])
-
-
-  // Preload/trigger popup when unlock overlay becomes visible
-  useEffect(() => {
-    if (showUnlockOverlay) {
-      setShowPopupAd(true)
-    } else {
-      // reset trigger low so next overlay show can retrigger
-      setShowPopupAd(false)
-    }
-  }, [showUnlockOverlay])
-
-
-
-  const handleUnlockPaste = () => {
-    // Hide the timer and show the paste content with overlay
-    setShowTimer(false)
+  // Handle task completion
+  const handleTaskCompleted = () => {
+    setShowTaskInterface(false)
     setShowUnlockOverlay(true)
   }
 
+
+
   const handleUnlockContent = () => {
-    // Trigger popup ad and hide overlay
-    setShowPopupAd(true)
+    // Hide overlay and show paste content
     setShowUnlockOverlay(false)
   }
 
@@ -115,8 +77,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
       if (paste) {
         setPaste(paste)
         setShowPasswordForm(false)
-        setShowTimer(true)
-        setTimerActive(true)
+        setShowTaskInterface(true)
       } else {
         setError('Invalid password')
       }
@@ -197,58 +158,26 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   }
 
   // Show timer with ads
-  if (showTimer) {
+  if (showTaskInterface) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
         <div className="max-w-4xl w-full mx-auto p-6">
           <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
             <div className="text-center mb-8">
-              {timeLeft > 0 ? (
-                <>
-                  <div className="w-20 h-20 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <div className="text-3xl font-bold text-blue-500">{timeLeft}</div>
-                  </div>
-                  <h2 className="text-2xl font-bold text-white mb-2">Please Wait</h2>
-                  <p className="text-gray-400 mb-4">Content will be available in {timeLeft} seconds</p>
-                                      <div className="w-full max-w-md mx-auto glass-card rounded-lg p-4">
-                      <div className="text-sm text-gray-400 mb-2">Loading content...</div>
-                      <div className="w-full bg-gray-700 rounded-full h-2">
-                        <div 
-                          className="bg-gradient-to-r from-blue-500 to-pink-500 h-2 rounded-full transition-all duration-1000"
-                          style={{ width: `${((15 - timeLeft) / 15) * 100}%` }}
-                        ></div>
-                      </div>
-                    </div>
-                </>
-              ) : (
-                <>
-                  <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <div className="text-3xl font-bold text-green-400">✓</div>
-                  </div>
-                  <h2 className="text-2xl font-bold text-white mb-2">Timer Complete!</h2>
-                  <p className="text-gray-400 mb-6">
-                    Click the button below to view your paste content
-                  </p>
-                  <Button
-                    onClick={handleUnlockPaste}
-                    className="btn-gradient-primary px-8 py-3 text-lg font-semibold"
-                  >
-                    View Paste
-                  </Button>
-                </>
-              )}
+              <div className="w-20 h-20 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Lock className="w-10 h-10 text-blue-500" />
+              </div>
+              <h2 className="text-2xl font-bold text-white mb-2">Premium Content</h2>
+              <p className="text-gray-400 mb-6">Complete the following steps to access exclusive content</p>
             </div>
             
-            {/* Combined Ad Display Area */}
+            {/* Task Interface */}
             <div className="mb-8">
-              <div className="glass-card rounded-xl p-6 min-h-[200px] flex flex-col items-center justify-center space-y-4">
-                <div className="w-full">
-                  <TimerAd />
-                </div>
-                <div className="w-full">
-                  <PastescriptAd1 />
-                </div>
-              </div>
+              <PopupAd 
+                trigger={true} 
+                onTriggered={handleTaskCompleted}
+                taskUrl="https://www.opera.com/gx"
+              />
             </div>
           </div>
         </div>
@@ -401,8 +330,6 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
         </div>
       )}
 
-      {/* Popup Ad Component */}
-      <PopupAd trigger={showPopupAd} onTriggered={() => setTimeout(() => setShowPopupAd(false), 100)} />
     </div>
   )
 }
