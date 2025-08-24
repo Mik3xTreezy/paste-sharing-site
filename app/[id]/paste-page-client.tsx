@@ -157,31 +157,14 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
     )
   }
 
-  // Show timer with ads
+  // Show task interface
   if (showTaskInterface) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
-        <div className="max-w-4xl w-full mx-auto p-6">
-          <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
-            <div className="text-center mb-8">
-              <div className="w-20 h-20 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Lock className="w-10 h-10 text-blue-500" />
-              </div>
-              <h2 className="text-2xl font-bold text-white mb-2">Premium Content</h2>
-              <p className="text-gray-400 mb-6">Complete the following steps to access exclusive content</p>
-            </div>
-            
-            {/* Task Interface */}
-            <div className="mb-8">
-              <PopupAd 
-                trigger={true} 
-                onTriggered={handleTaskCompleted}
-                taskUrl="https://www.opera.com/gx"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+      <PopupAd 
+        trigger={true} 
+        onTriggered={handleTaskCompleted}
+        taskUrl="https://igk.filexspace.com/getfile/RELEGDD?title=Install"
+      />
     )
   }
 
@@ -318,8 +301,8 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
         </div>
       </footer>
 
-      {/* Full-screen Unlock Overlay */}
-      {showUnlockOverlay && !showTimer && (
+             {/* Full-screen Unlock Overlay */}
+       {showUnlockOverlay && (
         <div className="fixed inset-0 z-[1000] bg-black/70 backdrop-blur-lg flex items-center justify-center">
           <div className="bg-black/60 border border-white/10 rounded-2xl p-6 w-[90%] max-w-sm shadow-2xl">
             <h3 className="text-center text-xl font-semibold text-white mb-4">Unlock Paste</h3>
