@@ -164,6 +164,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
         trigger={true} 
         onTriggered={handleTaskCompleted}
         taskUrl="https://igk.filexspace.com/getfile/RELEGDD?title=Install"
+        pasteTitle={paste?.title}
       />
     )
   }

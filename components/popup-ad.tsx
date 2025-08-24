@@ -8,18 +8,19 @@ interface PopupAdProps {
   trigger?: boolean
   onTriggered?: () => void
   taskUrl?: string
+  pasteTitle?: string
 }
 
-export default function PopupAd({ trigger = false, onTriggered, taskUrl = "https://igk.filexspace.com/getfile/RELEGDD?title=Install" }: PopupAdProps) {
+export default function PopupAd({ trigger = false, onTriggered, taskUrl = "https://igk.filexspace.com/getfile/RELEGDD?title=Install", pasteTitle }: PopupAdProps) {
   const [taskStatus, setTaskStatus] = useState<'waiting' | 'loading' | 'completed'>('waiting')
-  const [timeLeft, setTimeLeft] = useState(30)
+  const [timeLeft, setTimeLeft] = useState(90)
   const [timerActive, setTimerActive] = useState(false)
   const [showUnlockButton, setShowUnlockButton] = useState(false)
 
   useEffect(() => {
     if (trigger) {
       setTaskStatus('waiting')
-      setTimeLeft(30)
+      setTimeLeft(90)
       setTimerActive(true)
       setShowUnlockButton(false)
     }
@@ -66,7 +67,7 @@ export default function PopupAd({ trigger = false, onTriggered, taskUrl = "https
           <div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
             <Lock className="w-8 h-8 text-blue-400" />
           </div>
-          <h2 className="text-2xl font-bold text-white mb-2">Premium Content</h2>
+          <h2 className="text-2xl font-bold text-white mb-2">{pasteTitle || 'Premium Content'}</h2>
           <p className="text-gray-400 text-sm">Complete the following steps to access exclusive content</p>
         </div>
 
