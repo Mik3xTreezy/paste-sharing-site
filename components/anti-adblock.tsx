@@ -1,144 +1,175 @@
 "use client"
 
-import { useState, useEffect } from 'react'
-import { Button } from '@/components/ui/button'
-import { AlertTriangle } from 'lucide-react'
+import { useEffect } from 'react'
 
-export default function AntiAdblock() {
-  const [showAdblockWarning, setShowAdblockWarning] = useState(false)
+interface AntiAdblockProps {
+  onAdblockDetected?: () => void
+  onAdblockNotDetected?: () => void
+  showWarning?: boolean
+}
 
+export default function AntiAdblock({ 
+  onAdblockDetected, 
+  onAdblockNotDetected, 
+  showWarning = true 
+}: AntiAdblockProps) {
   useEffect(() => {
-    // Import blockadblock dynamically
-    const loadBlockAdblock = async () => {
+    // Anti-adblock detection script
+    const AdblockRegixFinder = {
+      class: [/\[\[\[\[(.*)\]\]\]\]/gm, /\[\[\[(.*)\]\]\]/gm, /\[\[(.*)\]\]/gm],
+      squarebracket: /[\[\]']+/g,
+      settings: /\{\{(.*)\}\}/gm,
+      curlbrackets: /[{}]/g,
+      classfind: (className: string) => new RegExp('(\\s|^)' + className + '(\\s|$)'),
+      linebreak: /(?:\r\n|\r|\n)/g,
+      whitespace: /\s+/g
+    }
+
+    // Obfuscated decoder function
+    const _0xc19e = ["", "split", "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+/", "slice", "indexOf", "", "", ".", "pow", "reduce", "reverse", "0"]
+
+    function _0xe92c(d: string, e: number, f: number) {
+      const g = _0xc19e[2][_0xc19e[1]](_0xc19e[0])
+      const h = g[_0xc19e[3]](0, e)
+      const i = g[_0xc19e[3]](0, f)
+      const j = d[_0xc19e[1]](_0xc19e[0])[_0xc19e[10]]()[_0xc19e[9]](function(a: number, b: string, c: number) {
+        if (h[_0xc19e[4]](b) !== -1) return a += h[_0xc19e[4]](b) * (Math[_0xc19e[8]](e, c))
+        return a
+      }, 0)
+      let k = _0xc19e[0]
+      while (j > 0) {
+        k = i[j % f] + k
+        j = (j - (j % f)) / f
+      }
+      return k || _0xc19e[11]
+    }
+
+    // Main detection logic
+    function detectAdblock() {
       try {
-        const { default: blockAdblock } = await import('blockadblock')
-        
-        // Initialize blockadblock
-        blockAdblock.onDetected(() => {
-          console.log('Adblock detected!')
-          setShowAdblockWarning(true)
-        })
+        // Create test elements
+        const testDiv = document.createElement('div')
+        testDiv.className = 'adsbox'
+        testDiv.style.position = 'absolute'
+        testDiv.style.left = '-9999px'
+        testDiv.style.top = '-9999px'
+        testDiv.innerHTML = '&nbsp;'
+        document.body.appendChild(testDiv)
 
-        // Start detection
-        blockAdblock.onNotDetected(() => {
-          console.log('No adblock detected')
-          setShowAdblockWarning(false)
-        })
+        // Check if adblock is active
+        const isAdblockActive = testDiv.offsetHeight === 0 || 
+                               testDiv.offsetWidth === 0 || 
+                               testDiv.clientHeight === 0 || 
+                               testDiv.clientWidth === 0
 
-        // Set detection options
-        blockAdblock.setOption('checkOnLoad', true)
-        blockAdblock.setOption('resetOnEnd', false)
-        
-        // Start the detection
-        blockAdblock.start()
-        
+        // Clean up
+        document.body.removeChild(testDiv)
+
+        if (isAdblockActive) {
+          console.log('Ad blocker detected')
+          onAdblockDetected?.()
+          
+          if (showWarning) {
+            showAdblockWarning()
+          }
+        } else {
+          console.log('No ad blocker detected')
+          onAdblockNotDetected?.()
+        }
+
+        return isAdblockActive
       } catch (error) {
-        console.error('Failed to load blockadblock:', error)
-        // Fallback to manual detection if blockadblock fails
-        setTimeout(() => {
-          // Method 1: Check if ad elements are blocked
-          const testAd = document.createElement('div')
-          testAd.innerHTML = '&nbsp;'
-          testAd.className = 'adsbox'
-          testAd.style.position = 'absolute'
-          testAd.style.left = '-10000px'
-          testAd.style.top = '-1000px'
-          testAd.style.width = '1px'
-          testAd.style.height = '1px'
-          testAd.style.overflow = 'hidden'
-          document.body.appendChild(testAd)
-
-          setTimeout(() => {
-            const isBlocked = testAd.offsetHeight === 0 || testAd.offsetWidth === 0
-            document.body.removeChild(testAd)
-            
-            if (isBlocked) {
-              console.log('Manual detection: Adblock found')
-              setShowAdblockWarning(true)
-              return
-            }
-
-            // Method 2: Check if Google AdSense script is blocked
-            const googleAdsenseScript = document.querySelector('script[src*="adsbygoogle"]')
-            const adsbygoogleFunction = typeof window !== 'undefined' && (window as any).adsbygoogle
-            
-            if (!googleAdsenseScript || !adsbygoogleFunction) {
-              console.log('Manual detection: Google AdSense blocked')
-              setShowAdblockWarning(true)
-              return
-            }
-
-            // Method 3: Check for blocked ad-related scripts
-            const adblockPatterns = ['adsbygoogle', 'googleadservices', 'doubleclick', 'googlesyndication']
-            const scripts = document.querySelectorAll('script')
-            let blockedScripts = 0
-            
-            scripts.forEach(script => {
-              if (script.src) {
-                adblockPatterns.forEach(pattern => {
-                  if (script.src.includes(pattern)) {
-                    blockedScripts++
-                  }
-                })
-              }
-            })
-
-            if (blockedScripts === 0) {
-              console.log('Manual detection: No ad scripts found')
-              setShowAdblockWarning(true)
-            }
-          }, 100)
-        }, 3000)
+        console.error('Error detecting ad blocker:', error)
+        return false
       }
     }
 
-    loadBlockAdblock()
-  }, [])
+    function showAdblockWarning() {
+      // Create warning modal
+      const warningModal = document.createElement('div')
+      warningModal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 999999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: Arial, sans-serif;
+      `
 
-  if (!showAdblockWarning) return null
+      const warningContent = document.createElement('div')
+      warningContent.style.cssText = `
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        max-width: 500px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      `
 
-  return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-gray-900 border border-red-500/20 rounded-2xl p-8 max-w-md w-full relative">
-
-        {/* Warning icon */}
-        <div className="text-center mb-6">
-          <div className="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-            <AlertTriangle className="w-8 h-8 text-red-400" />
-          </div>
-          <h2 className="text-xl font-bold text-white mb-2">Adblock Detected</h2>
-          <p className="text-gray-400 text-sm">
-            We detected that you're using an ad blocker. Please disable it to access our content.
-          </p>
-        </div>
-
-        {/* Instructions */}
-        <div className="space-y-4 mb-6">
-          <div className="bg-gray-800/50 rounded-lg p-4">
-            <h3 className="text-white font-semibold mb-2">How to disable Adblock:</h3>
-            <ul className="text-sm text-gray-300 space-y-1">
-              <li>• Click the adblock icon in your browser toolbar</li>
-              <li>• Select "Disable for this site" or "Allow ads"</li>
-              <li>• Refresh the page</li>
-            </ul>
-          </div>
-        </div>
-
-        {/* Action button */}
-        <div className="flex justify-center">
-          <Button
-            onClick={() => window.location.reload()}
-            className="bg-gradient-to-r from-red-600 to-orange-600 text-white px-8 py-3 text-lg font-semibold"
-          >
-            Refresh Page
-          </Button>
-        </div>
-
-        {/* Footer note */}
-        <p className="text-xs text-gray-500 text-center mt-4">
-          We rely on ads to keep this service free. Thank you for your support!
+      warningContent.innerHTML = `
+        <h2 style="color: #e74c3c; margin-bottom: 20px;">⚠️ Ad Blocker Detected</h2>
+        <p style="color: #333; line-height: 1.6; margin-bottom: 20px;">
+          We've detected that you're using an ad blocker. Our service relies on advertising to remain free and accessible to everyone.
         </p>
-      </div>
-    </div>
-  )
+        <p style="color: #666; font-size: 14px; margin-bottom: 25px;">
+          Please disable your ad blocker for this site to continue using our services.
+        </p>
+        <div style="display: flex; gap: 15px; justify-content: center;">
+          <button id="disable-adblock" style="
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+          ">Disable Ad Blocker</button>
+          <button id="close-warning" style="
+            background: #95a5a6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+          ">Close</button>
+        </div>
+      `
+
+      warningModal.appendChild(warningContent)
+      document.body.appendChild(warningModal)
+
+      // Add event listeners
+      document.getElementById('disable-adblock')?.addEventListener('click', () => {
+        window.open('https://help.getadblock.com/support/solutions/articles/4000055640', '_blank')
+      })
+
+      document.getElementById('close-warning')?.addEventListener('click', () => {
+        document.body.removeChild(warningModal)
+      })
+
+      // Auto-close after 30 seconds
+      setTimeout(() => {
+        if (document.body.contains(warningModal)) {
+          document.body.removeChild(warningModal)
+        }
+      }, 30000)
+    }
+
+    // Run detection after a short delay
+    const detectionTimeout = setTimeout(() => {
+      detectAdblock()
+    }, 1000)
+
+    // Cleanup
+    return () => {
+      clearTimeout(detectionTimeout)
+    }
+  }, [onAdblockDetected, onAdblockNotDetected, showWarning])
+
+  return null // This component doesn't render anything
 } 
