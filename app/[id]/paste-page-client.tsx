@@ -217,15 +217,6 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
                   </div>
                   <h2 className="text-2xl font-bold text-white mb-2">Please Wait</h2>
                   <p className="text-gray-400 mb-4">Content will be available in {timeLeft} seconds</p>
-                                      <div className="w-full max-w-md mx-auto glass-card rounded-lg p-4">
-                      <div className="text-sm text-gray-400 mb-2">Loading content...</div>
-                      <div className="w-full bg-gray-700 rounded-full h-2">
-                        <div 
-                          className="bg-gradient-to-r from-blue-500 to-pink-500 h-2 rounded-full transition-all duration-1000"
-                          style={{ width: `${((15 - timeLeft) / 15) * 100}%` }}
-                        ></div>
-                      </div>
-                    </div>
                 </>
               ) : (
                 <>
