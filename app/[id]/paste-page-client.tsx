@@ -29,12 +29,13 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   
   // Timer states
   const [showTimer, setShowTimer] = useState(false)
-  const [timeLeft, setTimeLeft] = useState(15)
+  const [timeLeft, setTimeLeft] = useState(5)
   const [timerActive, setTimerActive] = useState(false)
   
   // Popup ad states
   const [showPopupAd, setShowPopupAd] = useState(false)
   const [showUnlockOverlay, setShowUnlockOverlay] = useState(false)
+  const [unlockLoading, setUnlockLoading] = useState(false)
 
   const pasteId = paste?.id
 
@@ -52,7 +53,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   // Reset timer when component mounts
   useEffect(() => {
     if (paste && !paste.isPassword) {
-      setTimeLeft(15)
+      setTimeLeft(5)
       setShowTimer(true)
       setTimerActive(true)
     }
@@ -99,9 +100,14 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
 
   const handleUnlockContent = () => {
     console.log('handleUnlockContent: Triggering popup ad')
-    // Trigger popup ad and hide overlay
-    setShowPopupAd(true)
-    setShowUnlockOverlay(false)
+    setUnlockLoading(true)
+    
+    // Trigger popup ad and hide overlay after a short delay
+    setTimeout(() => {
+      setShowPopupAd(true)
+      setShowUnlockOverlay(false)
+      setUnlockLoading(false)
+    }, 1000)
   }
 
   const handlePasswordSubmit = async (e: React.FormEvent) => {
@@ -352,17 +358,30 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
         </div>
       </footer>
 
-      {/* Full-screen Unlock Overlay */}
-      {showUnlockOverlay && !showTimer && (
-        <div className="fixed inset-0 z-[1000] bg-black/70 backdrop-blur-lg flex items-center justify-center">
-          <div className="bg-black/60 border border-white/10 rounded-2xl p-6 w-[90%] max-w-sm shadow-2xl">
-            <h3 className="text-center text-xl font-semibold text-white mb-4">Unlock Paste</h3>
-            <Button onClick={handleUnlockContent} className="w-full btn-gradient-primary py-3 text-lg font-semibold">
-              Unlock Paste
-            </Button>
-          </div>
-        </div>
-      )}
+             {/* Full-screen Unlock Overlay */}
+       {showUnlockOverlay && !showTimer && (
+         <div className="fixed inset-0 z-[1000] bg-black/70 backdrop-blur-lg flex items-center justify-center">
+           <div className="bg-black/60 border border-white/10 rounded-2xl p-6 w-[90%] max-w-sm shadow-2xl">
+             <h3 className="text-center text-xl font-semibold text-white mb-4">
+               {paste?.title || 'Unlock Paste'}
+             </h3>
+             <Button 
+               onClick={handleUnlockContent} 
+               disabled={unlockLoading}
+               className="w-full btn-gradient-primary py-3 text-lg font-semibold"
+             >
+               {unlockLoading ? (
+                 <>
+                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                   Loading...
+                 </>
+               ) : (
+                 'Unlock Paste'
+               )}
+             </Button>
+           </div>
+         </div>
+       )}
 
       {/* Popup Ad Component */}
       <PopupAd trigger={showPopupAd} onTriggered={() => setTimeout(() => setShowPopupAd(false), 100)} />
