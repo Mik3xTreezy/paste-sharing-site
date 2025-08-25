@@ -8,10 +8,6 @@ import { useSession } from 'next-auth/react'
 
 import { getPaste } from '@/hooks/use-paste'
 import CopyIcon from '@/components/copy-icon'
-import HighPerformanceAd from '@/components/high-performance-ad'
-import PastescriptAd1 from '@/components/pastescript-ad-1'
-import PastescriptAdRight from '@/components/pastescript-ad-right'
-import CounterSuspiciousAd from '@/components/counter-suspicious-ad'
 import PopupAd from '@/components/popup-ad'
 
 
@@ -104,6 +100,12 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
     script.type = 'text/javascript'
     script.src = '//countersuspiciousdiverse.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js'
     script.async = true
+    script.onload = () => {
+      console.log('Popup script loaded successfully')
+    }
+    script.onerror = () => {
+      console.error('Failed to load popup script')
+    }
     document.head.appendChild(script)
     
     // Trigger popup ad and hide overlay
@@ -348,23 +350,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
           </div>
         </div>
 
-        {/* Combined Ad Display Area */}
-        <div className="mb-8">
-          <div className="glass-card rounded-xl p-6 min-h-[300px] flex flex-col items-center justify-center space-y-4">
-            <div className="w-full">
-              <HighPerformanceAd />
-            </div>
-            <div className="w-full">
-              <PastescriptAd1 />
-            </div>
-            <div className="w-full">
-              <PastescriptAdRight />
-            </div>
-            <div className="w-full">
-              <CounterSuspiciousAd />
-            </div>
-          </div>
-        </div>
+
       </main>
 
       {/* Footer */}
