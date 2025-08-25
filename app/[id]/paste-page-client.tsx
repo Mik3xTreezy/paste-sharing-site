@@ -78,10 +78,13 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
 
   // Preload/trigger popup when unlock overlay becomes visible
   useEffect(() => {
+    console.log('showUnlockOverlay changed to:', showUnlockOverlay)
     if (showUnlockOverlay) {
+      console.log('Setting showPopupAd to true')
       setShowPopupAd(true)
     } else {
       // reset trigger low so next overlay show can retrigger
+      console.log('Setting showPopupAd to false')
       setShowPopupAd(false)
     }
   }, [showUnlockOverlay])
@@ -95,19 +98,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   }
 
   const handleUnlockContent = () => {
-    // Add the popup script when unlock button is clicked
-    const script = document.createElement('script')
-    script.type = 'text/javascript'
-    script.src = '//countersuspiciousdiverse.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js'
-    script.async = true
-    script.onload = () => {
-      console.log('Popup script loaded successfully')
-    }
-    script.onerror = () => {
-      console.error('Failed to load popup script')
-    }
-    document.head.appendChild(script)
-    
+    console.log('handleUnlockContent: Triggering popup ad')
     // Trigger popup ad and hide overlay
     setShowPopupAd(true)
     setShowUnlockOverlay(false)
