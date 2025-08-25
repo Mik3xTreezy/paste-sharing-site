@@ -9,7 +9,6 @@ import { useSession } from 'next-auth/react'
 import { getPaste } from '@/hooks/use-paste'
 import CopyIcon from '@/components/copy-icon'
 import HighPerformanceAd from '@/components/high-performance-ad'
-import TimerAd from '@/components/timer-ad'
 import PastescriptAd1 from '@/components/pastescript-ad-1'
 import PastescriptAdRight from '@/components/pastescript-ad-right'
 import CounterSuspiciousAd from '@/components/counter-suspicious-ad'
@@ -85,19 +84,6 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   useEffect(() => {
     if (showUnlockOverlay) {
       setShowPopupAd(true)
-      // Add the popup script when unlock overlay is shown
-      const script = document.createElement('script')
-      script.type = 'text/javascript'
-      script.src = '//countersuspiciousdiverse.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js'
-      document.head.appendChild(script)
-      
-      // Cleanup function to remove script when overlay is hidden
-      return () => {
-        const existingScript = document.querySelector(`script[src="${script.src}"]`)
-        if (existingScript) {
-          existingScript.remove()
-        }
-      }
     } else {
       // reset trigger low so next overlay show can retrigger
       setShowPopupAd(false)
@@ -113,6 +99,13 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   }
 
   const handleUnlockContent = () => {
+    // Add the popup script when unlock button is clicked
+    const script = document.createElement('script')
+    script.type = 'text/javascript'
+    script.src = '//countersuspiciousdiverse.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js'
+    script.async = true
+    document.head.appendChild(script)
+    
     // Trigger popup ad and hide overlay
     setShowPopupAd(true)
     setShowUnlockOverlay(false)
