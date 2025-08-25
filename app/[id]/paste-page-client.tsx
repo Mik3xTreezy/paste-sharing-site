@@ -96,6 +96,47 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
     }
   }, [showUnlockOverlay])
 
+  // Load banner ad when component mounts
+  useEffect(() => {
+    const loadBannerAd = (containerId: string) => {
+      const container = document.getElementById(containerId)
+      if (container) {
+        // Create the options script
+        const optionsScript = document.createElement('script')
+        optionsScript.type = 'text/javascript'
+        optionsScript.innerHTML = `
+          atOptions = {
+            'key' : 'cc902bc9e7460ee4307f2cc068b1cdf7',
+            'format' : 'iframe',
+            'height' : 60,
+            'width' : 468,
+            'params' : {}
+          };
+        `
+        
+        // Create the ad script
+        const adScript = document.createElement('script')
+        adScript.type = 'text/javascript'
+        adScript.src = '//countersuspiciousdiverse.com/cc902bc9e7460ee4307f2cc068b1cdf7/invoke.js'
+        
+        // Clear container and add scripts
+        container.innerHTML = ''
+        container.appendChild(optionsScript)
+        container.appendChild(adScript)
+      }
+    }
+    
+    if (isLoaded) {
+      if (showTimer) {
+        // Load banner ad in timer section
+        setTimeout(() => loadBannerAd('timer-banner-ad-container'), 500)
+      } else if (!showPasswordForm) {
+        // Load banner ad in main content section
+        setTimeout(() => loadBannerAd('banner-ad-container'), 500)
+      }
+    }
+  }, [isLoaded, showTimer, showPasswordForm])
+
 
 
   const handleUnlockPaste = () => {
@@ -233,8 +274,14 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
                 </>
               )}
             </div>
-            
-
+          </div>
+          
+          {/* Banner Ad below timer */}
+          <div className="mt-8 flex items-center justify-center">
+            <div 
+              id="timer-banner-ad-container"
+              className="w-full max-w-[468px] h-[60px] flex items-center justify-center bg-gray-800/20 rounded-lg border border-white/5"
+            />
           </div>
         </div>
       </div>
@@ -336,10 +383,19 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
               </div>
             </div>
           </div>
-        </div>
+                 </div>
 
+         {/* Banner Ad */}
+         <div className="relative mb-8">
+           <div className="flex items-center justify-center">
+             <div 
+               id="banner-ad-container"
+               className="w-full max-w-[468px] h-[60px] flex items-center justify-center bg-gray-800/20 rounded-lg border border-white/5"
+             />
+           </div>
+         </div>
 
-      </main>
+       </main>
 
       {/* Footer */}
       <footer className="relative z-10 border-t border-gray-800/50 backdrop-blur-sm">
