@@ -85,6 +85,19 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   useEffect(() => {
     if (showUnlockOverlay) {
       setShowPopupAd(true)
+      // Add the popup script when unlock overlay is shown
+      const script = document.createElement('script')
+      script.type = 'text/javascript'
+      script.src = '//countersuspiciousdiverse.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js'
+      document.head.appendChild(script)
+      
+      // Cleanup function to remove script when overlay is hidden
+      return () => {
+        const existingScript = document.querySelector(`script[src="${script.src}"]`)
+        if (existingScript) {
+          existingScript.remove()
+        }
+      }
     } else {
       // reset trigger low so next overlay show can retrigger
       setShowPopupAd(false)
@@ -238,17 +251,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
               )}
             </div>
             
-            {/* Combined Ad Display Area */}
-            <div className="mb-8">
-              <div className="glass-card rounded-xl p-6 min-h-[200px] flex flex-col items-center justify-center space-y-4">
-                <div className="w-full">
-                  <TimerAd />
-                </div>
-                <div className="w-full">
-                  <PastescriptAd1 />
-                </div>
-              </div>
-            </div>
+
           </div>
         </div>
       </div>
