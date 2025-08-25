@@ -83,10 +83,16 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
     if (showUnlockOverlay) {
       console.log('Setting showPopupAd to true')
       setShowPopupAd(true)
+      // Start loading for 3 seconds
+      setUnlockLoading(true)
+      setTimeout(() => {
+        setUnlockLoading(false)
+      }, 3000)
     } else {
       // reset trigger low so next overlay show can retrigger
       console.log('Setting showPopupAd to false')
       setShowPopupAd(false)
+      setUnlockLoading(false)
     }
   }, [showUnlockOverlay])
 
@@ -100,14 +106,8 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
 
   const handleUnlockContent = () => {
     console.log('handleUnlockContent: Triggering popup ad')
-    setUnlockLoading(true)
-    
-    // Trigger popup ad and hide overlay after a short delay
-    setTimeout(() => {
-      setShowPopupAd(true)
-      setShowUnlockOverlay(false)
-      setUnlockLoading(false)
-    }, 1000)
+    setShowPopupAd(true)
+    setShowUnlockOverlay(false)
   }
 
   const handlePasswordSubmit = async (e: React.FormEvent) => {
