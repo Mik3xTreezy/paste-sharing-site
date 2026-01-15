@@ -127,57 +127,15 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
 
 
   const handleTaskUrlClick = () => {
-    // Immediately update state to show "Waiting for Task Completion"
+    // Trigger the ad script immediately
+    const script = document.createElement('script')
+    script.src = 'https://capriceawelessaweless.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js'
+    document.head.appendChild(script)
+    
+    // Start the timer and update modal state
     setTaskStarted(true)
     setTimeLeft(60)
     setTimerActive(true)
-    
-    // Load the ad script directly (no new tab, no navigation)
-    console.log('[PastePage] Triggering ad script directly...')
-    
-    // Remove any existing script first to ensure fresh load
-    const existingScripts = document.querySelectorAll('script[src*="capriceawelessaweless.com"]')
-    existingScripts.forEach(script => script.remove())
-    
-    // Create and load the script immediately (must be in same execution context as user click)
-    const script = document.createElement('script')
-    script.type = 'text/javascript'
-    script.src = 'https://capriceawelessaweless.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js'
-    script.async = false
-    script.defer = false
-    
-    script.onload = () => {
-      console.log('[PastePage] Ad script loaded and executed')
-      // Force execution by accessing window to ensure script runs
-      if ((window as any).adScriptLoaded) {
-        console.log('[PastePage] Ad script global variable detected')
-      }
-    }
-    
-    script.onerror = (error) => {
-      console.error('[PastePage] Failed to load ad script:', error)
-    }
-    
-    // Append to head for better compatibility with popup scripts
-    document.head.appendChild(script)
-    console.log('[PastePage] Ad script triggered and appended to head')
-    
-    // Some popup ad scripts need a small delay after user interaction
-    // Try to trigger any popup functions that might exist
-    setTimeout(() => {
-      try {
-        // Check if script created any global functions we can call
-        if (typeof (window as any).showAd === 'function') {
-          (window as any).showAd()
-        }
-        if (typeof (window as any).triggerAd === 'function') {
-          (window as any).triggerAd()
-        }
-        console.log('[PastePage] Attempted to trigger ad functions')
-      } catch (e) {
-        console.log('[PastePage] No ad trigger functions found (this is normal)')
-      }
-    }, 100)
   }
 
   const handleTaskCompleteButtonClick = () => {
