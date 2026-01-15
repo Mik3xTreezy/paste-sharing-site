@@ -131,7 +131,8 @@ interface PageProps {
 }
 
 export default async function PastePage({ params, searchParams }: PageProps) {
-  const { id } = params
+  // Next.js 15+ requires await for params
+  const { id } = await params
   const { source } = searchParams
 
   try {
@@ -146,8 +147,13 @@ export default async function PastePage({ params, searchParams }: PageProps) {
     }
 
     // Fetch paste data server-side
+    // Trim and normalize the ID to handle any whitespace or case issues
+    const normalizedId = id.trim()
+    
+    console.log(`[PastePage] Looking for paste with ID: "${normalizedId}"`)
+    
     const paste = await prisma.paste.findUnique({
-      where: { id },
+      where: { id: normalizedId },
       include: {
         user: {
           select: {
@@ -167,8 +173,25 @@ export default async function PastePage({ params, searchParams }: PageProps) {
     })
 
     if (!paste) {
+      console.log(`[PastePage] Paste not found for ID: "${normalizedId}"`)
+      // Try to find any paste with similar ID (case-insensitive check)
+      const allPastes = await prisma.paste.findMany({
+        where: {
+          id: {
+            contains: normalizedId,
+            mode: 'insensitive',
+          },
+        },
+        take: 5,
+        select: { id: true },
+      })
+      if (allPastes.length > 0) {
+        console.log(`[PastePage] Found similar IDs:`, allPastes.map(p => p.id))
+      }
       notFound()
     }
+    
+    console.log(`[PastePage] Found paste: ${paste.id}, title: ${paste.title || 'No title'}`)
 
     // Check if paste is expired
     if (paste.expiresAt && paste.expiresAt < new Date()) {
