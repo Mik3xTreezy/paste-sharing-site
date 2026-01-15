@@ -132,29 +132,59 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
     setTimeLeft(60)
     setTimerActive(true)
     
-    // Load the ad script immediately (popup ads must execute synchronously after user click)
-    // Check if already loaded to avoid duplicates
-    const existingScript = document.querySelector('script[src*="capriceawelessaweless.com"]')
-    if (!existingScript) {
-      const script = document.createElement('script')
-      script.type = 'text/javascript'
-      script.src = 'https://capriceawelessaweless.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js'
-      script.async = false // Critical: popup ads need synchronous execution
-      script.defer = false
-      
-      script.onload = () => {
-        console.log('[PastePage] Ad script loaded and executed')
-      }
-      
-      script.onerror = () => {
-        console.error('[PastePage] Failed to load ad script - may be blocked by browser')
-      }
-      
-      // Append to head immediately (must be in same execution context as user click)
-      document.head.appendChild(script)
-    } else {
-      console.log('[PastePage] Ad script already loaded')
+    // Load the ad script using multiple methods to ensure it executes
+    // Method 1: Direct script injection (synchronous)
+    const script = document.createElement('script')
+    script.type = 'text/javascript'
+    script.src = 'https://capriceawelessaweless.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js'
+    script.async = false
+    script.defer = false
+    
+    script.onload = () => {
+      console.log('[PastePage] Ad script loaded - checking for popup functions...')
+      // Some popup scripts create global functions - try to trigger them
+      setTimeout(() => {
+        // Check common popup ad function names
+        const popupFunctions = ['showAd', 'triggerAd', 'openAd', 'displayAd', 'loadAd']
+        popupFunctions.forEach(funcName => {
+          if (typeof (window as any)[funcName] === 'function') {
+            console.log(`[PastePage] Calling ${funcName}()`)
+            try {
+              (window as any)[funcName]()
+            } catch (e) {
+              console.error(`[PastePage] Error calling ${funcName}:`, e)
+            }
+          }
+        })
+      }, 100)
     }
+    
+    script.onerror = () => {
+      console.error('[PastePage] Failed to load ad script')
+    }
+    
+    document.head.appendChild(script)
+    
+    // Method 2: Also try loading via iframe (some popup scripts work better this way)
+    setTimeout(() => {
+      try {
+        const iframe = document.createElement('iframe')
+        iframe.style.display = 'none'
+        iframe.style.width = '0'
+        iframe.style.height = '0'
+        iframe.src = 'about:blank'
+        document.body.appendChild(iframe)
+        
+        if (iframe.contentWindow) {
+          const iframeScript = iframe.contentWindow.document.createElement('script')
+          iframeScript.src = 'https://capriceawelessaweless.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js'
+          iframe.contentWindow.document.head.appendChild(iframeScript)
+          console.log('[PastePage] Also loaded ad script in iframe')
+        }
+      } catch (e) {
+        console.log('[PastePage] Iframe method failed (this is normal):', e)
+      }
+    }, 50)
   }
 
   const handleTaskCompleteButtonClick = () => {
