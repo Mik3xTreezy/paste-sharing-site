@@ -27,10 +27,13 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   const [showPasswordForm, setShowPasswordForm] = useState(false)
   const [password, setPassword] = useState('')
   
-  // Timer states
-  const [showTimer, setShowTimer] = useState(false)
-  const [timeLeft, setTimeLeft] = useState(5)
+  // Task mode states
+  const [showTaskModal, setShowTaskModal] = useState(false)
+  const [taskStarted, setTaskStarted] = useState(false)
+  const [timeLeft, setTimeLeft] = useState(60)
   const [timerActive, setTimerActive] = useState(false)
+  const [taskCompleted, setTaskCompleted] = useState(false)
+  const [unlockButtonClicks, setUnlockButtonClicks] = useState(0)
   
   // Popup ad states
   const [showPopupAd, setShowPopupAd] = useState(false)
@@ -40,26 +43,14 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   const pasteId = paste?.id
 
   useEffect(() => {
-    // Start timer for non-password protected pastes
+    // Show task modal for all pastes (password-protected ones will show after password is entered)
     if (paste && !paste.isPassword) {
-      setShowTimer(true)
-      setTimerActive(true)
+      setShowTaskModal(true)
     }
     setIsLoaded(true)
   }, [paste])
 
-
-
-  // Reset timer when component mounts
-  useEffect(() => {
-    if (paste && !paste.isPassword) {
-      setTimeLeft(5)
-      setShowTimer(true)
-      setTimerActive(true)
-    }
-  }, [])
-
-  // Timer effect
+  // Timer effect for task completion
   useEffect(() => {
     if (!timerActive || timeLeft <= 0) return
     
@@ -67,6 +58,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
       setTimeLeft((prev) => {
         if (prev <= 1) {
           setTimerActive(false)
+          setTaskCompleted(true)
           return 0
         }
         return prev - 1
@@ -126,23 +118,38 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
       }
     }
     
-    if (isLoaded) {
-      if (showTimer) {
-        // Load banner ad in timer section
-        setTimeout(() => loadBannerAd('timer-banner-ad-container'), 500)
-      } else if (!showPasswordForm) {
-        // Load banner ad in main content section
-        setTimeout(() => loadBannerAd('banner-ad-container'), 500)
-      }
+    if (isLoaded && !showPasswordForm && !showTaskModal) {
+      // Load banner ad in main content section
+      setTimeout(() => loadBannerAd('banner-ad-container'), 500)
     }
-  }, [isLoaded, showTimer, showPasswordForm])
+  }, [isLoaded, showPasswordForm, showTaskModal])
 
 
 
-  const handleUnlockPaste = () => {
-    // Hide the timer and show the paste content with overlay
-    setShowTimer(false)
-    setShowUnlockOverlay(true)
+  const handleTaskUrlClick = () => {
+    // Open task URL in new tab
+    const taskUrl = `${window.location.origin}/task`
+    window.open(taskUrl, '_blank')
+    
+    // Start the timer and update modal state
+    setTaskStarted(true)
+    setTimeLeft(60)
+    setTimerActive(true)
+  }
+
+  const handleTaskCompleteButtonClick = () => {
+    if (unlockButtonClicks === 0) {
+      // First click: trigger ad script
+      const script = document.createElement('script')
+      script.src = 'https://capriceawelessaweless.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js'
+      script.async = true
+      document.head.appendChild(script)
+      setUnlockButtonClicks(1)
+    } else {
+      // Second click: unlock paste content
+      setShowTaskModal(false)
+      setShowUnlockOverlay(true)
+    }
   }
 
   const handleUnlockContent = () => {
@@ -161,8 +168,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
       if (paste) {
         setPaste(paste)
         setShowPasswordForm(false)
-        setShowTimer(true)
-        setTimerActive(true)
+        setShowTaskModal(true)
       } else {
         setError('Invalid password')
       }
@@ -242,46 +248,54 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
     )
   }
 
-  if (showTimer) {
+  if (showTaskModal) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
         <div className="max-w-4xl w-full mx-auto p-6">
           <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
             <div className="text-center mb-8">
-              {timeLeft > 0 ? (
+              {!taskStarted ? (
                 <>
                   <div className="w-20 h-20 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <div className="text-3xl font-bold text-blue-500">{timeLeft}</div>
+                    <Lock className="w-10 h-10 text-blue-500" />
                   </div>
-                  <h2 className="text-2xl font-bold text-white mb-2">Please Wait</h2>
-                  <p className="text-gray-400 mb-4">Content will be available in {timeLeft} seconds</p>
+                  <h2 className="text-2xl font-bold text-white mb-2">Complete Task to Unlock Paste</h2>
+                  <p className="text-gray-400 mb-6">
+                    Click the button below to complete the task and unlock the paste content
+                  </p>
+                  <Button
+                    onClick={handleTaskUrlClick}
+                    className="btn-gradient-primary px-8 py-3 text-lg font-semibold"
+                  >
+                    Complete Task
+                  </Button>
+                </>
+              ) : !taskCompleted ? (
+                <>
+                  <div className="w-20 h-20 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                  </div>
+                  <h2 className="text-2xl font-bold text-white mb-2">Waiting for Task Completion</h2>
+                  <p className="text-gray-400 mb-4">Please wait while we verify your task completion...</p>
                 </>
               ) : (
                 <>
                   <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <div className="text-3xl font-bold text-green-400">✓</div>
+                    <CheckCircle className="w-10 h-10 text-green-400" />
                   </div>
-                  <h2 className="text-2xl font-bold text-white mb-2">Timer Complete!</h2>
+                  <h2 className="text-2xl font-bold text-white mb-2">Task Completed!</h2>
                   <p className="text-gray-400 mb-6">
-                    Click the button below to view your paste content
+                    Click the button below to unlock your paste content
                   </p>
                   <Button
-                    onClick={handleUnlockPaste}
+                    onClick={handleTaskCompleteButtonClick}
                     className="btn-gradient-primary px-8 py-3 text-lg font-semibold"
                   >
-                    View Paste
+                    {unlockButtonClicks === 0 ? 'Unlock Paste' : 'View Paste'}
                   </Button>
                 </>
               )}
             </div>
-          </div>
-          
-          {/* Banner Ad below timer */}
-          <div className="mt-8 flex items-center justify-center">
-            <div 
-              id="timer-banner-ad-container"
-              className="w-full max-w-[468px] h-[60px] flex items-center justify-center bg-gray-800/20 rounded-lg border border-white/5"
-            />
           </div>
         </div>
       </div>
@@ -415,7 +429,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
       </footer>
 
              {/* Full-screen Unlock Overlay */}
-       {showUnlockOverlay && !showTimer && (
+       {showUnlockOverlay && !showTaskModal && (
          <div className="fixed inset-0 z-[1000] bg-black/70 backdrop-blur-lg flex items-center justify-center">
            <div className="bg-black/60 border border-white/10 rounded-2xl p-6 w-[90%] max-w-sm shadow-2xl">
              <h3 className="text-center text-xl font-semibold text-white mb-4">
