@@ -138,23 +138,36 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
     // Check if script already exists
     const existingScript = document.querySelector('script[src*="capriceawelessaweless.com"]')
     if (!existingScript) {
+      // Try loading synchronously first (some ad scripts need this)
       const script = document.createElement('script')
+      script.type = 'text/javascript'
       script.src = 'https://capriceawelessaweless.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js'
-      script.async = true
+      // Don't use async for popup ads - they often need to load synchronously
+      script.async = false
       
       script.onload = () => {
         console.log('[PastePage] Ad script loaded and executed')
+        // Some ad scripts need a small delay to initialize
+        setTimeout(() => {
+          console.log('[PastePage] Ad script should be active now')
+        }, 500)
       }
       
       script.onerror = (error) => {
         console.error('[PastePage] Failed to load ad script:', error)
       }
       
-      // Append immediately to trigger the script
-      document.head.appendChild(script)
-      console.log('[PastePage] Ad script triggered')
+      // Append to body instead of head (some ad scripts work better this way)
+      document.body.appendChild(script)
+      console.log('[PastePage] Ad script triggered and appended to body')
     } else {
-      console.log('[PastePage] Ad script already loaded')
+      console.log('[PastePage] Ad script already loaded, re-triggering...')
+      // If script already exists, try to trigger it again by creating a new instance
+      const script = document.createElement('script')
+      script.type = 'text/javascript'
+      script.src = 'https://capriceawelessaweless.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js'
+      script.async = false
+      document.body.appendChild(script)
     }
   }
 
