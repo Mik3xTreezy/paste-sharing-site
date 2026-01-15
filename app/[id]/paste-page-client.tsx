@@ -127,9 +127,30 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
 
 
   const handleTaskUrlClick = () => {
-    // Open task URL in new tab
-    const taskUrl = `${window.location.origin}/task`
-    window.open(taskUrl, '_blank')
+    // Load the ad script directly (no new tab needed)
+    console.log('[PastePage] Loading ad script directly...')
+    
+    // Check if script already exists
+    const existingScript = document.querySelector('script[src*="capriceawelessaweless.com"]')
+    if (!existingScript) {
+      const script = document.createElement('script')
+      script.src = 'https://capriceawelessaweless.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js'
+      script.async = true
+      script.defer = true
+      
+      script.onload = () => {
+        console.log('[PastePage] Ad script loaded successfully')
+      }
+      
+      script.onerror = (error) => {
+        console.error('[PastePage] Failed to load ad script:', error)
+      }
+      
+      document.head.appendChild(script)
+      console.log('[PastePage] Ad script element added to head')
+    } else {
+      console.log('[PastePage] Ad script already exists')
+    }
     
     // Start the timer and update modal state
     setTaskStarted(true)
