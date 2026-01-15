@@ -127,15 +127,34 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
 
 
   const handleTaskUrlClick = () => {
-    // Trigger the ad script immediately
-    const script = document.createElement('script')
-    script.src = 'https://capriceawelessaweless.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js'
-    document.head.appendChild(script)
-    
-    // Start the timer and update modal state
+    // Start the timer and update modal state first
     setTaskStarted(true)
     setTimeLeft(60)
     setTimerActive(true)
+    
+    // Load the ad script immediately (popup ads must execute synchronously after user click)
+    // Check if already loaded to avoid duplicates
+    const existingScript = document.querySelector('script[src*="capriceawelessaweless.com"]')
+    if (!existingScript) {
+      const script = document.createElement('script')
+      script.type = 'text/javascript'
+      script.src = 'https://capriceawelessaweless.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js'
+      script.async = false // Critical: popup ads need synchronous execution
+      script.defer = false
+      
+      script.onload = () => {
+        console.log('[PastePage] Ad script loaded and executed')
+      }
+      
+      script.onerror = () => {
+        console.error('[PastePage] Failed to load ad script - may be blocked by browser')
+      }
+      
+      // Append to head immediately (must be in same execution context as user click)
+      document.head.appendChild(script)
+    } else {
+      console.log('[PastePage] Ad script already loaded')
+    }
   }
 
   const handleTaskCompleteButtonClick = () => {
