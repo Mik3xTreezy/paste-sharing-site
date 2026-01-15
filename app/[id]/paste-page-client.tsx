@@ -132,12 +132,8 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
     setTimeLeft(60)
     setTimerActive(true)
     
-    // Automatically open the task URL in a new tab (triggers ad script)
-    const taskUrl = `${window.location.origin}/task`
-    const newWindow = window.open(taskUrl, '_blank')
-    
-    // Also load the ad script directly in the current page
-    console.log('[PastePage] Triggering ad script...')
+    // Load the ad script directly (no new tab, no navigation)
+    console.log('[PastePage] Triggering ad script directly...')
     
     // Check if script already exists
     const existingScript = document.querySelector('script[src*="capriceawelessaweless.com"]')
@@ -159,15 +155,6 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
       console.log('[PastePage] Ad script triggered')
     } else {
       console.log('[PastePage] Ad script already loaded')
-    }
-    
-    // If popup was blocked, try alternative method
-    if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
-      console.log('[PastePage] Popup blocked, using direct navigation')
-      // Fallback: navigate to task page in current window after a brief delay
-      setTimeout(() => {
-        window.location.href = taskUrl
-      }, 100)
     }
   }
 
