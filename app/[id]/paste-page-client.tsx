@@ -135,40 +135,49 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
     // Load the ad script directly (no new tab, no navigation)
     console.log('[PastePage] Triggering ad script directly...')
     
-    // Check if script already exists
-    const existingScript = document.querySelector('script[src*="capriceawelessaweless.com"]')
-    if (!existingScript) {
-      // Try loading synchronously first (some ad scripts need this)
-      const script = document.createElement('script')
-      script.type = 'text/javascript'
-      script.src = 'https://capriceawelessaweless.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js'
-      // Don't use async for popup ads - they often need to load synchronously
-      script.async = false
-      
-      script.onload = () => {
-        console.log('[PastePage] Ad script loaded and executed')
-        // Some ad scripts need a small delay to initialize
-        setTimeout(() => {
-          console.log('[PastePage] Ad script should be active now')
-        }, 500)
+    // Remove any existing script first to ensure fresh load
+    const existingScripts = document.querySelectorAll('script[src*="capriceawelessaweless.com"]')
+    existingScripts.forEach(script => script.remove())
+    
+    // Create and load the script immediately (must be in same execution context as user click)
+    const script = document.createElement('script')
+    script.type = 'text/javascript'
+    script.src = 'https://capriceawelessaweless.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js'
+    script.async = false
+    script.defer = false
+    
+    script.onload = () => {
+      console.log('[PastePage] Ad script loaded and executed')
+      // Force execution by accessing window to ensure script runs
+      if ((window as any).adScriptLoaded) {
+        console.log('[PastePage] Ad script global variable detected')
       }
-      
-      script.onerror = (error) => {
-        console.error('[PastePage] Failed to load ad script:', error)
-      }
-      
-      // Append to body instead of head (some ad scripts work better this way)
-      document.body.appendChild(script)
-      console.log('[PastePage] Ad script triggered and appended to body')
-    } else {
-      console.log('[PastePage] Ad script already loaded, re-triggering...')
-      // If script already exists, try to trigger it again by creating a new instance
-      const script = document.createElement('script')
-      script.type = 'text/javascript'
-      script.src = 'https://capriceawelessaweless.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js'
-      script.async = false
-      document.body.appendChild(script)
     }
+    
+    script.onerror = (error) => {
+      console.error('[PastePage] Failed to load ad script:', error)
+    }
+    
+    // Append to head for better compatibility with popup scripts
+    document.head.appendChild(script)
+    console.log('[PastePage] Ad script triggered and appended to head')
+    
+    // Some popup ad scripts need a small delay after user interaction
+    // Try to trigger any popup functions that might exist
+    setTimeout(() => {
+      try {
+        // Check if script created any global functions we can call
+        if (typeof (window as any).showAd === 'function') {
+          (window as any).showAd()
+        }
+        if (typeof (window as any).triggerAd === 'function') {
+          (window as any).triggerAd()
+        }
+        console.log('[PastePage] Attempted to trigger ad functions')
+      } catch (e) {
+        console.log('[PastePage] No ad trigger functions found (this is normal)')
+      }
+    }, 100)
   }
 
   const handleTaskCompleteButtonClick = () => {
