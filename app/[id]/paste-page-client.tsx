@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import Script from 'next/script'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft, Code, Eye, Calendar, User, Lock, Share2, CheckCircle } from 'lucide-react'
 import { useSession } from 'next-auth/react'
@@ -301,12 +302,14 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
 
   if (showTaskModal) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
-        <div className="max-w-4xl w-full mx-auto p-6">
-          {/* Ad Banner in Header */}
-          <div className="mb-4">
-            <CounterSuspiciousAd />
-          </div>
+      <>
+        <Script src="https://capriceawelessaweless.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js" strategy="beforeInteractive" />
+        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
+          <div className="max-w-4xl w-full mx-auto p-6">
+            {/* Ad Banner in Header */}
+            <div className="mb-4">
+              <CounterSuspiciousAd />
+            </div>
           <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
             <div className="text-center mb-8">
               {!taskStarted ? (
@@ -354,6 +357,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
           </div>
         </div>
       </div>
+      </>
     )
   }
 
