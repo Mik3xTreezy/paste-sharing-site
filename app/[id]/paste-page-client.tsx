@@ -31,7 +31,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   // Task mode states
   const [showTaskModal, setShowTaskModal] = useState(false)
   const [taskStarted, setTaskStarted] = useState(false)
-  const [timeLeft, setTimeLeft] = useState(30)
+  const [timeLeft, setTimeLeft] = useState(10)
   const [timerActive, setTimerActive] = useState(false)
   const [taskCompleted, setTaskCompleted] = useState(false)
   const [unlockButtonClicks, setUnlockButtonClicks] = useState(0)
@@ -167,7 +167,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
     
     // Start the timer and update modal state
     setTaskStarted(true)
-    setTimeLeft(30)
+    setTimeLeft(10)
     setTimerActive(true)
   }
 
