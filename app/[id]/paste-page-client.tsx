@@ -237,7 +237,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
                 onClick={handleTaskUrlClick}
                 className="btn-gradient-primary px-8 py-3 text-lg font-semibold"
               >
-                Complete Task
+                View Paste
               </Button>
             </div>
           </div>
