@@ -230,6 +230,9 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
                 <Lock className="w-10 h-10 text-blue-500" />
               </div>
               <h2 className="text-2xl font-bold text-white mb-2">Click below to View Paste</h2>
+              <p className="text-gray-400 mb-6">
+                Click the button below to view the paste content
+              </p>
               <Button
                 onClick={handleTaskUrlClick}
                 className="btn-gradient-primary px-8 py-3 text-lg font-semibold"
