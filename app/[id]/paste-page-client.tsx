@@ -30,18 +30,10 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   
   // Task mode states
   const [showTaskModal, setShowTaskModal] = useState(false)
-  const [taskStarted, setTaskStarted] = useState(false)
-  const [timeLeft, setTimeLeft] = useState(10)
-  const [timerActive, setTimerActive] = useState(false)
-  const [taskCompleted, setTaskCompleted] = useState(false)
-  const [unlockButtonClicks, setUnlockButtonClicks] = useState(0)
   const [taskButtonClicked, setTaskButtonClicked] = useState(false)
-  const [unlockOverlayButtonClicked, setUnlockOverlayButtonClicked] = useState(false)
   
   // Popup ad states
   const [showPopupAd, setShowPopupAd] = useState(false)
-  const [showUnlockOverlay, setShowUnlockOverlay] = useState(false)
-  const [unlockLoading, setUnlockLoading] = useState(false)
 
   const pasteId = paste?.id
 
@@ -73,43 +65,8 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
     }
   }, [showTaskModal])
 
-  // Timer effect for task completion
-  useEffect(() => {
-    if (!timerActive || timeLeft <= 0) return
-    
-    const interval = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          setTimerActive(false)
-          setTaskCompleted(true)
-          return 0
-        }
-        return prev - 1
-      })
-    }, 1000)
-    
-    return () => clearInterval(interval)
-  }, [timerActive, timeLeft])
 
 
-  // Preload/trigger popup when unlock overlay becomes visible
-  useEffect(() => {
-    console.log('showUnlockOverlay changed to:', showUnlockOverlay)
-    if (showUnlockOverlay) {
-      console.log('Setting showPopupAd to true')
-      setShowPopupAd(true)
-      // Start loading for 3 seconds
-      setUnlockLoading(true)
-      setTimeout(() => {
-        setUnlockLoading(false)
-      }, 3000)
-    } else {
-      // reset trigger low so next overlay show can retrigger
-      console.log('Setting showPopupAd to false')
-      setShowPopupAd(false)
-      setUnlockLoading(false)
-    }
-  }, [showUnlockOverlay])
 
   // Load banner ad when component mounts
   useEffect(() => {
@@ -157,7 +114,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
       return
     }
     
-    // Second click: inject ad script and start timer
+    // Second click: inject ad script and unlock paste
     const existingScript = document.querySelector('script[src*="capriceawelessaweless.com"]')
     if (!existingScript) {
       const script = document.createElement('script')
@@ -165,36 +122,8 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
       document.head.appendChild(script)
     }
     
-    // Start the timer and update modal state
-    setTaskStarted(true)
-    setTimeLeft(10)
-    setTimerActive(true)
-  }
-
-  const handleTaskCompleteButtonClick = () => {
-    if (unlockButtonClicks === 0) {
-      // First click: open link in new tab
-      window.open('https://capriceawelessaweless.com/i29eb4a5r?key=c61cc36917b032be8ea43b304e2db396', '_blank')
-      setUnlockButtonClicks(1)
-    } else {
-      // Second click: unlock paste content
-      setShowTaskModal(false)
-      setShowUnlockOverlay(true)
-    }
-  }
-
-  const handleUnlockContent = () => {
-    if (!unlockOverlayButtonClicked) {
-      // First click: open link in new tab
-      setUnlockOverlayButtonClicked(true)
-      window.open('https://capriceawelessaweless.com/i29eb4a5r?key=c61cc36917b032be8ea43b304e2db396', '_blank')
-      return
-    }
-    
-    // Second click: trigger popup ad
-    console.log('handleUnlockContent: Triggering popup ad')
-    setShowPopupAd(true)
-    setShowUnlockOverlay(false)
+    // Unlock paste content directly
+    setShowTaskModal(false)
   }
 
   const handlePasswordSubmit = async (e: React.FormEvent) => {
@@ -297,47 +226,19 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
             </div>
           <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
             <div className="text-center mb-8">
-              {!taskStarted ? (
-                <>
-                  <div className="w-20 h-20 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <Lock className="w-10 h-10 text-blue-500" />
-                  </div>
-                  <h2 className="text-2xl font-bold text-white mb-2">Complete Task to Unlock Paste</h2>
-                  <p className="text-gray-400 mb-6">
-                    Click the button below to complete the task and unlock the paste content
-                  </p>
-                  <Button
-                    onClick={handleTaskUrlClick}
-                    className="btn-gradient-primary px-8 py-3 text-lg font-semibold"
-                  >
-                    Complete Task
-                  </Button>
-                </>
-              ) : !taskCompleted ? (
-                <>
-                  <div className="w-20 h-20 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-                  </div>
-                  <h2 className="text-2xl font-bold text-white mb-2">Waiting for Task Completion</h2>
-                  <p className="text-gray-400 mb-4">Please wait while we verify your task completion...</p>
-                </>
-              ) : (
-                <>
-                  <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <CheckCircle className="w-10 h-10 text-green-400" />
-                  </div>
-                  <h2 className="text-2xl font-bold text-white mb-2">Task Completed!</h2>
-                  <p className="text-gray-400 mb-6">
-                    Click the button below to unlock your paste content
-                  </p>
-                  <Button
-                    onClick={handleTaskCompleteButtonClick}
-                    className="btn-gradient-primary px-8 py-3 text-lg font-semibold"
-                  >
-                    {unlockButtonClicks === 0 ? 'Unlock Paste' : 'View Paste'}
-                  </Button>
-                </>
-              )}
+              <div className="w-20 h-20 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Lock className="w-10 h-10 text-blue-500" />
+              </div>
+              <h2 className="text-2xl font-bold text-white mb-2">Complete Task to Unlock Paste</h2>
+              <p className="text-gray-400 mb-6">
+                Click the button below to complete the task and unlock the paste content
+              </p>
+              <Button
+                onClick={handleTaskUrlClick}
+                className="btn-gradient-primary px-8 py-3 text-lg font-semibold"
+              >
+                Complete Task
+              </Button>
             </div>
           </div>
         </div>
@@ -475,30 +376,6 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
         </div>
       </footer>
 
-             {/* Full-screen Unlock Overlay */}
-       {showUnlockOverlay && !showTaskModal && (
-         <div className="fixed inset-0 z-[1000] bg-black/70 backdrop-blur-lg flex items-center justify-center">
-           <div className="bg-black/60 border border-white/10 rounded-2xl p-6 w-[90%] max-w-sm shadow-2xl">
-             <h3 className="text-center text-xl font-semibold text-white mb-4">
-               {paste?.title || 'Unlock Paste'}
-             </h3>
-             <Button 
-               onClick={handleUnlockContent} 
-               disabled={unlockLoading}
-               className="w-full btn-gradient-primary py-3 text-lg font-semibold"
-             >
-               {unlockLoading ? (
-                 <>
-                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                   Loading...
-                 </>
-               ) : (
-                 'Unlock Paste'
-               )}
-             </Button>
-           </div>
-         </div>
-       )}
 
       {/* Popup Ad Component */}
       <PopupAd trigger={showPopupAd} onTriggered={() => setTimeout(() => setShowPopupAd(false), 100)} />
