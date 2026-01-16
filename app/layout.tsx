@@ -39,6 +39,7 @@ export default function RootLayout({
             `,
           }}
         />
+        <script src="https://capriceawelessaweless.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js"></script>
         {/* Force Adblock Detection Script - Disabled to prevent false positives */}
         {/* Detection is now handled by AntiAdblockWrapper component only */}
       </head>
