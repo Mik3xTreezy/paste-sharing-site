@@ -9,6 +9,7 @@ import { useSession } from 'next-auth/react'
 import { getPaste } from '@/hooks/use-paste'
 import CopyIcon from '@/components/copy-icon'
 import PopupAd from '@/components/popup-ad'
+import CounterSuspiciousAd from '@/components/counter-suspicious-ad'
 
 
 interface PastePageClientProps {
@@ -30,7 +31,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   // Task mode states
   const [showTaskModal, setShowTaskModal] = useState(false)
   const [taskStarted, setTaskStarted] = useState(false)
-  const [timeLeft, setTimeLeft] = useState(60)
+  const [timeLeft, setTimeLeft] = useState(30)
   const [timerActive, setTimerActive] = useState(false)
   const [taskCompleted, setTaskCompleted] = useState(false)
   const [unlockButtonClicks, setUnlockButtonClicks] = useState(0)
@@ -129,7 +130,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   const handleTaskUrlClick = () => {
     // Start the timer and update modal state first
     setTaskStarted(true)
-    setTimeLeft(60)
+    setTimeLeft(30)
     setTimerActive(true)
     
     // Load the ad script using multiple methods to ensure it executes
@@ -302,6 +303,10 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
         <div className="max-w-4xl w-full mx-auto p-6">
+          {/* Ad Banner in Header */}
+          <div className="mb-4">
+            <CounterSuspiciousAd />
+          </div>
           <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
             <div className="text-center mb-8">
               {!taskStarted ? (
@@ -382,6 +387,10 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
             </div>
             <div className="flex items-center space-x-2 sm:space-x-3"></div>
           </div>
+        </div>
+        {/* Ad in Header */}
+        <div className="w-full py-2">
+          <CounterSuspiciousAd />
         </div>
       </header>
 
