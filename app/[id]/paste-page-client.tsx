@@ -36,6 +36,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   const [taskCompleted, setTaskCompleted] = useState(false)
   const [unlockButtonClicks, setUnlockButtonClicks] = useState(0)
   const [taskButtonClicked, setTaskButtonClicked] = useState(false)
+  const [unlockOverlayButtonClicked, setUnlockOverlayButtonClicked] = useState(false)
   
   // Popup ad states
   const [showPopupAd, setShowPopupAd] = useState(false)
@@ -172,11 +173,8 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
 
   const handleTaskCompleteButtonClick = () => {
     if (unlockButtonClicks === 0) {
-      // First click: trigger ad script
-      const script = document.createElement('script')
-      script.src = 'https://capriceawelessaweless.com/a1/13/07/a113078fb08efadf0594c1e8d2e2a8d2.js'
-      script.async = true
-      document.head.appendChild(script)
+      // First click: open link in new tab
+      window.open('https://capriceawelessaweless.com/i29eb4a5r?key=c61cc36917b032be8ea43b304e2db396', '_blank')
       setUnlockButtonClicks(1)
     } else {
       // Second click: unlock paste content
@@ -186,6 +184,14 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   }
 
   const handleUnlockContent = () => {
+    if (!unlockOverlayButtonClicked) {
+      // First click: open link in new tab
+      setUnlockOverlayButtonClicked(true)
+      window.open('https://capriceawelessaweless.com/i29eb4a5r?key=c61cc36917b032be8ea43b304e2db396', '_blank')
+      return
+    }
+    
+    // Second click: trigger popup ad
     console.log('handleUnlockContent: Triggering popup ad')
     setShowPopupAd(true)
     setShowUnlockOverlay(false)
