@@ -4,6 +4,7 @@ import { GeistSans } from "geist/font/sans"
 import "./globals.css"
 import AuthProvider from "@/components/session-provider"
 import AntiAdblockWrapper from "@/components/anti-adblock-wrapper"
+import HeadScriptInjector from "@/components/head-script-injector"
 
 const geist = GeistSans
 
@@ -44,6 +45,7 @@ export default function RootLayout({
         {/* Detection is now handled by AntiAdblockWrapper component only */}
       </head>
       <body className={geist.className} suppressHydrationWarning={true}>
+        <HeadScriptInjector />
         <AuthProvider>
           {children}
         </AuthProvider>
