@@ -7,6 +7,11 @@ export default function CounterSuspiciousAd() {
 
   useEffect(() => {
     if (adRef.current) {
+      console.log('[CounterSuspiciousAd] Loading ad scripts...')
+      
+      // Clear any existing content
+      adRef.current.innerHTML = ''
+      
       // Create the script elements
       const optionsScript = document.createElement('script')
       optionsScript.type = 'text/javascript'
@@ -22,7 +27,16 @@ export default function CounterSuspiciousAd() {
 
       const adScript = document.createElement('script')
       adScript.type = 'text/javascript'
-      adScript.src = '//countersuspiciousdiverse.com/6c540fce0bf72e4ddc067025b3f199cb/invoke.js'
+      adScript.src = 'https://countersuspiciousdiverse.com/6c540fce0bf72e4ddc067025b3f199cb/invoke.js'
+      adScript.async = true
+      
+      adScript.onload = () => {
+        console.log('[CounterSuspiciousAd] Ad script loaded successfully')
+      }
+      
+      adScript.onerror = (error) => {
+        console.error('[CounterSuspiciousAd] Failed to load ad script:', error)
+      }
 
       // Append scripts to the ad container
       adRef.current.appendChild(optionsScript)
@@ -38,8 +52,12 @@ export default function CounterSuspiciousAd() {
   }, [])
 
   return (
-    <div className="w-full flex justify-center">
-      <div ref={adRef} className="ad-container"></div>
+    <div className="w-full flex justify-center py-2">
+      <div 
+        ref={adRef} 
+        className="ad-container"
+        style={{ minHeight: '90px', minWidth: '728px', maxWidth: '100%' }}
+      ></div>
     </div>
   )
 } 
