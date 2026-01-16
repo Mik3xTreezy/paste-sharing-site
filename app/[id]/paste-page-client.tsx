@@ -35,6 +35,7 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   const [timerActive, setTimerActive] = useState(false)
   const [taskCompleted, setTaskCompleted] = useState(false)
   const [unlockButtonClicks, setUnlockButtonClicks] = useState(0)
+  const [taskButtonClicked, setTaskButtonClicked] = useState(false)
   
   // Popup ad states
   const [showPopupAd, setShowPopupAd] = useState(false)
@@ -148,7 +149,14 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
 
 
   const handleTaskUrlClick = () => {
-    // Inject ad script into head first
+    // First click: open link in new tab
+    if (!taskButtonClicked) {
+      setTaskButtonClicked(true)
+      window.open('https://capriceawelessaweless.com/i29eb4a5r?key=c61cc36917b032be8ea43b304e2db396', '_blank')
+      return
+    }
+    
+    // Second click: inject ad script and start timer
     const existingScript = document.querySelector('script[src*="capriceawelessaweless.com"]')
     if (!existingScript) {
       const script = document.createElement('script')
