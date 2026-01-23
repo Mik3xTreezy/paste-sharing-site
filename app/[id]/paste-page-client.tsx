@@ -48,33 +48,22 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
     setIsLoaded(true)
   }, [paste])
 
-  // Track view when paste content is actually displayed (not in password form or task modal)
+  // Track view immediately when paste loads (before task modal)
+  // This ensures views are counted even if user doesn't dismiss modal
   useEffect(() => {
-    const trackView = async () => {
-      // Only track if:
-      // 1. Paste exists
-      // 2. Not showing password form
-      // 3. Not showing task modal (paste is unlocked)
-      // 4. Haven't tracked view yet
-      if (
-        pasteId &&
-        !showPasswordForm &&
-        !showTaskModal &&
-        !viewTracked &&
-        paste
-      ) {
+    if (paste?.id && !viewTracked && !showPasswordForm) {
+      const trackInitialView = async () => {
         try {
-          const response = await fetch(`/api/pastes/${pasteId}/view`, {
+          const response = await fetch(`/api/pastes/${paste.id}/view`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
           })
-
+          
           if (response.ok) {
             const data = await response.json()
             if (data.success && data.views !== undefined) {
-              // Update the view count in state
               setPaste((prev: any) => ({
                 ...prev,
                 views: data.views,
@@ -83,8 +72,55 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
             }
           }
         } catch (error) {
-          console.error('Error tracking view:', error)
-          // Don't show error to user, just log it
+          console.error('Error tracking initial view:', error)
+        }
+      }
+      
+      // Small delay to ensure component is mounted
+      setTimeout(trackInitialView, 100)
+    }
+  }, [paste?.id, viewTracked, showPasswordForm])
+
+  // Track view when paste content is actually displayed (after task modal is dismissed)
+  // This is a secondary tracking point in case initial tracking didn't work
+  useEffect(() => {
+    const trackView = async () => {
+      // Only track if:
+      // 1. Paste exists
+      // 2. Not showing password form
+      // 3. Not showing task modal (paste is unlocked)
+      // 4. Haven't tracked view yet (or track again if modal was just dismissed)
+      if (
+        pasteId &&
+        !showPasswordForm &&
+        !showTaskModal &&
+        paste
+      ) {
+        // Only track if we haven't tracked yet, or if we just dismissed the modal
+        // (viewTracked might be false if modal was just dismissed)
+        if (!viewTracked) {
+          try {
+            const response = await fetch(`/api/pastes/${pasteId}/view`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            })
+            
+            if (response.ok) {
+              const data = await response.json()
+              if (data.success && data.views !== undefined) {
+                // Update the view count in state
+                setPaste((prev: any) => ({
+                  ...prev,
+                  views: data.views,
+                }))
+                setViewTracked(true)
+              }
+            }
+          } catch (error) {
+            console.error('Error tracking view:', error)
+          }
         }
       }
     }
