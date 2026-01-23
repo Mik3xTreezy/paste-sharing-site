@@ -35,6 +35,9 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
   // Popup ad states
   const [showPopupAd, setShowPopupAd] = useState(false)
 
+  // View tracking state
+  const [viewTracked, setViewTracked] = useState(false)
+
   const pasteId = paste?.id
 
   useEffect(() => {
@@ -44,6 +47,50 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
     }
     setIsLoaded(true)
   }, [paste])
+
+  // Track view when paste content is actually displayed (not in password form or task modal)
+  useEffect(() => {
+    const trackView = async () => {
+      // Only track if:
+      // 1. Paste exists
+      // 2. Not showing password form
+      // 3. Not showing task modal (paste is unlocked)
+      // 4. Haven't tracked view yet
+      if (
+        pasteId &&
+        !showPasswordForm &&
+        !showTaskModal &&
+        !viewTracked &&
+        paste
+      ) {
+        try {
+          const response = await fetch(`/api/pastes/${pasteId}/view`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
+
+          if (response.ok) {
+            const data = await response.json()
+            if (data.success && data.views !== undefined) {
+              // Update the view count in state
+              setPaste((prev: any) => ({
+                ...prev,
+                views: data.views,
+              }))
+              setViewTracked(true)
+            }
+          }
+        } catch (error) {
+          console.error('Error tracking view:', error)
+          // Don't show error to user, just log it
+        }
+      }
+    }
+
+    trackView()
+  }, [pasteId, showPasswordForm, showTaskModal, viewTracked, paste])
 
   // Inject ad script into head when task modal is shown (covers task modal, waiting, and unlock pages)
   useEffect(() => {
@@ -124,6 +171,8 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
     
     // Unlock paste content directly
     setShowTaskModal(false)
+    // Reset view tracking so it tracks when content is shown
+    setViewTracked(false)
   }
 
   const handlePasswordSubmit = async (e: React.FormEvent) => {
@@ -137,6 +186,8 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
         setPaste(paste)
         setShowPasswordForm(false)
         setShowTaskModal(true)
+        // Reset view tracking so it tracks after task modal is dismissed
+        setViewTracked(false)
       } else {
         setError('Invalid password')
       }
